@@ -107,7 +107,7 @@ export function ProjectCard({
             onClick={onOpen}
             className="ml-auto font-mono text-xs text-faint transition-colors hover:text-accent"
           >
-            details →
+            details
           </button>
         </div>
       </div>

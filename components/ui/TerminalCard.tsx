@@ -91,7 +91,7 @@ export function TerminalCard() {
             {"  "}
             <span className={C.prop}>focus</span>
             <span className={C.punc}>:</span>{" "}
-            <span className={C.str}>&quot;performance · a11y · DX&quot;</span>
+            <span className={C.str}>&quot;performance, a11y, DX&quot;</span>
             <span className={C.punc}>,</span>
           </motion.span>
 

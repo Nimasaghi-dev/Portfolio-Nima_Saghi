@@ -27,7 +27,7 @@ export const site = {
     "TypeScript Engineer",
   ],
   tagline:
-    "I build production-grade web apps with React, TypeScript, and service-oriented backends — clean, testable, and accessible.",
+    "I build production-grade web apps with React, TypeScript, and service-oriented backends. Clean, testable, and accessible.",
   email: "nimasaghi.dev@gmail.com",
   phone: "+31 6 23 10 23 17",
   location: "Nieuw-Vennep, Netherlands",
@@ -55,15 +55,15 @@ export const about = {
   /** Replace with a real photo in /public (see README). */
   avatar: "/avatar.svg",
   paragraphs: [
-    "I'm a frontend engineer with a full-stack mindset. I build production-grade web apps with React, TypeScript, and service-oriented backends — right now I'm shipping Spectra, a multi-tenant geospatial AI SaaS, at MaviSoft.",
+    "I'm a frontend engineer with a full-stack mindset. I build production-grade web apps with React, TypeScript, and service-oriented backends. Right now I'm shipping Spectra, a multi-tenant geospatial AI SaaS, at MaviSoft.",
     "I care about clean, testable, maintainable code and treat testability as a design constraint, not an afterthought. I'm comfortable in distributed, microservice-based architectures and I'm growing into cloud-native and event-driven systems.",
-    "I graduated HackYourFuture's intensive full-stack program and hold a BSc in Computer Software Engineering. Fluent in English, working proficiency in Dutch, native Farsi. I use AI-assisted tooling (Claude Code, Cursor) daily — with critical judgment, not blind trust.",
+    "I graduated HackYourFuture's intensive full-stack program and hold a BSc in Computer Software Engineering. Fluent in English, working proficiency in Dutch, native Farsi. I use AI-assisted tooling (Claude Code, Cursor) daily, with critical judgment, not blind trust.",
   ],
   stats: [
     { value: 12, suffix: "+", label: "UI panels shipped on production SaaS" },
     { value: 3, suffix: "", label: "production apps delivered" },
     { value: 15, suffix: "+", label: "technologies in daily use" },
-    { value: 3, suffix: "", label: "languages spoken · EN / NL / FA" },
+    { value: 3, suffix: "", label: "languages spoken: EN / NL / FA" },
   ],
 } as const;
 
@@ -84,7 +84,7 @@ export const skills: SkillGroup[] = [
     category: "Frontend",
     items: [
       { name: "React", note: "Hooks, RSC, Suspense", slug: "react" },
-      { name: "Next.js", note: "App Router · SSR/ISR", slug: "nextdotjs" },
+      { name: "Next.js", note: "App Router, SSR/ISR", slug: "nextdotjs" },
       { name: "TypeScript", note: "Everyday driver", slug: "typescript" },
       { name: "Tailwind CSS", note: "Design systems", slug: "tailwindcss" },
       { name: "JavaScript", note: "ES2022+", slug: "javascript" },
@@ -118,7 +118,7 @@ export const skills: SkillGroup[] = [
       { name: "Docker", note: "Containers", slug: "docker" },
       { name: "Redis", note: "Cache & pub/sub", slug: "redis" },
       { name: "MinIO", note: "S3-compatible storage", slug: "minio" },
-      { name: "AWS", note: "Lambda · learning" },
+      { name: "AWS", note: "Lambda, learning" },
       { name: "Git / GitLab", note: "Reviews & CI", slug: "git" },
       { name: "Claude Code", note: "AI-assisted dev", slug: "claude" },
     ],
@@ -154,9 +154,9 @@ export const projects: Project[] = [
     slug: "mavisoft-website",
     title: "MaviSoft Website",
     summary:
-      "Company production site — sole engineer from design handoff to deploy.",
+      "Company production site, sole engineer from design handoff to deploy.",
     description:
-      "The MaviSoft company website, built and deployed solo from design handoff to production. Next.js 15, React 19, TypeScript, Tailwind CSS v4, and Framer Motion — fully responsive, performant, and accessible.",
+      "The MaviSoft company website, built and deployed solo from design handoff to production. Next.js 15, React 19, TypeScript, Tailwind CSS v4, and Framer Motion. Fully responsive, performant, and accessible.",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
     liveUrl: "https://mavisoft.vercel.app",
     repoUrl: "https://github.com/Nimasaghi-dev/Mavisoft",
@@ -169,7 +169,7 @@ export const projects: Project[] = [
     title: "Nom Nom",
     summary: "Full-stack MERN food-ordering app with live order tracking.",
     description:
-      "A MERN-stack food ordering application with JWT authentication, live order tracking, Jest unit tests, Cypress end-to-end tests, and a GitHub Actions CI/CD pipeline — built with a focus on clean architecture and maintainability.",
+      "A MERN-stack food ordering application with JWT authentication, live order tracking, Jest unit tests, Cypress end-to-end tests, and a GitHub Actions CI/CD pipeline, built with a focus on clean architecture and maintainability.",
     tags: ["React", "Node.js", "Express", "MongoDB", "Jest", "Cypress"],
     repoUrl: "https://github.com/Nimasaghi-dev/NOMNOM-Food-app",
     year: "2025",
@@ -180,7 +180,7 @@ export const projects: Project[] = [
     title: "Cocktail Explorer",
     summary: "Recipe search app consuming a public cocktails REST API.",
     description:
-      "A responsive cocktail search app that consumes a public REST API — live search, detail views, and careful loading/empty states, with an emphasis on clean CSS and UX.",
+      "A responsive cocktail search app that consumes a public REST API: live search, detail views, and careful loading/empty states, with an emphasis on clean CSS and UX.",
     tags: ["React", "JavaScript", "REST API", "CSS"],
     repoUrl: "https://github.com/Nimasaghi-dev/cocktail-explorer",
     year: "2024",
@@ -207,13 +207,13 @@ export const experience: ExperienceEntry[] = [
     kind: "work",
     role: "Frontend Engineer",
     company: "MaviSoft",
-    period: "11/2025 — Present",
+    period: "11/2025 - Present",
     summary:
       "Primary frontend engineer on Spectra, a multi-tenant geospatial AI SaaS, in a small cross-functional team.",
     highlights: [
       "Own frontend modules end to end across 12 UI panels; built a TypeScript constants system as the single source of truth for layout, eliminating a class of cross-component bugs.",
       "Integrate multiple Python gRPC microservices (auth, datasets, reports, AI pipelines) with typed contracts and resilient loading, error, and empty UI states.",
-      "Built a streaming report pipeline (React → gRPC → WeasyPrint PDF → MinIO → presigned URL) and fixed a production expiry bug by generating URLs at read-time.",
+      "Built a streaming report pipeline (React to gRPC to WeasyPrint PDF to MinIO to presigned URL) and fixed a production expiry bug by generating URLs at read-time.",
       "Implemented application-level RBAC with a usePermissions hook and a <PermissionGate> component across every UI surface.",
     ],
     stack: ["React", "TypeScript", "Next.js", "gRPC", "Redis", "PostGIS"],
@@ -222,12 +222,12 @@ export const experience: ExperienceEntry[] = [
     kind: "education",
     role: "Full-Stack Web Development Trainee",
     company: "HackYourFuture",
-    period: "06/2024 — 06/2025",
+    period: "06/2024 - 06/2025",
     summary:
       "Intensive 9-month program building full-stack applications in Agile teams.",
     highlights: [
       "Delivered full-stack apps using Git-based workflows, formal code reviews, and pair programming.",
-      "Wrote unit and integration tests with Jest and end-to-end tests with Cypress — treating testability as a design constraint.",
+      "Wrote unit and integration tests with Jest and end-to-end tests with Cypress, treating testability as a design constraint.",
       "Practiced the collaborative, feedback-driven engineering culture central to professional teams.",
     ],
     stack: ["React", "Node.js", "Express", "Jest", "Cypress"],
@@ -236,7 +236,7 @@ export const experience: ExperienceEntry[] = [
     kind: "education",
     role: "BSc, Computer Software Engineering",
     company: "Azad University of Tehran",
-    period: "2010 — 2014",
+    period: "2010 - 2014",
     summary:
       "Bachelor's degree in Computer Software Engineering.",
     highlights: [

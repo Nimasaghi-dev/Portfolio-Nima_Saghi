@@ -39,7 +39,7 @@ export function Contact() {
               <CopyButton value={site.phone} label="Copy phone number" />
             </div>
             <p className="mt-3 font-mono text-xs text-muted">
-              {site.location} · usually replies within a day
+              {site.location}. Usually replies within a day
             </p>
           </div>
 

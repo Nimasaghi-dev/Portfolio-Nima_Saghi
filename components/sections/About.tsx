@@ -30,7 +30,7 @@ export function About() {
             <div className="relative overflow-hidden">
               <Image
                 src={about.avatar}
-                alt={`${site.name} — portrait`}
+                alt={`${site.name} portrait`}
                 width={480}
                 height={480}
                 unoptimized

@@ -54,7 +54,7 @@ export function ContactForm() {
         <div>
           <p className="text-lg font-semibold">Message sent.</p>
           <p className="mt-1 text-sm text-muted">
-            Thanks for reaching out — I&apos;ll get back to you soon.
+            Thanks for reaching out, I&apos;ll get back to you soon.
           </p>
         </div>
         <button
@@ -121,14 +121,14 @@ export function ContactForm() {
             required
             rows={5}
             maxLength={5000}
-            placeholder="Tell me about the role, or just say hi…"
+            placeholder="Tell me about the role, or just say hi."
             className={`${field} resize-y`}
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
           <Button type="submit" iconRight={Send} disabled={status === "sending"}>
-            {status === "sending" ? "Sending…" : "Send message"}
+            {status === "sending" ? "Sending..." : "Send message"}
           </Button>
 
           <AnimatePresence>

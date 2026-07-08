@@ -67,7 +67,7 @@ export function ProjectModal({
               />
               <div className="bg-grid absolute inset-0 opacity-20" />
               <span className="absolute bottom-3 left-4 font-mono text-xs text-muted">
-                ~/work/{project.slug} · {project.year}
+                ~/work/{project.slug} / {project.year}
               </span>
               <button
                 ref={closeRef}

@@ -21,8 +21,8 @@ const description = site.tagline;
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — ${site.roles[0]}`,
-    template: `%s · ${site.name}`,
+    default: `${site.name} | ${site.roles[0]}`,
+    template: `%s | ${site.name}`,
   },
   description,
   keywords: [
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: site.url,
-    title: `${site.name} — ${site.roles[0]}`,
+    title: `${site.name} | ${site.roles[0]}`,
     description,
-    siteName: `${site.name} · Portfolio`,
+    siteName: `${site.name} | Portfolio`,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — ${site.roles[0]}`,
+    title: `${site.name} | ${site.roles[0]}`,
     description,
   },
   robots: {
