@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/portfolio";
@@ -59,13 +60,29 @@ export function ProjectModal({
           >
             {/* Cover */}
             <div className="relative aspect-[2/1] shrink-0 overflow-hidden border-b border-line">
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `linear-gradient(135deg, ${project.accent[0]}33, ${project.accent[1]}15 55%, transparent)`,
-                }}
-              />
-              <div className="bg-grid absolute inset-0 opacity-20" />
+              {project.image ? (
+                <>
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} cover`}
+                    fill
+                    sizes="(max-width: 672px) 100vw, 672px"
+                    className="object-cover"
+                  />
+                  {/* Scrim keeps the caption and close button readable */}
+                  <div className="absolute inset-0 bg-linear-to-t from-bg/95 via-bg/20 to-bg/50" />
+                </>
+              ) : (
+                <>
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: `linear-gradient(135deg, ${project.accent[0]}33, ${project.accent[1]}15 55%, transparent)`,
+                    }}
+                  />
+                  <div className="bg-grid absolute inset-0 opacity-20" />
+                </>
+              )}
               <span className="absolute bottom-3 left-4 font-mono text-xs text-muted">
                 ~/work/{project.slug} / {project.year}
               </span>

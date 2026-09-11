@@ -53,7 +53,7 @@ export const nav = [
  * ------------------------------------------------------------------ */
 export const about = {
   /** Replace with a real photo in /public (see README). */
-  avatar: "/avatar.svg",
+  avatar: "/nima.png",
   paragraphs: [
     "I'm a frontend engineer with a full-stack mindset. I build production-grade web apps with React, TypeScript, and service-oriented backends. Right now I'm shipping Spectra, a multi-tenant geospatial AI SaaS, at MaviSoft.",
     "I care about clean, testable, maintainable code and treat testability as a design constraint, not an afterthought. I'm comfortable in distributed, microservice-based architectures and I'm growing into cloud-native and event-driven systems.",
@@ -118,7 +118,7 @@ export const skills: SkillGroup[] = [
       { name: "Docker", note: "Containers", slug: "docker" },
       { name: "Redis", note: "Cache & pub/sub", slug: "redis" },
       { name: "MinIO", note: "S3-compatible storage", slug: "minio" },
-      { name: "AWS", note: "Lambda, learning" },
+      // { name: "AWS", note: "Lambda, learning" },
       { name: "Git / GitLab", note: "Reviews & CI", slug: "git" },
       { name: "Claude Code", note: "AI-assisted dev", slug: "claude" },
     ],
@@ -141,8 +141,10 @@ export type Project = {
   year: string;
   featured?: boolean;
   /**
-   * Optional cover image in /public/projects. When omitted, a
-   * generated gradient cover is used. See README to add real images.
+   * Optional cover image, as a path under /public — e.g. a file at
+   * public/projects/foo.png is referenced as "/projects/foo.png".
+   * Cards crop it to 16:10 and the modal to 2:1, so a 16:10 source
+   * works for both. Omit it to keep the generated gradient cover.
    */
   image?: string;
   /** Two accent hex stops for the generated cover. */
@@ -163,6 +165,7 @@ export const projects: Project[] = [
     year: "2025",
     featured: true,
     accent: ["#22c55e", "#3b82f6"],
+    image: "/projects/mavisoft-website.png",
   },
   {
     slug: "nomnom-food-app",
@@ -174,6 +177,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Nimasaghi-dev/NOMNOM-Food-app",
     year: "2025",
     accent: ["#f59e0b", "#3b82f6"],
+    image: "/projects/nomnom-food-app.png",
   },
   {
     slug: "cocktail-explorer",
@@ -185,6 +189,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Nimasaghi-dev/cocktail-explorer",
     year: "2024",
     accent: ["#14b8a6", "#3b82f6"],
+    image: "/projects/cocktail-explorer.png",
   },
 ];
 

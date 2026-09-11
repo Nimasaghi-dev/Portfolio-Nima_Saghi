@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ArrowUpRight, ExternalLink, Maximize2 } from "lucide-react";
 import type { Project } from "@/data/portfolio";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -26,21 +27,37 @@ export function ProjectCard({
           aria-label={`View details for ${project.title}`}
           className="group/btn block text-left outline-none"
         >
-          {/* Generated cover */}
+          {/* Real cover when the project has one, generated gradient otherwise */}
           <div className="relative aspect-[16/10] overflow-hidden border-b border-line">
-            <div
-              className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
-              style={{
-                backgroundImage: `linear-gradient(135deg, ${a0}2b, ${a1}14 55%, transparent)`,
-              }}
-            />
-            <div className="bg-grid absolute inset-0 opacity-20" />
-            <div
-              className="absolute inset-0 opacity-70"
-              style={{
-                background: `radial-gradient(340px circle at 78% 20%, ${a0}22, transparent 70%)`,
-              }}
-            />
+            {project.image ? (
+              <>
+                <Image
+                  src={project.image}
+                  alt={`${project.title} cover`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Scrim keeps the corner meta readable over a photo */}
+                <div className="absolute inset-0 bg-linear-to-t from-bg/95 via-bg/20 to-bg/50" />
+              </>
+            ) : (
+              <>
+                <div
+                  className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${a0}2b, ${a1}14 55%, transparent)`,
+                  }}
+                />
+                <div className="bg-grid absolute inset-0 opacity-20" />
+                <div
+                  className="absolute inset-0 opacity-70"
+                  style={{
+                    background: `radial-gradient(340px circle at 78% 20%, ${a0}22, transparent 70%)`,
+                  }}
+                />
+              </>
+            )}
             {/* Corner meta */}
             <span className="absolute right-3 top-3 rounded-md border border-line bg-bg/50 px-1.5 py-0.5 font-mono text-[10px] text-muted backdrop-blur">
               {project.year}
