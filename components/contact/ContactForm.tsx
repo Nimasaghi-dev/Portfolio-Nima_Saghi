@@ -4,8 +4,12 @@ import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Send, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { site } from "@/data/portfolio";
 
 type Status = "idle" | "sending" | "success" | "error";
+
+/** Network-level failures never reach the API, so point people at the inbox. */
+const OFFLINE_ERROR = `Could not reach the server. Please email ${site.email} directly.`;
 
 const field =
   "w-full rounded-lg border border-line bg-elevated/40 px-4 py-3 text-sm text-fg " +
@@ -30,13 +34,13 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Something went wrong.");
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error ?? OFFLINE_ERROR);
       setStatus("success");
       form.reset();
     } catch (err) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : OFFLINE_ERROR);
     }
   }
 
