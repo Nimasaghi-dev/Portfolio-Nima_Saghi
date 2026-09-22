@@ -1,5 +1,4 @@
 import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
@@ -18,9 +17,8 @@ export default function Home() {
         <Skills />
         <Projects />
         <Experience />
-        <Contact />
       </main>
-      <Footer />
+      <Contact />
       <BackToTop />
     </>
   );
