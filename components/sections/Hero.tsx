@@ -4,9 +4,13 @@ import { useCallback, useEffect, useRef, type PointerEvent } from "react";
 import { motion, type Variants } from "motion/react";
 import { hero } from "@/data/portfolio";
 import { easeOutExpo, fadeUp, staggerParent } from "@/lib/motion";
-import { BrickWall } from "./hero/BrickWall";
-import { BrickBullet, BrickButtonIcon, BrickScrollCue } from "./hero/BrickMark";
-import styles from "./hero/hero.module.css";
+import { BrickWall } from "@/components/brickwall/BrickWall";
+import {
+  BrickBullet,
+  BrickButtonIcon,
+  BrickScrollCue,
+} from "@/components/brickwall/BrickMark";
+import styles from "@/components/brickwall/brickwall.module.css";
 
 /** fadeUp, tightened to fit the hero's ≤ 400ms entrance budget. */
 const heroRise: Variants = {
@@ -25,7 +29,7 @@ function Headline() {
   return (
     <>
       {headline.slice(0, i)}
-      <span className="text-[var(--hero-hot)]">{accentWord}</span>
+      <span className="text-accent">{accentWord}</span>
       {headline.slice(i + accentWord.length)}
     </>
   );
@@ -77,9 +81,9 @@ export function Hero() {
       onPointerLeave={onPointerLeave}
       className={`${styles.hero} relative flex min-h-[900px] flex-col overflow-hidden pt-16`}
     >
-      <BrickWall />
+      <BrickWall rows={39} rowOffset={0} animate={false} />
       <div ref={lampRef} className={styles.lamp} />
-      <div className={styles.scrim} />
+      <div className={styles.scrimHero} />
 
       <div
         className={`${styles.ui} mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-[clamp(20px,4vw,40px)]`}
@@ -89,11 +93,11 @@ export function Hero() {
             variants={staggerParent(0, 0)}
             initial="hidden"
             animate="show"
-            className="w-full max-w-[640px]"
+            className="w-full max-w-[704px]"
           >
             <motion.div
               variants={heroRise}
-              className="flex flex-col items-start gap-[26px]"
+              className="over-wall flex flex-col items-start gap-[26px] rounded-2xl p-6 sm:p-8"
             >
               {hero.showAvailability && (
                 <p
@@ -101,17 +105,15 @@ export function Hero() {
                 >
                   <span
                     aria-hidden="true"
-                    className={`${styles.pulse} block h-[7px] w-[14px] flex-none rounded-[1px] bg-[var(--hero-hot)]`}
+                    className={`${styles.pulse} block h-[7px] w-[14px] flex-none rounded-[1px] bg-accent`}
                   />
                   {hero.availability}
                 </p>
               )}
 
               <div className="flex flex-col gap-4">
-                <p className="font-mono text-sm text-[var(--hero-hot)]">
-                  {hero.eyebrow}
-                </p>
-                <h1 className={`${styles.headline} text-balance`}>
+                <p className="font-mono text-sm text-accent">{hero.eyebrow}</p>
+                <h1 className={`${styles.headline} text-balance text-fg`}>
                   <Headline />
                 </h1>
               </div>
@@ -140,7 +142,7 @@ export function Hero() {
               </div>
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--hero-muted)]">
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
                   Stack
                 </span>
                 <ul className="flex flex-wrap gap-2" aria-label="Stack">
@@ -162,13 +164,13 @@ export function Hero() {
         <div className="flex items-center justify-between gap-6 pb-8">
           <a
             href="#work"
-            className={`${styles.interactive} inline-flex min-h-11 items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[var(--hero-muted)] transition-colors hover:text-[var(--hero-fg)]`}
+            className={`${styles.interactive} over-wall inline-flex min-h-11 items-center gap-3 rounded-lg px-3 font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-fg`}
           >
             <BrickScrollCue />
             Scroll
           </a>
           <p
-            className={`${styles.hint} font-mono text-xs text-[var(--hero-muted)]`}
+            className={`${styles.hint} over-wall rounded-lg px-3 py-2 font-mono text-xs text-muted`}
           >
             {hero.scrollHint}
           </p>

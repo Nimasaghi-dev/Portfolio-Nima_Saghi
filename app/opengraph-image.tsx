@@ -16,14 +16,14 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0a0a0a",
+          background: "#0b1229",
           backgroundImage:
-            "radial-gradient(1000px circle at 15% 0%, rgba(59,130,246,0.22), transparent 55%)",
+            "radial-gradient(1000px circle at 15% 0%, rgba(79,209,193,0.22), transparent 55%)",
           padding: "80px",
           fontFamily: "monospace",
         }}
       >
-        <div style={{ display: "flex", color: "#3b82f6", fontSize: 30 }}>
+        <div style={{ display: "flex", color: "#4fd1c1", fontSize: 30 }}>
           ~/{site.handle}
         </div>
 
@@ -31,7 +31,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#3b82f6",
+              color: "#4fd1c1",
               fontSize: 28,
               marginBottom: 12,
             }}
@@ -41,7 +41,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#e6e6e6",
+              color: "#e6ecf7",
               fontSize: 96,
               fontWeight: 700,
               letterSpacing: "-0.03em",
@@ -49,13 +49,13 @@ export default function OpengraphImage() {
           >
             {site.name}
           </div>
-          <div style={{ display: "flex", color: "#8a8a92", fontSize: 40 }}>
-            <span style={{ color: "#5a5a62", marginRight: 14 }}>&gt;</span>
+          <div style={{ display: "flex", color: "#b3bdd6", fontSize: 40 }}>
+            <span style={{ color: "#96a2c6", marginRight: 14 }}>&gt;</span>
             {site.roles[0]}
           </div>
         </div>
 
-        <div style={{ display: "flex", color: "#5a5a62", fontSize: 26 }}>
+        <div style={{ display: "flex", color: "#96a2c6", fontSize: 26 }}>
           {new URL(site.url).host}
         </div>
       </div>

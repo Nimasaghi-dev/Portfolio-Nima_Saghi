@@ -178,7 +178,7 @@ export function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setOpen(false)}
-                className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 font-mono text-sm text-white transition-colors hover:bg-accent-bright"
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 font-mono text-sm text-accent-fg transition-colors hover:bg-accent-bright"
               >
                 <FileText className="size-4" />
                 resume.pdf

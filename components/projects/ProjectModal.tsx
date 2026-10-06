@@ -91,7 +91,7 @@ export function ProjectModal({
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="absolute right-3 top-3 inline-flex size-9 items-center justify-center rounded-lg border border-line bg-bg/60 text-fg backdrop-blur transition-colors hover:border-accent/60 hover:text-accent"
+                className="absolute right-3 top-3 inline-flex size-9 items-center justify-center over-wall rounded-lg text-fg transition-colors hover:border-accent/60 hover:text-accent"
               >
                 <X className="size-4" />
               </button>
@@ -124,7 +124,7 @@ export function ProjectModal({
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-bright"
+                    className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg transition-colors hover:bg-accent-bright"
                   >
                     <ExternalLink className="size-4" />
                     Visit live site
@@ -135,7 +135,7 @@ export function ProjectModal({
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface/40 px-4 py-2.5 text-sm text-fg transition-colors hover:border-accent/60 hover:text-accent"
+                    className="inline-flex items-center gap-2 over-wall rounded-lg px-4 py-2.5 text-sm text-fg transition-colors hover:border-accent/60 hover:text-accent"
                   >
                     <GithubIcon className="size-4" />
                     View source

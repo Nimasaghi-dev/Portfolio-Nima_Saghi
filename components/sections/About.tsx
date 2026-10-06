@@ -8,7 +8,7 @@ import { Counter } from "@/components/ui/Counter";
 
 export function About() {
   return (
-    <Section id="about">
+    <Section id="about" rows={38} rowOffset={39}>
       <SectionHeading
         index="01"
         path="about"
@@ -19,7 +19,7 @@ export function About() {
         {/* Avatar card */}
         <Reveal className="mx-auto w-full max-w-[300px] lg:mx-0">
           <div className="surface-card group overflow-hidden rounded-xl">
-            <div className="flex items-center gap-2 border-b border-line bg-elevated/60 px-4 py-2.5">
+            <div className="flex items-center gap-2 over-wall border-b border-line px-4 py-2.5">
               <span className="size-2.5 rounded-full bg-[#ff5f57]" />
               <span className="size-2.5 rounded-full bg-[#febc2e]" />
               <span className="size-2.5 rounded-full bg-[#28c840]" />
@@ -61,7 +61,7 @@ export function About() {
             stagger={0.08}
           >
             {about.stats.map((stat) => (
-              <RevealItem key={stat.label} className="bg-surface p-5">
+              <RevealItem key={stat.label} className="over-wall p-5">
                 <div className="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
                   <span className="text-accent">
                     <Counter to={stat.value} suffix={stat.suffix} />

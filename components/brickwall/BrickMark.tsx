@@ -1,10 +1,10 @@
-import styles from "./hero.module.css";
+import styles from "./brickwall.module.css";
 
-/* Small brick pieces used around the hero. Colours read the --hero-*
-   vars from the section, with fallbacks so they also render elsewhere. */
-const HOT = "var(--hero-hot, #4fd1c1)";
-const GOLD = "var(--hero-gold, #e2b04a)";
-const DIM = "var(--hero-dim, #2a3866)";
+/* Small brick pieces used around the hero. Glazes come from @theme; the
+   dim (unglazed) brick is a wall-only colour. */
+const HOT = "var(--color-accent)";
+const GOLD = "var(--color-gold)";
+const DIM = "#2a3866";
 
 /** Logo mark: 2×3 bricks, middle row shifted left like a running bond. */
 export function BrickLogo({ className = "" }: { className?: string }) {
@@ -14,11 +14,22 @@ export function BrickLogo({ className = "" }: { className?: string }) {
     [DIM, HOT],
   ];
   return (
-    <span aria-hidden="true" className={`inline-flex flex-col gap-[3px] ${className}`}>
+    <span
+      aria-hidden="true"
+      className={`inline-flex flex-col gap-[3px] ${className}`}
+    >
       {rows.map((row, i) => (
-        <span key={i} className="flex gap-[3px]" style={i === 1 ? { marginLeft: -7 } : undefined}>
+        <span
+          key={i}
+          className="flex gap-[3px]"
+          style={i === 1 ? { marginLeft: -7 } : undefined}
+        >
           {row.map((c, j) => (
-            <span key={j} className="block h-[6px] w-[12px] rounded-[1px]" style={{ background: c }} />
+            <span
+              key={j}
+              className="block h-[6px] w-[12px] rounded-[1px]"
+              style={{ background: c }}
+            />
           ))}
         </span>
       ))}
@@ -34,7 +45,11 @@ export function BrickScrollCue() {
         <span
           key={i}
           className={`block h-[5px] w-[12px] rounded-[1px] ${styles.cueBrick}`}
-          style={{ background: HOT, animationDelay: `${delay}s`, marginLeft: i === 1 ? 4 : 0 }}
+          style={{
+            background: HOT,
+            animationDelay: `${delay}s`,
+            marginLeft: i === 1 ? 4 : 0,
+          }}
         />
       ))}
     </span>

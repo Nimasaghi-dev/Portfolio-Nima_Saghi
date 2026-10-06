@@ -59,7 +59,7 @@ export function ProjectCard({
               </>
             )}
             {/* Corner meta */}
-            <span className="absolute right-3 top-3 rounded-md border border-line bg-bg/50 px-1.5 py-0.5 font-mono text-[10px] text-muted backdrop-blur">
+            <span className="absolute right-3 top-3 over-wall rounded-md px-1.5 py-0.5 font-mono text-[10px] text-muted">
               {project.year}
             </span>
             <span className="absolute bottom-3 left-3 font-mono text-xs text-muted">
@@ -71,7 +71,7 @@ export function ProjectCard({
               </span>
             )}
             {/* Expand hint on hover */}
-            <span className="absolute right-3 bottom-3 inline-flex size-7 items-center justify-center rounded-md border border-line bg-bg/60 text-muted opacity-0 backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
+            <span className="absolute right-3 bottom-3 inline-flex size-7 items-center justify-center over-wall rounded-md text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <Maximize2 className="size-3.5" />
             </span>
           </div>

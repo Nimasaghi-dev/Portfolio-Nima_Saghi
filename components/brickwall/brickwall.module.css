@@ -1,0 +1,290 @@
+/* ------------------------------------------------------------------ *
+ * Banna'i brick wall — every brick, fall, scrim, lamp, pulse and cue   *
+ * rule. Wall-only colours live here; page colours come from @theme.   *
+ * ------------------------------------------------------------------ */
+
+/* ---- Wall -------------------------------------------------------- */
+.wall {
+  --trail: 1.6s;
+  position: absolute;
+  /* WallSection overrides this to snap onto the page-wide row grid. */
+  top: var(--wall-top, -14px);
+  left: 50%;
+  width: 2060px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* Skip layout/paint for walls that are off-screen. --rows is set inline. */
+  content-visibility: auto;
+  contain-intrinsic-size: 2060px calc(var(--rows, 34) * 30px);
+}
+
+.row {
+  display: flex;
+  gap: 4px;
+}
+
+/* Running bond keyed off global row parity (Y % 2), not local index. */
+.rowOdd {
+  margin-left: -34px;
+}
+
+.brick {
+  display: block;
+  flex: none;
+  width: 64px;
+  height: 26px;
+  border-radius: 2px;
+  background-color: var(--b);
+  transition:
+    background-color var(--trail) ease-out,
+    box-shadow var(--trail) ease-out,
+    transform 0.7s ease;
+}
+
+.brick:hover {
+  background-color: var(--h) !important;
+  box-shadow:
+    0 0 18px var(--h),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  /* instant on, slow off = the trail */
+  transition:
+    background-color 0s,
+    box-shadow 0s,
+    transform 0.08s;
+}
+
+.amb {
+  animation: breathe var(--dur) ease-in-out infinite;
+  animation-delay: var(--del);
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    background-color: var(--b);
+    box-shadow: none;
+  }
+  50% {
+    background-color: var(--h);
+    box-shadow: 0 0 14px var(--h);
+  }
+}
+
+/* ---- Fall-in ----------------------------------------------------- */
+/* Every brick waits above the section, clipped by its overflow:hidden, so
+   on release it appears to drop in from the section above. `.building` on
+   the wall releases them; it is added once and never removed. Fill mode is
+   `backwards` so a landed brick returns to its natural state (opacity 1,
+   no transform) and the hover lift keeps working. */
+.animate .brick {
+  --dy: clamp(-560px, -42vh, -240px);
+}
+
+.animate:not(.building) .brick {
+  opacity: 0;
+  transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
+}
+
+.building .brick {
+  animation: fall 0.52s var(--fd) backwards;
+}
+
+/* Ambient bricks keep breathing in animated walls (this rule out-specifies
+   `.amb`, so both animations must be listed here). */
+.building .amb {
+  animation:
+    fall 0.52s var(--fd) backwards,
+    breathe var(--dur) ease-in-out var(--del) infinite;
+}
+
+/* Bottom row's --fd is 0; top row's ≈ 0.86s + up to 0.58s scatter, so a
+   section finishes in ≈ 2.0s. Gravity ease in, 2px overshoot, settle. */
+@keyframes fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.2);
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    transform: translate3d(0, 2px, 0) rotate(0deg);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* ---- Scrims + lamp ----------------------------------------------- */
+.lamp {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(
+    circle 340px at var(--mx, 70%) var(--my, 40%),
+    rgba(79, 209, 193, 0.14),
+    transparent 72%
+  );
+}
+
+/* One light, flat veil, identical in every section (hero included), so the
+   page reads as a single brick surface. Text never sits on the veil alone —
+   it sits on an .over-wall panel. */
+.scrimHero,
+.scrimSection {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(11, 18, 41, 0.4);
+}
+
+/* ---- Layers ------------------------------------------------------ */
+/* Pointer events pass through text to the bricks; only interactive
+   children opt back in. */
+.ui {
+  position: relative;
+  pointer-events: none;
+}
+
+.interactive {
+  pointer-events: auto;
+}
+
+/* ---- Hero typography + bits -------------------------------------- */
+.hero {
+  background-color: var(--color-bg);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.25rem, 1.1rem + 3.6vw, 4.4rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  max-width: 13ch;
+}
+
+.body {
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--color-muted);
+  max-width: 32em;
+}
+
+.pill,
+.chip,
+.btnSecondary {
+  border: 1px solid var(--color-line);
+  background: rgba(15, 24, 52, 0.82);
+}
+
+.pulse {
+  box-shadow: 0 0 10px var(--color-accent);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.btnPrimary {
+  background: var(--color-accent);
+  color: var(--color-accent-fg);
+  transition: filter 0.2s;
+}
+
+.btnPrimary:hover {
+  filter: brightness(1.08);
+}
+
+.btnSecondary {
+  color: var(--color-fg);
+  transition: border-color 0.2s;
+}
+
+.btnSecondary:hover {
+  border-color: var(--color-accent);
+}
+
+/* ---- Scroll cue -------------------------------------------------- */
+.cueBrick {
+  animation: drop 1.8s ease-in-out infinite;
+}
+
+@keyframes drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  40%,
+  70% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+
+/* ---- Fallbacks --------------------------------------------------- */
+/* Phones and touch devices: walls render already built. Pure CSS, so
+   server and client markup stay identical. */
+@media (max-width: 767px), (hover: none) {
+  .animate:not(.building) .brick,
+  .building .brick {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  /* …but ambient bricks keep breathing (these out-specify `.amb`). */
+  .animate:not(.building) .amb,
+  .building .amb {
+    animation: breathe var(--dur) ease-in-out var(--del) infinite;
+  }
+  .hint {
+    display: none;
+  }
+}
+
+/* The global kill-switch only zeroes durations; transforms and infinite
+   animations still need explicit overrides here. */
+@media (prefers-reduced-motion: reduce) {
+  .brick,
+  .brick:hover {
+    transition: none;
+    transform: none;
+  }
+  .animate:not(.building) .brick,
+  .building .brick {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .amb,
+  .pulse,
+  .cueBrick {
+    animation: none;
+  }
+  .cueBrick {
+    opacity: 1;
+    transform: none;
+  }
+  .lamp {
+    display: none;
+  }
+}

@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * Design tokens — dark, IDE/terminal-inspired. One accent: electric  *
- * blue. Edit values here to reskin the whole site.                   *
+ * Design tokens — banna'i night: navy brick, turquoise glaze. Edit  *
+ * values here to reskin the whole site.                              *
  * ------------------------------------------------------------------ */
 @theme {
   /* Surfaces */
-  --color-bg: #0a0a0a;
-  --color-surface: #0f0f10;
-  --color-elevated: #151517;
-  --color-line: #212124;
-  --color-line-soft: #17171a;
+  --color-bg: #0b1229;
+  --color-surface: #0f1834;
+  --color-elevated: #152046;
+  --color-line: #2a3866;
+  --color-line-soft: #1b2650;
 
   /* Text */
-  --color-fg: #e6e6e6;
-  --color-muted: #8a8a92;
-  --color-faint: #5a5a62;
+  --color-fg: #e6ecf7;
+  --color-muted: #b3bdd6;
+  /* Brief said #7d89ad; lifted so it passes AA over a lit gold brick under the
+     section scrim (4.6:1), not just over flat --color-bg. */
+  --color-faint: #96a2c6;
 
-  /* Accent — electric blue */
-  --color-accent: #3b82f6;
-  --color-accent-bright: #60a5fa;
-  --color-accent-dim: #1e3a66;
+  /* Accent — turquoise glaze, with the two other banna'i glazes */
+  --color-accent: #4fd1c1;
+  --color-accent-bright: #74e2d4;
+  --color-accent-dim: #1d3550;
+  /* Text on a solid accent fill (turquoise is too light for white text) */
+  --color-accent-fg: #06231f;
+  --color-gold: #e2b04a;
+  --color-lapis: #5b86e5;
 
   /* Fonts (values injected by next/font on <html>) */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
@@ -120,6 +126,13 @@
 /* Accent text glow */
 .text-glow {
   text-shadow: 0 0 24px color-mix(in oklab, var(--color-accent) 55%, transparent);
+}
+
+/* Surface for anything that sits over the brick wall: cards, pills, badges */
+.over-wall {
+  background: color-mix(in oklab, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-line);
 }
 
 /* Card surface with hairline border */

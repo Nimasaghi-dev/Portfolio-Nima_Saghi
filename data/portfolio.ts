@@ -187,7 +187,7 @@ export const projects: Project[] = [
     repoUrl: "https://github.com/Nimasaghi-dev/Mavisoft",
     year: "2025",
     featured: true,
-    accent: ["#22c55e", "#3b82f6"],
+    accent: ["#4fd1c1", "#5b86e5"],
     image: "/projects/mavisoft-website.png",
   },
   {
@@ -199,7 +199,7 @@ export const projects: Project[] = [
     tags: ["React", "Node.js", "Express", "MongoDB", "Jest", "Cypress"],
     repoUrl: "https://github.com/Nimasaghi-dev/NOMNOM-Food-app",
     year: "2025",
-    accent: ["#f59e0b", "#3b82f6"],
+    accent: ["#e2b04a", "#4fd1c1"],
     image: "/projects/nomnom-food-app.png",
   },
   {
@@ -211,7 +211,7 @@ export const projects: Project[] = [
     tags: ["React", "JavaScript", "REST API", "CSS"],
     repoUrl: "https://github.com/Nimasaghi-dev/cocktail-explorer",
     year: "2024",
-    accent: ["#14b8a6", "#3b82f6"],
+    accent: ["#5b86e5", "#4fd1c1"],
     image: "/projects/cocktail-explorer.png",
   },
 ];

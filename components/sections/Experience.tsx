@@ -42,7 +42,7 @@ function Timeline({ entries }: { entries: ExperienceEntry[] }) {
             className="relative pl-10"
           >
             {/* Node */}
-            <span className="absolute left-2 top-1.5 grid size-4 -translate-x-1/2 place-items-center rounded-full border border-line bg-bg">
+            <span className="absolute left-2 top-1.5 grid size-4 -translate-x-1/2 place-items-center over-wall rounded-full">
               <span className="size-2 rounded-full bg-accent" />
             </span>
 
@@ -94,7 +94,7 @@ export function Experience() {
   const education = experience.filter((e) => e.kind === "education");
 
   return (
-    <Section id="experience">
+    <Section id="experience" rows={53} rowOffset={162}>
       <SectionHeading
         index="04"
         path="experience"

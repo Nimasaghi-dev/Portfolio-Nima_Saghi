@@ -64,7 +64,7 @@ function SkillPill({ name, note }: { name: string; note?: string }) {
   return (
     <span
       title={note}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-elevated/40 px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg"
+      className="inline-flex items-center gap-1.5 over-wall rounded-lg px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg"
     >
       <span className="size-1 rounded-full bg-accent/50" />
       {name}
@@ -74,7 +74,7 @@ function SkillPill({ name, note }: { name: string; note?: string }) {
 
 export function Skills() {
   return (
-    <Section id="skills">
+    <Section id="skills" rows={50} rowOffset={77}>
       <SectionHeading
         index="02"
         path="skills"
