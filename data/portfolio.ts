@@ -38,6 +38,29 @@ export const site = {
 } as const;
 
 /* ------------------------------------------------------------------ *
+ * Hero — every string in the brick-wall hero                          *
+ * ------------------------------------------------------------------ */
+export const hero = {
+  /** Set to false to hide the availability pill. */
+  showAvailability: true,
+  availability: "Open to junior frontend & full-stack roles · NL",
+  /** Rendered in mono above the headline. */
+  eyebrow: "Frontend → full-stack engineer",
+  headline: "I build interfaces for maps that think.",
+  /** This word in the headline is highlighted in the accent colour. */
+  accentWord: "think",
+  body: "Primary engineer on Spectra, a multi-tenant geospatial AI platform. I work in React and TypeScript today, and I'm growing into full-stack — from the screens to the services behind them.",
+  primaryCta: { label: "See my work", href: "#work" },
+  secondaryCta: {
+    label: "GitHub",
+    href: "https://github.com/Nimasaghi-dev",
+    external: true,
+  },
+  stack: ["TypeScript", "React", "Next.js", "Express", "Python", "Tailwind"],
+  scrollHint: "Move your cursor across the wall",
+} as const;
+
+/* ------------------------------------------------------------------ *
  * Navigation — `id` must match each <section id="…">                  *
  * ------------------------------------------------------------------ */
 export const nav = [

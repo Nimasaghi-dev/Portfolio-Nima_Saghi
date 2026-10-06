@@ -27,6 +27,7 @@
     sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular",
     "JetBrains Mono", "Fira Code", monospace;
+  --font-display: var(--font-unbounded), ui-sans-serif, system-ui, sans-serif;
 
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

@@ -1,123 +1,179 @@
 "use client";
 
-import { motion } from "motion/react";
-import { ArrowRight, ArrowDown, Mail } from "lucide-react";
-import { site, socials } from "@/data/portfolio";
-import { Button } from "@/components/ui/Button";
-import { Typewriter } from "@/components/ui/Typewriter";
-import { TerminalCard } from "@/components/ui/TerminalCard";
-import { HeroBackground } from "@/components/ui/HeroBackground";
-import { fadeUp, staggerParent } from "@/lib/motion";
+import { useCallback, useEffect, useRef, type PointerEvent } from "react";
+import { motion, type Variants } from "motion/react";
+import { hero } from "@/data/portfolio";
+import { easeOutExpo, fadeUp, staggerParent } from "@/lib/motion";
+import { BrickWall } from "./hero/BrickWall";
+import { BrickBullet, BrickButtonIcon, BrickScrollCue } from "./hero/BrickMark";
+import styles from "./hero/hero.module.css";
+
+/** fadeUp, tightened to fit the hero's ≤ 400ms entrance budget. */
+const heroRise: Variants = {
+  ...fadeUp,
+  show: {
+    ...(fadeUp.show as object),
+    transition: { duration: 0.4, ease: easeOutExpo },
+  },
+};
+
+/** Splits the headline so the configured accent word can be coloured. */
+function Headline() {
+  const { headline, accentWord } = hero;
+  const i = accentWord ? headline.indexOf(accentWord) : -1;
+  if (i === -1) return <>{headline}</>;
+  return (
+    <>
+      {headline.slice(0, i)}
+      <span className="text-[var(--hero-hot)]">{accentWord}</span>
+      {headline.slice(i + accentWord.length)}
+    </>
+  );
+}
 
 export function Hero() {
+  const lampRef = useRef<HTMLDivElement>(null);
+  const frame = useRef<number | null>(null);
+  const point = useRef({ x: 0, y: 0 });
+
+  useEffect(
+    () => () => {
+      if (frame.current !== null) cancelAnimationFrame(frame.current);
+    },
+    [],
+  );
+
+  // Lamp-light follows the cursor via CSS vars — no React state, so the
+  // wall never re-renders. Throttled to one write per animation frame.
+  const onPointerMove = useCallback((e: PointerEvent<HTMLElement>) => {
+    if (e.pointerType === "touch") return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    point.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    if (frame.current !== null) return;
+    frame.current = requestAnimationFrame(() => {
+      frame.current = null;
+      const lamp = lampRef.current;
+      if (!lamp) return;
+      lamp.style.setProperty("--mx", `${point.current.x}px`);
+      lamp.style.setProperty("--my", `${point.current.y}px`);
+      lamp.style.opacity = "1";
+    });
+  }, []);
+
+  const onPointerLeave = useCallback((e: PointerEvent<HTMLElement>) => {
+    if (e.pointerType === "touch") return;
+    if (frame.current !== null) {
+      cancelAnimationFrame(frame.current);
+      frame.current = null;
+    }
+    if (lampRef.current) lampRef.current.style.opacity = "0";
+  }, []);
+
   return (
     <section
       id="top"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pt-16"
+      aria-label="Introduction"
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
+      className={`${styles.hero} relative flex min-h-[900px] flex-col overflow-hidden pt-16`}
     >
-      <HeroBackground />
+      <BrickWall />
+      <div ref={lampRef} className={styles.lamp} />
+      <div className={styles.scrim} />
 
-      <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-gutter py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-        {/* Left — identity */}
-        <motion.div
-          variants={staggerParent(0.12, 0.1)}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col items-start"
-        >
-          {/* Availability badge */}
+      <div
+        className={`${styles.ui} mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-[clamp(20px,4vw,40px)]`}
+      >
+        <div className="flex flex-1 items-center pt-[clamp(32px,7vw,96px)] pb-10">
           <motion.div
-            variants={fadeUp}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-surface/50 px-3 py-1 font-mono text-xs text-muted"
+            variants={staggerParent(0, 0)}
+            initial="hidden"
+            animate="show"
+            className="w-full max-w-[640px]"
           >
-            <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#28c840] opacity-70" />
-              <span className="relative inline-flex size-2 rounded-full bg-[#28c840]" />
-            </span>
-            open to full-time roles
+            <motion.div
+              variants={heroRise}
+              className="flex flex-col items-start gap-[26px]"
+            >
+              {hero.showAvailability && (
+                <p
+                  className={`${styles.pill} inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm`}
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`${styles.pulse} block h-[7px] w-[14px] flex-none rounded-[1px] bg-[var(--hero-hot)]`}
+                  />
+                  {hero.availability}
+                </p>
+              )}
+
+              <div className="flex flex-col gap-4">
+                <p className="font-mono text-sm text-[var(--hero-hot)]">
+                  {hero.eyebrow}
+                </p>
+                <h1 className={`${styles.headline} text-balance`}>
+                  <Headline />
+                </h1>
+              </div>
+
+              <p className={`${styles.body} text-pretty`}>{hero.body}</p>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <a
+                  href={hero.primaryCta.href}
+                  className={`${styles.interactive} ${styles.btnPrimary} inline-flex min-h-12 items-center gap-2.5 rounded-[6px] px-5 font-medium`}
+                >
+                  <BrickButtonIcon />
+                  {hero.primaryCta.label}
+                </a>
+                <a
+                  href={hero.secondaryCta.href}
+                  {...(hero.secondaryCta.external && {
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  })}
+                  className={`${styles.interactive} ${styles.btnSecondary} inline-flex min-h-12 items-center gap-2 rounded-[6px] px-5 font-medium`}
+                >
+                  {hero.secondaryCta.label}
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--hero-muted)]">
+                  Stack
+                </span>
+                <ul className="flex flex-wrap gap-2" aria-label="Stack">
+                  {hero.stack.map((tech, i) => (
+                    <li
+                      key={tech}
+                      className={`${styles.interactive} ${styles.chip} inline-flex items-center gap-2 rounded-[4px] px-2.5 py-1 font-mono text-[13px]`}
+                    >
+                      <BrickBullet gold={i % 2 === 1} />
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
           </motion.div>
+        </div>
 
-          <motion.p
-            variants={fadeUp}
-            className="mb-3 font-mono text-sm text-accent"
+        <div className="flex items-center justify-between gap-6 pb-8">
+          <a
+            href="#work"
+            className={`${styles.interactive} inline-flex min-h-11 items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[var(--hero-muted)] transition-colors hover:text-[var(--hero-fg)]`}
           >
-            {"// hey there, I'm"}
-          </motion.p>
-
-          <motion.h1
-            variants={fadeUp}
-            className="text-balance text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
+            <BrickScrollCue />
+            Scroll
+          </a>
+          <p
+            className={`${styles.hint} font-mono text-xs text-[var(--hero-muted)]`}
           >
-            {site.name}
-          </motion.h1>
-
-          <motion.div
-            variants={fadeUp}
-            className="mt-4 flex items-baseline gap-2 text-2xl font-medium sm:text-3xl"
-          >
-            <span className="text-faint">&gt;</span>
-            <Typewriter words={site.roles} />
-          </motion.div>
-
-          <motion.p
-            variants={fadeUp}
-            className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-muted sm:text-lg"
-          >
-            {site.tagline}
-          </motion.p>
-
-          <motion.div
-            variants={fadeUp}
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
-            <Button href="#work" iconRight={ArrowRight}>
-              View Projects
-            </Button>
-            <Button href="#contact" variant="outline" icon={Mail}>
-              Contact Me
-            </Button>
-          </motion.div>
-
-          {/* Socials */}
-          <motion.div variants={fadeUp} className="mt-8 flex items-center gap-1">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="inline-flex size-10 items-center justify-center rounded-lg text-muted transition-all duration-200 hover:-translate-y-0.5 hover:text-accent"
-              >
-                <s.icon className="size-[18px]" />
-              </a>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* Right — terminal signature */}
-        <div className="w-full lg:pl-4">
-          <TerminalCard />
+            {hero.scrollHint}
+          </p>
         </div>
       </div>
-
-      {/* Scroll cue */}
-      <motion.a
-        href="#about"
-        aria-label="Scroll to about section"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-faint transition-colors hover:text-accent sm:flex"
-      >
-        <span className="font-mono text-[11px] tracking-widest">scroll</span>
-        <motion.span
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ArrowDown className="size-4" />
-        </motion.span>
-      </motion.a>
     </section>
   );
 }

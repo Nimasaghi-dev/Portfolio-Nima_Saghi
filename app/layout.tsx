@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
+import { Geist, JetBrains_Mono, Unbounded } from "next/font/google";
 import { site } from "@/data/portfolio";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -12,6 +12,13 @@ const geistSans = Geist({
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  weight: "600",
   subsets: ["latin"],
   display: "swap",
 });
@@ -71,7 +78,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${geistSans.variable} ${jetbrainsMono.variable} ${unbounded.variable} antialiased`}
     >
       <body className="min-h-dvh bg-bg text-fg">
         {/* Without JS, scroll-reveal elements would stay at opacity 0 — force them visible. */}
