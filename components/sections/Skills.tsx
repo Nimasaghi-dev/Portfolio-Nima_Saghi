@@ -74,7 +74,7 @@ function SkillPill({ name, note }: { name: string; note?: string }) {
 
 export function Skills() {
   return (
-    <Section id="skills" rows={50} rowOffset={77}>
+    <Section id="skills">
       <SectionHeading
         index="02"
         path="skills"
@@ -107,7 +107,11 @@ export function Skills() {
               {concepts.length > 0 && (
                 <div className="mt-5 flex flex-wrap gap-2">
                   {concepts.map((item) => (
-                    <SkillPill key={item.name} name={item.name} note={item.note} />
+                    <SkillPill
+                      key={item.name}
+                      name={item.name}
+                      note={item.note}
+                    />
                   ))}
                 </div>
               )}

@@ -4,7 +4,7 @@ import { ProjectsGrid } from "@/components/projects/ProjectsGrid";
 
 export function Projects() {
   return (
-    <Section id="work" rows={35} rowOffset={127}>
+    <Section id="work">
       <SectionHeading
         index="03"
         path="work"

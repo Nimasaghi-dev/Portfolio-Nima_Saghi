@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { X, ExternalLink } from "lucide-react";
@@ -17,6 +18,12 @@ export function ProjectModal({
   onClose: () => void;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  // Portal target exists only on the client; false during SSR + hydration.
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
   useBodyScrollLock(Boolean(project));
 
   useEffect(() => {
@@ -27,7 +34,12 @@ export function ProjectModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [project, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  // Portaled to <body>: the card grid sits on a backdrop-filter panel, which
+  // would otherwise become the containing block for this fixed overlay and
+  // clip it to the panel.
+  return createPortal(
     <AnimatePresence>
       {project && (
         <motion.div
@@ -110,7 +122,9 @@ export function ProjectModal({
               </p>
 
               <div className="mt-6">
-                <span className="font-mono text-xs text-faint">{"// stack"}</span>
+                <span className="font-mono text-xs text-faint">
+                  {"// stack"}
+                </span>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {project.tags.map((t) => (
                     <Tag key={t}>{t}</Tag>
@@ -146,6 +160,7 @@ export function ProjectModal({
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

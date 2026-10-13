@@ -4,20 +4,30 @@
  * ------------------------------------------------------------------ */
 
 /* ---- Wall -------------------------------------------------------- */
+/* One wall behind the whole page (PageWall). The layer clips the 2060px
+   wall to the viewport width; bricks are never scaled. */
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
 .wall {
   --trail: 1.6s;
+  /* Fall distance: a short drop reads as bricks landing at the build edge. */
+  --dy: clamp(-200px, -22vh, -110px);
   position: absolute;
-  /* WallSection overrides this to snap onto the page-wide row grid. */
-  top: var(--wall-top, -14px);
-  left: 50%;
-  width: 2060px;
-  transform: translateX(-50%);
+  top: -14px; /* WALL_TOP */
+  /* left is set inline from the first rendered column */
   display: flex;
   flex-direction: column;
   gap: 4px;
-  /* Skip layout/paint for walls that are off-screen. --rows is set inline. */
-  content-visibility: auto;
-  contain-intrinsic-size: 2060px calc(var(--rows, 34) * 30px);
+}
+
+.band {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .row {
@@ -25,7 +35,12 @@
   gap: 4px;
 }
 
-/* Running bond keyed off global row parity (Y % 2), not local index. */
+/* Columns trimmed off the left (see PageWall) are replaced by this margin. */
+.row > .brick:first-child {
+  margin-left: var(--x0, 0px);
+}
+
+/* Running bond keyed off page-wide row parity, never local index. */
 .rowOdd {
   margin-left: -34px;
 }
@@ -73,42 +88,37 @@
   }
 }
 
-/* ---- Fall-in ----------------------------------------------------- */
-/* Every brick waits above the section, clipped by its overflow:hidden, so
-   on release it appears to drop in from the section above. `.building` on
-   the wall releases them; it is added once and never removed. Fill mode is
-   `backwards` so a landed brick returns to its natural state (opacity 1,
-   no transform) and the hover lift keeps working. */
-.animate .brick {
-  --dy: clamp(-560px, -42vh, -240px);
-}
-
-.animate:not(.building) .brick {
+/* ---- Build ------------------------------------------------------- */
+/* A band with data-p waits unbuilt; PageWall's observer sets data-b="1" as
+   the band enters the viewport (fall) or data-b="0" if it was already
+   scrolled past (built instantly). Fill mode `backwards` returns a landed
+   brick to its natural state, so it stays opaque and keeps its hover. */
+.band[data-p]:not([data-b]) .brick {
   opacity: 0;
   transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
 }
 
-.building .brick {
+.band[data-b="1"] .brick {
   animation: fall 0.52s var(--fd) backwards;
 }
 
-/* Ambient bricks keep breathing in animated walls (this rule out-specifies
-   `.amb`, so both animations must be listed here). */
-.building .amb {
+/* Ambient bricks keep breathing after landing (this rule out-specifies
+   `.amb`, so both animations are listed). */
+.band[data-b="1"] .amb {
   animation:
     fall 0.52s var(--fd) backwards,
     breathe var(--dur) ease-in-out var(--del) infinite;
 }
 
-/* Bottom row's --fd is 0; top row's ≈ 0.86s + up to 0.58s scatter, so a
-   section finishes in ≈ 2.0s. Gravity ease in, 2px overshoot, settle. */
+/* A band finishes ≤ 0.12s bias + 0.48s scatter + 0.52s fall ≈ 1.1s.
+   Gravity ease in, 2px overshoot, settle. */
 @keyframes fall {
   0% {
     opacity: 0;
     transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot));
     animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.2);
   }
-  12% {
+  18% {
     opacity: 1;
   }
   82% {
@@ -121,7 +131,7 @@
   }
 }
 
-/* ---- Scrims + lamp ----------------------------------------------- */
+/* ---- Scrim + lamp ------------------------------------------------ */
 .lamp {
   position: absolute;
   inset: 0;
@@ -135,11 +145,9 @@
   );
 }
 
-/* One light, flat veil, identical in every section (hero included), so the
-   page reads as a single brick surface. Text never sits on the veil alone —
-   it sits on an .over-wall panel. */
-.scrimHero,
-.scrimSection {
+/* One light, flat veil over the whole wall. Text never sits on the veil
+   alone — it sits on an .over-wall panel. */
+.scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -159,10 +167,6 @@
 }
 
 /* ---- Hero typography + bits -------------------------------------- */
-.hero {
-  background-color: var(--color-bg);
-}
-
 .headline {
   font-family: var(--font-display);
   font-weight: 600;
@@ -242,18 +246,19 @@
 }
 
 /* ---- Fallbacks --------------------------------------------------- */
-/* Phones and touch devices: walls render already built. Pure CSS, so
+/* Phones and touch devices: the wall renders already built. Pure CSS, so
    server and client markup stay identical. */
 @media (max-width: 767px), (hover: none) {
-  .animate:not(.building) .brick,
-  .building .brick {
+  /* Same selectors as the build rules above, so these win by order. */
+  .band[data-p]:not([data-b]) .brick,
+  .band[data-b="1"] .brick {
     opacity: 1;
     transform: none;
     animation: none;
   }
-  /* …but ambient bricks keep breathing (these out-specify `.amb`). */
-  .animate:not(.building) .amb,
-  .building .amb {
+  /* …but ambient bricks keep breathing. */
+  .band[data-p]:not([data-b]) .amb,
+  .band[data-b="1"] .amb {
     animation: breathe var(--dur) ease-in-out var(--del) infinite;
   }
   .hint {
@@ -269,8 +274,9 @@
     transition: none;
     transform: none;
   }
-  .animate:not(.building) .brick,
-  .building .brick {
+  .band[data-p]:not([data-b]) .brick,
+  .band[data-b="1"] .brick,
+  .band[data-b="1"] .amb {
     opacity: 1;
     transform: none;
     animation: none;

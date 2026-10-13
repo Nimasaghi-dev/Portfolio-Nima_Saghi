@@ -8,7 +8,7 @@ import { Counter } from "@/components/ui/Counter";
 
 export function About() {
   return (
-    <Section id="about" rows={38} rowOffset={39}>
+    <Section id="about">
       <SectionHeading
         index="01"
         path="about"

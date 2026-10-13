@@ -24,7 +24,10 @@ function Timeline({ entries }: { entries: ExperienceEntry[] }) {
   return (
     <div ref={trackRef} className="relative">
       {/* Base + progress rail */}
-      <div aria-hidden className="absolute bottom-2 left-2 top-2 w-px bg-line" />
+      <div
+        aria-hidden
+        className="absolute bottom-2 left-2 top-2 w-px bg-line"
+      />
       <motion.div
         aria-hidden
         style={{ scaleY }}
@@ -94,7 +97,7 @@ export function Experience() {
   const education = experience.filter((e) => e.kind === "education");
 
   return (
-    <Section id="experience" rows={53} rowOffset={162}>
+    <Section id="experience">
       <SectionHeading
         index="04"
         path="experience"

@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, type PointerEvent } from "react";
+import { useEffect, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { hero } from "@/data/portfolio";
 import { easeOutExpo, fadeUp, staggerParent } from "@/lib/motion";
-import { BrickWall } from "@/components/brickwall/BrickWall";
 import {
   BrickBullet,
   BrickButtonIcon,
@@ -36,54 +35,59 @@ function Headline() {
 }
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
   const lampRef = useRef<HTMLDivElement>(null);
-  const frame = useRef<number | null>(null);
-  const point = useRef({ x: 0, y: 0 });
 
-  useEffect(
-    () => () => {
-      if (frame.current !== null) cancelAnimationFrame(frame.current);
-    },
-    [],
-  );
-
-  // Lamp-light follows the cursor via CSS vars — no React state, so the
-  // wall never re-renders. Throttled to one write per animation frame.
-  const onPointerMove = useCallback((e: PointerEvent<HTMLElement>) => {
-    if (e.pointerType === "touch") return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    point.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    if (frame.current !== null) return;
-    frame.current = requestAnimationFrame(() => {
-      frame.current = null;
-      const lamp = lampRef.current;
-      if (!lamp) return;
-      lamp.style.setProperty("--mx", `${point.current.x}px`);
-      lamp.style.setProperty("--my", `${point.current.y}px`);
-      lamp.style.opacity = "1";
-    });
-  }, []);
-
-  const onPointerLeave = useCallback((e: PointerEvent<HTMLElement>) => {
-    if (e.pointerType === "touch") return;
-    if (frame.current !== null) {
-      cancelAnimationFrame(frame.current);
-      frame.current = null;
-    }
-    if (lampRef.current) lampRef.current.style.opacity = "0";
+  // Lamp-light follows the cursor via CSS vars — no React state, so nothing
+  // re-renders. The bricks live in the page-wide wall behind the hero (not
+  // inside it), so the pointer is tracked on window and mapped to the hero's
+  // rect. Throttled to one write per animation frame.
+  useEffect(() => {
+    const section = sectionRef.current;
+    const lamp = lampRef.current;
+    if (!section || !lamp) return;
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType === "touch") return;
+      x = e.clientX;
+      y = e.clientY;
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const r = section.getBoundingClientRect();
+        const inside =
+          x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+        if (inside) {
+          lamp.style.setProperty("--mx", `${x - r.left}px`);
+          lamp.style.setProperty("--my", `${y - r.top}px`);
+        }
+        lamp.style.opacity = inside ? "1" : "0";
+      });
+    };
+    const onLeave = () => {
+      lamp.style.opacity = "0";
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onLeave);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      document.documentElement.removeEventListener("pointerleave", onLeave);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       aria-label="Introduction"
-      onPointerMove={onPointerMove}
-      onPointerLeave={onPointerLeave}
-      className={`${styles.hero} relative flex min-h-[900px] flex-col overflow-hidden pt-16`}
+      // Transparent to the pointer so hover reaches the wall behind it;
+      // only interactive children opt back in.
+      className="pointer-events-none relative flex min-h-[900px] flex-col overflow-hidden pt-16"
     >
-      <BrickWall rows={39} rowOffset={0} animate={false} />
       <div ref={lampRef} className={styles.lamp} />
-      <div className={styles.scrimHero} />
 
       <div
         className={`${styles.ui} mx-auto flex w-full max-w-[1280px] flex-1 flex-col px-[clamp(20px,4vw,40px)]`}

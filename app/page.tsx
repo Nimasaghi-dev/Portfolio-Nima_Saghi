@@ -6,19 +6,23 @@ import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
 import { Experience } from "@/components/sections/Experience";
 import { Contact } from "@/components/sections/Contact";
+import { PageWall } from "@/components/brickwall/PageWall";
 
 export default function Home() {
   return (
     <>
       <Nav />
-      <main id="main">
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experience />
-      </main>
-      <Contact />
+      {/* One continuous brick wall behind every section. */}
+      <PageWall>
+        <main id="main" className="pointer-events-none">
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Experience />
+        </main>
+        <Contact />
+      </PageWall>
       <BackToTop />
     </>
   );
