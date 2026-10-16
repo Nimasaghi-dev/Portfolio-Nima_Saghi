@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { motion } from "motion/react";
-import { skills } from "@/data/portfolio";
+import { skills, type IconType } from "@/data/portfolio";
 import { techIcons, TechIcon } from "@/components/icons/TechIcons";
 import { Icon3D } from "@/components/ui/Icon3D";
 import { Section } from "@/components/ui/Section";
@@ -10,22 +10,27 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { easeOutExpo, inView } from "@/lib/motion";
 
 /**
- * A brand mark that fades in on scroll, then spins as an extruded 3D coin on
- * a slow, index-derived loop in its true brand color, glowing on hover.
+ * A mark that fades in on scroll, then spins as an extruded 3D coin on a
+ * slow, index-derived loop, glowing on hover. Brand marks (`slug`) use their
+ * true brand color; concept marks (`icon`) use the accent color.
  * Timing comes from `index` so no two marks turn in unison.
  */
 function FloatingLogo({
   slug,
+  icon: Icon,
   name,
   note,
   index,
 }: {
-  slug: string;
+  slug?: string;
+  icon?: IconType;
   name: string;
   note?: string;
   index: number;
 }) {
-  const hex = techIcons[slug]?.hex ?? "currentColor";
+  const hex = slug
+    ? (techIcons[slug]?.hex ?? "currentColor")
+    : "var(--color-accent)";
   const duration = 7 + (index % 5) * 0.9;
   // Negative delay starts each mark mid-turn, so the row never lines up.
   const delay = -((index * 1.7) % duration);
@@ -43,10 +48,12 @@ function FloatingLogo({
         className="group flex w-[76px] flex-col items-center gap-2.5 rounded-xl px-2 py-3 sm:w-[92px]"
       >
         <Icon3D
-          render={(p) => <TechIcon slug={slug} {...p} />}
+          render={(p) =>
+            slug ? <TechIcon slug={slug} {...p} /> : Icon && <Icon {...p} />
+          }
           duration={duration}
           delay={delay}
-          className="size-9 text-(--brand)transition-transform duration-300 group-hover:scale-110 sm:size-10"
+          className="size-9 text-(--brand) transition-transform duration-300 group-hover:scale-110 sm:size-10"
         />
         <span className="text-center font-mono text-[11px] leading-tight text-faint transition-colors duration-300 group-hover:text-fg">
           {name}
@@ -56,14 +63,26 @@ function FloatingLogo({
   );
 }
 
-/** Concept skills with no brand mark render as a quiet text pill. */
-function SkillPill({ name, note }: { name: string; note?: string }) {
+/** Concept skills with no brand mark render as an inline label, led by an accent icon. */
+function SkillLabel({
+  name,
+  note,
+  icon: Icon,
+}: {
+  name: string;
+  note?: string;
+  icon?: IconType;
+}) {
   return (
     <span
       title={note}
-      className="inline-flex items-center gap-1.5 liquid-glass rounded-lg px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg"
+      className="inline-flex items-center gap-2 font-mono text-xs text-muted transition-colors duration-200 hover:text-fg"
     >
-      <span className="size-1 rounded-full bg-accent/50" />
+      {Icon ? (
+        <Icon aria-hidden className="size-4 text-accent" />
+      ) : (
+        <span className="size-1 rounded-full bg-accent/50" />
+      )}
       {name}
     </span>
   );
@@ -81,8 +100,8 @@ export function Skills() {
 
       <div className="mt-14 flex flex-col gap-12">
         {skills.map((group, g) => {
-          const logos = group.items.filter((i) => i.slug);
-          const concepts = group.items.filter((i) => !i.slug);
+          const logos = group.items.filter((i) => i.slug || i.icon);
+          const concepts = group.items.filter((i) => !i.slug && !i.icon);
           return (
             <div key={group.category}>
               <p className="font-mono text-sm text-accent">
@@ -93,7 +112,8 @@ export function Skills() {
                 {logos.map((item, i) => (
                   <FloatingLogo
                     key={item.name}
-                    slug={item.slug as string}
+                    slug={item.slug}
+                    icon={item.icon}
                     name={item.name}
                     note={item.note}
                     index={g * 4 + i}
@@ -102,12 +122,13 @@ export function Skills() {
               </div>
 
               {concepts.length > 0 && (
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
                   {concepts.map((item) => (
-                    <SkillPill
+                    <SkillLabel
                       key={item.name}
                       name={item.name}
                       note={item.note}
+                      icon={item.icon}
                     />
                   ))}
                 </div>

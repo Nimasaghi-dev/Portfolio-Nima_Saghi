@@ -6,7 +6,14 @@
  * ================================================================== */
 
 import type { ComponentType, SVGProps } from "react";
-import { Mail } from "lucide-react";
+import {
+  Accessibility,
+  ArrowLeftRight,
+  CheckCheck,
+  Mail,
+  Network,
+  ShieldCheck,
+} from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/BrandIcons";
 
 /** Any icon that renders an SVG accepting a className (lucide or brand). */
@@ -97,10 +104,11 @@ export const about = {
 export type SkillGroup = {
   category: string;
   /**
-   * `note` shows on hover. `slug` links to a brand mark in TechIcons; items
-   * without one render as a text pill (concepts, not products).
+   * `note` shows on hover. `slug` links to a brand mark in TechIcons (shown in
+   * brand color); `icon` is a generic mark for concepts (shown in the accent
+   * color). Items with neither render as a text label.
    */
-  items: { name: string; note?: string; slug?: string }[];
+  items: { name: string; note?: string; slug?: string; icon?: IconType }[];
 };
 
 export const skills: SkillGroup[] = [
@@ -112,7 +120,7 @@ export const skills: SkillGroup[] = [
       { name: "TypeScript", note: "Everyday driver", slug: "typescript" },
       { name: "Tailwind CSS", note: "Design systems", slug: "tailwindcss" },
       { name: "JavaScript", note: "ES2022+", slug: "javascript" },
-      { name: "Accessibility", note: "WCAG-minded" },
+      { name: "Accessibility", note: "WCAG-minded", icon: Accessibility },
     ],
   },
   {
@@ -121,8 +129,8 @@ export const skills: SkillGroup[] = [
       { name: "Node.js", note: "Runtime & tooling", slug: "nodedotjs" },
       { name: "Express", note: "REST APIs", slug: "express" },
       { name: "Python", note: "FastAPI services", slug: "python" },
-      { name: "gRPC", note: "Typed service contracts" },
-      { name: "REST", note: "API-first design" },
+      { name: "gRPC", note: "Typed service contracts", icon: Network },
+      { name: "REST", note: "API-first design", icon: ArrowLeftRight },
       { name: "PostgreSQL", note: "PostGIS geospatial", slug: "postgresql" },
     ],
   },
@@ -131,9 +139,9 @@ export const skills: SkillGroup[] = [
     items: [
       { name: "Jest", note: "Unit & integration", slug: "jest" },
       { name: "Cypress", note: "End-to-end", slug: "cypress" },
-      { name: "RBAC", note: "Authorization patterns" },
+      { name: "RBAC", note: "Authorization patterns", icon: ShieldCheck },
       { name: "OWASP", note: "Top 10 awareness", slug: "owasp" },
-      { name: "Input validation", note: "Defense in depth" },
+      { name: "Input validation", note: "Defense in depth", icon: CheckCheck },
     ],
   },
   {
