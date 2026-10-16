@@ -45,18 +45,17 @@ export const hero = {
   showAvailability: true,
   availability: "Open to frontend & full-stack roles · NL",
   /** Rendered in mono above the headline. */
-  eyebrow: "Frontend → full-stack engineer",
+  eyebrow: "Frontend engineer · React / TypeScript",
   headline: "I build interfaces for maps that think.",
   /** This word in the headline is highlighted in the accent colour. */
   accentWord: "think",
-  body: "Primary engineer on Spectra, a multi-tenant geospatial AI platform. I work in React and TypeScript today, and I'm growing into full-stack — from the screens to the services behind them.",
+  body: "Primary frontend engineer on Spectra, a multi-tenant geospatial AI platform at MaviSoft. I turn map data, gRPC microservices, and AI pipelines into interfaces that feel simple.",
   primaryCta: { label: "See my work", href: "#work" },
   secondaryCta: {
     label: "GitHub",
     href: "https://github.com/Nimasaghi-dev",
     external: true,
   },
-  stack: ["TypeScript", "React", "Next.js", "Express", "Python", "Tailwind"],
 } as const;
 
 /* ------------------------------------------------------------------ *
@@ -76,16 +75,19 @@ export const nav = [
 export const about = {
   /** Replace with a real photo in /public (see README). */
   avatar: "/nima.png",
+  /** Large, bright opening line. `leadAccent` is highlighted in the accent colour. */
+  lead: "I like frontend work where the data is messy, the services are many, and the interface still has to be easy to use.",
+  leadAccent: "easy to use",
+  /** Supporting paragraphs, rendered smaller and muted under the lead. */
   paragraphs: [
-    "I'm a frontend engineer with a full-stack mindset. I build production-grade web apps with React, TypeScript, and service-oriented backends. Right now I'm shipping Spectra, a multi-tenant geospatial AI SaaS, at MaviSoft.",
-    "I care about clean, testable, maintainable code and treat testability as a design constraint, not an afterthought. I'm comfortable in distributed, microservice-based architectures and I'm growing into cloud-native and event-driven systems.",
-    "I graduated HackYourFuture's intensive full-stack program and hold a BSc in Computer Software Engineering. Fluent in English, working proficiency in Dutch, native Farsi. I use AI-assisted tooling (Claude Code, Cursor) daily, with critical judgment, not blind trust.",
+    "On Spectra I own 12 UI panels end to end: typed contracts for Python gRPC services, permission-aware UI on every surface, and a report pipeline that streams from React to PDF. Loading, error, and empty states are part of the feature, not an afterthought.",
+    "I treat testability as a design constraint, a habit from HackYourFuture, where we shipped in Agile teams with code review, pair programming, Jest, and Cypress. Next, I'm growing into cloud-native and event-driven systems. I use Claude Code and Cursor daily and review their output like any other pull request.",
   ],
-  stats: [
-    { value: 12, suffix: "+", label: "UI panels shipped on production SaaS" },
-    { value: 3, suffix: "", label: "production apps delivered" },
-    { value: 15, suffix: "+", label: "technologies in daily use" },
-    { value: 3, suffix: "", label: "languages spoken: EN / NL / FA" },
+  /** Short facts shown in a row under the bio. */
+  facts: [
+    { label: "Based in", value: "Nieuw-Vennep, NL" },
+    { label: "Education", value: "BSc + HackYourFuture" },
+    { label: "Languages", value: "Farsi · English · Dutch" },
   ],
 } as const;
 

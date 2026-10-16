@@ -44,14 +44,3 @@ export function BrickButtonIcon() {
     </span>
   );
 }
-
-/** Chip bullet: a single 10×5 brick, accent or gold. */
-export function BrickBullet({ gold = false }: { gold?: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className="block h-[5px] w-[10px] flex-none rounded-[1px]"
-      style={{ background: gold ? GOLD : HOT }}
-    />
-  );
-}

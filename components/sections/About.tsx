@@ -1,10 +1,20 @@
 import Image from "next/image";
-import { MapPin } from "lucide-react";
 import { about, site } from "@/data/portfolio";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { Counter } from "@/components/ui/Counter";
+
+/** Splits the lead around `leadAccent` so that word can take the accent colour. */
+function Lead() {
+  const [before, after] = about.lead.split(about.leadAccent);
+  return (
+    <p className="text-pretty text-xl leading-snug text-fg sm:text-2xl">
+      {before}
+      <span className="text-accent">{about.leadAccent}</span>
+      {after}
+    </p>
+  );
+}
 
 export function About() {
   return (
@@ -12,13 +22,13 @@ export function About() {
       <SectionHeading
         index="01"
         path="about"
-        title="Building for the web, end to end."
+        title="From the screen to the service."
       />
 
-      <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[300px_1fr] lg:gap-14">
-        {/* Avatar card */}
+      <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr] lg:gap-14">
+        {/* Portrait */}
         <Reveal className="mx-auto w-full max-w-[300px] lg:mx-0">
-          <div className="liquid-glass group overflow-hidden rounded-xl">
+          <div className="liquid-glass overflow-hidden rounded-xl">
             <div className="flex items-center gap-2 liquid-glass border-b border-line px-4 py-2.5">
               <span className="size-2.5 rounded-full bg-[#ff5f57]" />
               <span className="size-2.5 rounded-full bg-[#febc2e]" />
@@ -34,45 +44,39 @@ export function About() {
                 width={480}
                 height={480}
                 unoptimized
-                className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                className="h-auto w-full"
               />
-            </div>
-            <div className="flex items-center gap-2 border-t border-line px-4 py-2.5 font-mono text-xs text-muted">
-              <MapPin className="size-3.5 text-accent" />
-              {site.location}
             </div>
           </div>
         </Reveal>
 
-        {/* Bio + stats */}
-        <div className="flex flex-col">
-          <RevealGroup className="flex flex-col gap-4" stagger={0.1}>
+        {/* Bio */}
+        <div className="flex max-w-[65ch] flex-col">
+          <RevealGroup className="flex flex-col gap-5" stagger={0.1}>
+            <RevealItem>
+              <Lead />
+            </RevealItem>
             {about.paragraphs.map((p, i) => (
               <RevealItem key={i}>
-                <p className="text-pretty text-base leading-relaxed text-muted sm:text-lg">
+                <p className="text-pretty text-base leading-relaxed text-muted">
                   {p}
                 </p>
               </RevealItem>
             ))}
           </RevealGroup>
 
-          <RevealGroup
-            className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4"
-            stagger={0.08}
-          >
-            {about.stats.map((stat) => (
-              <RevealItem key={stat.label} className="liquid-glass p-5">
-                <div className="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
-                  <span className="text-accent">
-                    <Counter to={stat.value} suffix={stat.suffix} />
-                  </span>
+          <Reveal delay={0.2}>
+            <dl className="mt-8 grid grid-cols-1 gap-x-8 gap-y-4 border-t border-line-soft pt-6 sm:grid-cols-3">
+              {about.facts.map((fact) => (
+                <div key={fact.label}>
+                  <dt className="text-sm text-faint">{fact.label}</dt>
+                  <dd className="mt-1 text-sm font-medium text-fg">
+                    {fact.value}
+                  </dd>
                 </div>
-                <div className="mt-2 font-mono text-xs leading-snug text-muted">
-                  {stat.label}
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+              ))}
+            </dl>
+          </Reveal>
         </div>
       </div>
     </Section>

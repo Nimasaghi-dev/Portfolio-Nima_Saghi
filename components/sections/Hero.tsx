@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { hero } from "@/data/portfolio";
 import { easeOutExpo, fadeUp, staggerParent } from "@/lib/motion";
-import { BrickBullet, BrickButtonIcon } from "@/components/brickwall/BrickMark";
+import { BrickButtonIcon } from "@/components/brickwall/BrickMark";
 import styles from "@/components/brickwall/brickwall.module.css";
 
 /** fadeUp, tightened to fit the hero's ≤ 400ms entrance budget. */
@@ -139,23 +139,6 @@ export function Hero() {
                   {hero.secondaryCta.label}
                   <span aria-hidden="true">↗</span>
                 </a>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-                  Stack
-                </span>
-                <ul className="flex flex-wrap gap-2" aria-label="Stack">
-                  {hero.stack.map((tech, i) => (
-                    <li
-                      key={tech}
-                      className={`${styles.interactive} liquid-glass inline-flex items-center gap-2 rounded-[4px] px-2.5 py-1 font-mono text-[13px]`}
-                    >
-                      <BrickBullet gold={i % 2 === 1} />
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
               </div>
             </motion.div>
           </motion.div>
