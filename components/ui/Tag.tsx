@@ -14,7 +14,7 @@ export function Tag({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-md border border-line bg-elevated/60 px-2 py-0.5",
+        "liquid-glass inline-flex items-center rounded-md px-2 py-0.5",
         "font-mono text-xs text-muted",
         interactive &&
           "transition-colors duration-200 hover:border-accent/50 hover:text-accent",

@@ -1,5 +1,3 @@
-import styles from "./brickwall.module.css";
-
 /* Small brick pieces used around the hero. Glazes come from @theme; the
    dim (unglazed) brick is a wall-only colour. */
 const HOT = "var(--color-accent)";
@@ -32,25 +30,6 @@ export function BrickLogo({ className = "" }: { className?: string }) {
             />
           ))}
         </span>
-      ))}
-    </span>
-  );
-}
-
-/** Scroll cue: three stacked bricks fading in sequence. */
-export function BrickScrollCue() {
-  return (
-    <span aria-hidden="true" className="flex flex-col gap-[3px]">
-      {[0, 0.2, 0.4].map((delay, i) => (
-        <span
-          key={i}
-          className={`block h-[5px] w-[12px] rounded-[1px] ${styles.cueBrick}`}
-          style={{
-            background: HOT,
-            animationDelay: `${delay}s`,
-            marginLeft: i === 1 ? 4 : 0,
-          }}
-        />
       ))}
     </span>
   );

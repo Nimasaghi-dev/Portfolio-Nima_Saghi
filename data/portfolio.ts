@@ -43,7 +43,7 @@ export const site = {
 export const hero = {
   /** Set to false to hide the availability pill. */
   showAvailability: true,
-  availability: "Open to junior frontend & full-stack roles · NL",
+  availability: "Open to frontend & full-stack roles · NL",
   /** Rendered in mono above the headline. */
   eyebrow: "Frontend → full-stack engineer",
   headline: "I build interfaces for maps that think.",
@@ -57,7 +57,6 @@ export const hero = {
     external: true,
   },
   stack: ["TypeScript", "React", "Next.js", "Express", "Python", "Tailwind"],
-  scrollHint: "Move your cursor across the wall",
 } as const;
 
 /* ------------------------------------------------------------------ *

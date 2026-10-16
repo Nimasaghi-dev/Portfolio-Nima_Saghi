@@ -19,7 +19,7 @@ export function ProjectCard({
   const [a0, a1] = project.accent;
   return (
     <TiltCard className="group h-full rounded-xl" max={6}>
-      <div className="surface-card flex h-full flex-col overflow-hidden rounded-xl">
+      <div className="liquid-glass flex h-full flex-col overflow-hidden rounded-xl">
         {/* Clickable cover + body opens the detail modal */}
         <button
           type="button"
@@ -59,7 +59,7 @@ export function ProjectCard({
               </>
             )}
             {/* Corner meta */}
-            <span className="absolute right-3 top-3 over-wall rounded-md px-1.5 py-0.5 font-mono text-[10px] text-muted">
+            <span className="absolute right-3 top-3 liquid-glass rounded-md px-1.5 py-0.5 font-mono text-[10px] text-muted">
               {project.year}
             </span>
             <span className="absolute bottom-3 left-3 font-mono text-xs text-muted">
@@ -71,7 +71,7 @@ export function ProjectCard({
               </span>
             )}
             {/* Expand hint on hover */}
-            <span className="absolute right-3 bottom-3 inline-flex size-7 items-center justify-center over-wall rounded-md text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="absolute right-3 bottom-3 inline-flex size-7 items-center justify-center liquid-glass rounded-md text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <Maximize2 className="size-3.5" />
             </span>
           </div>

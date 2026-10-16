@@ -45,11 +45,11 @@ function Timeline({ entries }: { entries: ExperienceEntry[] }) {
             className="relative pl-10"
           >
             {/* Node */}
-            <span className="absolute left-2 top-1.5 grid size-4 -translate-x-1/2 place-items-center over-wall rounded-full">
+            <span className="absolute left-2 top-1.5 grid size-4 -translate-x-1/2 place-items-center liquid-glass rounded-full">
               <span className="size-2 rounded-full bg-accent" />
             </span>
 
-            <div className="surface-card rounded-xl p-5 sm:p-6">
+            <div className="liquid-glass rounded-xl p-5 sm:p-6">
               <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <h3 className="text-lg font-semibold tracking-tight">
                   {job.role}

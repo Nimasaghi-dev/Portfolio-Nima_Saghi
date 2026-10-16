@@ -146,7 +146,7 @@
 }
 
 /* One light, flat veil over the whole wall. Text never sits on the veil
-   alone — it sits on an .over-wall panel. */
+   alone — it sits on a .glass panel. */
 .scrim {
   position: absolute;
   inset: 0;
@@ -183,13 +183,6 @@
   max-width: 32em;
 }
 
-.pill,
-.chip,
-.btnSecondary {
-  border: 1px solid var(--color-line);
-  background: rgba(15, 24, 52, 0.82);
-}
-
 .pulse {
   box-shadow: 0 0 10px var(--color-accent);
   animation: pulse 2.4s ease-in-out infinite;
@@ -224,27 +217,6 @@
   border-color: var(--color-accent);
 }
 
-/* ---- Scroll cue -------------------------------------------------- */
-.cueBrick {
-  animation: drop 1.8s ease-in-out infinite;
-}
-
-@keyframes drop {
-  0% {
-    opacity: 0;
-    transform: translateY(-3px);
-  }
-  40%,
-  70% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-}
-
 /* ---- Fallbacks --------------------------------------------------- */
 /* Phones and touch devices: the wall renders already built. Pure CSS, so
    server and client markup stay identical. */
@@ -260,9 +232,6 @@
   .band[data-p]:not([data-b]) .amb,
   .band[data-b="1"] .amb {
     animation: breathe var(--dur) ease-in-out var(--del) infinite;
-  }
-  .hint {
-    display: none;
   }
 }
 
@@ -282,13 +251,8 @@
     animation: none;
   }
   .amb,
-  .pulse,
-  .cueBrick {
+  .pulse {
     animation: none;
-  }
-  .cueBrick {
-    opacity: 1;
-    transform: none;
   }
   .lamp {
     display: none;

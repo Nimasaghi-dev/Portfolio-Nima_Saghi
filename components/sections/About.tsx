@@ -18,8 +18,8 @@ export function About() {
       <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[300px_1fr] lg:gap-14">
         {/* Avatar card */}
         <Reveal className="mx-auto w-full max-w-[300px] lg:mx-0">
-          <div className="surface-card group overflow-hidden rounded-xl">
-            <div className="flex items-center gap-2 over-wall border-b border-line px-4 py-2.5">
+          <div className="liquid-glass group overflow-hidden rounded-xl">
+            <div className="flex items-center gap-2 liquid-glass border-b border-line px-4 py-2.5">
               <span className="size-2.5 rounded-full bg-[#ff5f57]" />
               <span className="size-2.5 rounded-full bg-[#febc2e]" />
               <span className="size-2.5 rounded-full bg-[#28c840]" />
@@ -61,7 +61,7 @@ export function About() {
             stagger={0.08}
           >
             {about.stats.map((stat) => (
-              <RevealItem key={stat.label} className="over-wall p-5">
+              <RevealItem key={stat.label} className="liquid-glass p-5">
                 <div className="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
                   <span className="text-accent">
                     <Counter to={stat.value} suffix={stat.suffix} />

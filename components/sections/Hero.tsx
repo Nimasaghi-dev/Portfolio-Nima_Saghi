@@ -4,11 +4,7 @@ import { useEffect, useRef } from "react";
 import { motion, type Variants } from "motion/react";
 import { hero } from "@/data/portfolio";
 import { easeOutExpo, fadeUp, staggerParent } from "@/lib/motion";
-import {
-  BrickBullet,
-  BrickButtonIcon,
-  BrickScrollCue,
-} from "@/components/brickwall/BrickMark";
+import { BrickBullet, BrickButtonIcon } from "@/components/brickwall/BrickMark";
 import styles from "@/components/brickwall/brickwall.module.css";
 
 /** fadeUp, tightened to fit the hero's ≤ 400ms entrance budget. */
@@ -101,11 +97,11 @@ export function Hero() {
           >
             <motion.div
               variants={heroRise}
-              className="over-wall flex flex-col items-start gap-[26px] rounded-2xl p-6 sm:p-8"
+              className="glass flex flex-col items-start gap-[26px] rounded-2xl p-6 sm:p-8"
             >
               {hero.showAvailability && (
                 <p
-                  className={`${styles.pill} inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm`}
+                  className="liquid-glass inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5 text-sm"
                 >
                   <span
                     aria-hidden="true"
@@ -138,7 +134,7 @@ export function Hero() {
                     target: "_blank",
                     rel: "noopener noreferrer",
                   })}
-                  className={`${styles.interactive} ${styles.btnSecondary} inline-flex min-h-12 items-center gap-2 rounded-[6px] px-5 font-medium`}
+                  className={`${styles.interactive} ${styles.btnSecondary} liquid-glass inline-flex min-h-12 items-center gap-2 rounded-[6px] px-5 font-medium`}
                 >
                   {hero.secondaryCta.label}
                   <span aria-hidden="true">↗</span>
@@ -153,7 +149,7 @@ export function Hero() {
                   {hero.stack.map((tech, i) => (
                     <li
                       key={tech}
-                      className={`${styles.interactive} ${styles.chip} inline-flex items-center gap-2 rounded-[4px] px-2.5 py-1 font-mono text-[13px]`}
+                      className={`${styles.interactive} liquid-glass inline-flex items-center gap-2 rounded-[4px] px-2.5 py-1 font-mono text-[13px]`}
                     >
                       <BrickBullet gold={i % 2 === 1} />
                       {tech}
@@ -163,21 +159,6 @@ export function Hero() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
-
-        <div className="flex items-center justify-between gap-6 pb-8">
-          <a
-            href="#work"
-            className={`${styles.interactive} over-wall inline-flex min-h-11 items-center gap-3 rounded-lg px-3 font-mono text-xs uppercase tracking-[0.2em] text-muted transition-colors hover:text-fg`}
-          >
-            <BrickScrollCue />
-            Scroll
-          </a>
-          <p
-            className={`${styles.hint} over-wall rounded-lg px-3 py-2 font-mono text-xs text-muted`}
-          >
-            {hero.scrollHint}
-          </p>
         </div>
       </div>
     </section>

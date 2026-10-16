@@ -16,7 +16,7 @@ export function Contact() {
       className="pointer-events-none relative scroll-mt-24 pt-20 sm:pt-28 lg:pt-32"
     >
       <div className="mx-auto w-full max-w-6xl px-gutter">
-        <div className="over-wall pointer-events-auto rounded-2xl p-6 sm:p-10 lg:p-12">
+        <div className="glass pointer-events-auto rounded-2xl p-6 sm:p-10 lg:p-12">
           <SectionHeading
             index="05"
             path="contact"
@@ -60,7 +60,7 @@ export function Contact() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 over-wall rounded-lg px-4 py-2.5 text-muted transition-colors hover:border-accent/50 hover:text-accent"
+                    className="inline-flex items-center gap-3 liquid-glass rounded-lg px-4 py-2.5 text-muted transition-colors hover:border-accent/50 hover:text-accent"
                   >
                     <s.icon className="size-4" />
                     <span className="text-sm">{s.label}</span>

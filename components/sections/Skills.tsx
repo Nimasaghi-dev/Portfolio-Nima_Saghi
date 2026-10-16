@@ -14,7 +14,7 @@ const LAYER_GAP = 0.8;
 
 /**
  * A brand mark that fades in on scroll, then spins as an extruded 3D coin on
- * a slow, index-derived loop and reveals its true brand color on hover.
+ * a slow, index-derived loop in its true brand color, glowing on hover.
  * Timing comes from `index` (not random) so server and client render
  * identically and no two marks turn in unison. The spin is a CSS animation,
  * so the global reduced-motion rule in globals.css stops it face-on.
@@ -82,7 +82,7 @@ function SkillPill({ name, note }: { name: string; note?: string }) {
   return (
     <span
       title={note}
-      className="inline-flex items-center gap-1.5 over-wall rounded-lg px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg"
+      className="inline-flex items-center gap-1.5 liquid-glass rounded-lg px-3 py-1.5 font-mono text-xs text-muted transition-colors duration-200 hover:border-accent/40 hover:text-fg"
     >
       <span className="size-1 rounded-full bg-accent/50" />
       {name}
