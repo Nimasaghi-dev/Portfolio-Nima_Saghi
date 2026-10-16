@@ -232,27 +232,24 @@
   }
 }
 
-/* Extruded, spinning brand mark (Skills). Stacked glyph copies along Z give
-   it thickness; front and back copies are the lit faces, the rest the rim. */
-.logo-3d {
-  --face: var(--brand);
-  --side: color-mix(in oklab, var(--brand) 45%, #000);
+/* Extruded, spinning icon (<Icon3D>). Stacked glyph copies along Z give it
+   thickness; front and back copies are the lit faces in the current text
+   color, the rest a darker rim. */
+.icon-3d {
   perspective: 320px;
 }
-.logo-3d-spin {
+.icon-3d-spin {
   transform-style: preserve-3d;
   animation: spin-3d 8s linear infinite;
 }
-.logo-3d-face {
-  color: var(--face);
-  transition: color 0.3s, filter 0.3s;
+.icon-3d-face {
+  transition: filter 0.3s;
 }
-.logo-3d-side {
-  color: var(--side);
-  transition: color 0.3s;
+.icon-3d-side {
+  color: color-mix(in oklab, currentColor 45%, #000);
 }
-.group:hover .logo-3d-face {
-  filter: drop-shadow(0 0 10px var(--brand));
+.group:hover .icon-3d-face {
+  filter: drop-shadow(0 0 10px currentColor);
 }
 @keyframes spin-3d {
   from {

@@ -276,14 +276,26 @@ export const experience: ExperienceEntry[] = [
 /* ------------------------------------------------------------------ *
  * Socials                                                             *
  * ------------------------------------------------------------------ */
-export type Social = { label: string; href: string; icon: IconType };
+/** `color` is the brand color its icon renders in. */
+export type Social = {
+  label: string;
+  href: string;
+  icon: IconType;
+  color: string;
+};
 
 export const socials: Social[] = [
-  { label: "GitHub", href: "https://github.com/Nimasaghi-dev", icon: GithubIcon },
+  {
+    label: "GitHub",
+    href: "https://github.com/Nimasaghi-dev",
+    icon: GithubIcon,
+    color: "#FFFFFF",
+  },
   {
     label: "LinkedIn",
     href: "https://linkedin.com/in/nima-saghi-dev",
     icon: LinkedinIcon,
+    color: "#0A66C2",
   },
-  { label: "Email", href: `mailto:${site.email}`, icon: Mail },
+  { label: "Email", href: `mailto:${site.email}`, icon: Mail, color: "#EA4335" },
 ];

@@ -2,6 +2,7 @@ import { site, socials } from "@/data/portfolio";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { CopyButton } from "@/components/contact/CopyButton";
+import { Icon3D } from "@/components/ui/Icon3D";
 
 /**
  * Closing block: contact details and site footer in one. The page ends on a
@@ -53,16 +54,23 @@ export function Contact() {
           {/* Elsewhere */}
           <Reveal delay={0.1} className="mt-10">
             <p className="font-mono text-sm text-accent">{"// elsewhere"}</p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {socials.map((s) => (
+            <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+              {socials.map((s, i) => (
                 <li key={s.label}>
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 liquid-glass rounded-lg px-4 py-2.5 text-muted transition-colors hover:border-accent/50 hover:text-accent"
+                    className="group inline-flex items-center gap-3 py-1 text-muted transition-colors hover:text-accent"
                   >
-                    <s.icon className="size-4" />
+                    <Icon3D
+                      render={(p) => <s.icon {...p} />}
+                      depth={3}
+                      duration={6 + i}
+                      delay={-i * 1.4}
+                      className="size-5 transition-transform duration-300 group-hover:scale-110"
+                      style={{ color: s.color }}
+                    />
                     <span className="text-sm">{s.label}</span>
                   </a>
                 </li>
