@@ -8,12 +8,16 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { easeOutExpo, inView } from "@/lib/motion";
 
+/** Extrusion depth of a 3D mark: stacked copies of the glyph, 0.8px apart. */
+const LAYERS = 7;
+const LAYER_GAP = 0.8;
+
 /**
- * A brand mark that fades in on scroll, then drifts on a slow, index-derived
- * loop and reveals its true brand color on hover. Timing comes from `index`
- * (not random) so server and client render identically and no two marks bob
- * in unison. The bob is auto-disabled for reduced-motion users via the
- * app-wide <MotionConfig reducedMotion="user">.
+ * A brand mark that fades in on scroll, then spins as an extruded 3D coin on
+ * a slow, index-derived loop and reveals its true brand color on hover.
+ * Timing comes from `index` (not random) so server and client render
+ * identically and no two marks turn in unison. The spin is a CSS animation,
+ * so the global reduced-motion rule in globals.css stops it face-on.
  */
 function FloatingLogo({
   slug,
@@ -27,8 +31,9 @@ function FloatingLogo({
   index: number;
 }) {
   const hex = techIcons[slug]?.hex ?? "currentColor";
-  const duration = 3.2 + (index % 5) * 0.35;
-  const delay = (index % 6) * 0.26;
+  const duration = 7 + (index % 5) * 0.9;
+  // Negative delay starts each mark mid-turn, so the row never lines up.
+  const delay = -((index * 1.7) % duration);
 
   return (
     <motion.div
@@ -37,24 +42,37 @@ function FloatingLogo({
       viewport={inView}
       transition={{ duration: 0.5, ease: easeOutExpo }}
     >
-      <motion.div
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration, delay, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        title={note}
+        style={{ "--brand": hex } as CSSProperties}
+        className="group flex w-[76px] flex-col items-center gap-2.5 rounded-xl px-2 py-3 sm:w-[92px]"
       >
-        <div
-          title={note}
-          style={{ "--brand": hex } as CSSProperties}
-          className="group flex w-[76px] flex-col items-center gap-2.5 rounded-xl px-2 py-3 sm:w-[92px]"
-        >
-          <TechIcon
-            slug={slug}
-            className="size-9 text-fg/45 transition duration-300 group-hover:scale-110 group-hover:[color:var(--brand)] group-hover:drop-shadow-[0_0_14px_var(--brand)] sm:size-10"
-          />
-          <span className="text-center font-mono text-[11px] leading-tight text-faint transition-colors duration-300 group-hover:text-fg">
-            {name}
-          </span>
+        <div className="logo-3d relative size-9 transition-transform duration-300 group-hover:scale-110 sm:size-10">
+          <div
+            className="logo-3d-spin absolute inset-0"
+            style={{
+              animationDuration: `${duration}s`,
+              animationDelay: `${delay}s`,
+            }}
+          >
+            {Array.from({ length: LAYERS }, (_, k) => {
+              const face = k === 0 || k === LAYERS - 1;
+              const z = ((LAYERS - 1) / 2 - k) * LAYER_GAP;
+              return (
+                <TechIcon
+                  key={k}
+                  slug={slug}
+                  className={`absolute inset-0 size-full ${face ? "logo-3d-face" : "logo-3d-side"}`}
+                  style={{ transform: `translateZ(${z}px)` }}
+                />
+              );
+            })}
+          </div>
         </div>
-      </motion.div>
+        <span className="text-center font-mono text-[11px] leading-tight text-faint transition-colors duration-300 group-hover:text-fg">
+          {name}
+        </span>
+      </div>
     </motion.div>
   );
 }
