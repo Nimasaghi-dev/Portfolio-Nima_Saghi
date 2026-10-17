@@ -7,6 +7,7 @@ import { Menu, X, FileText } from "lucide-react";
 import { nav, site, socials } from "@/data/portfolio";
 import { useActiveSection, useScrolled, useBodyScrollLock } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import { Icon3D } from "@/components/ui/Icon3D";
 
 const navIds = nav.map((n) => n.id);
 
@@ -91,9 +92,14 @@ export function Nav() {
               href={site.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface/40 px-3 py-1.5 font-mono text-xs text-fg transition-colors hover:border-accent/60 hover:text-accent"
+              className="group inline-flex items-center gap-2 px-3 py-2 font-mono text-sm text-muted transition-colors hover:text-fg"
             >
-              <FileText className="size-3.5" />
+              <Icon3D
+                render={(p) => <FileText {...p} />}
+                depth={3}
+                duration={7}
+                className="size-4 text-accent"
+              />
               resume
             </a>
           </li>
@@ -193,10 +199,15 @@ export function Nav() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
-                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 font-mono text-sm text-accent-fg transition-colors hover:bg-accent-bright"
+                    className="group mt-1 flex items-center gap-3 rounded-lg px-3 py-3 font-mono text-lg text-muted transition-colors hover:text-fg"
                   >
-                    <FileText className="size-4" />
-                    resume.pdf
+                    <Icon3D
+                      render={(p) => <FileText {...p} />}
+                      depth={3}
+                      duration={7}
+                      className="size-5 text-accent"
+                    />
+                    resume
                   </a>
 
                   <div className="mt-auto flex gap-2 pt-8">
