@@ -204,14 +204,6 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll cue */}
-      <a
-        href="#about"
-        aria-label="Scroll to About"
-        className="absolute bottom-6 left-1/2 hidden h-12 w-7 -translate-x-1/2 justify-center rounded-full border-2 border-accent/80 pt-2 lg:flex"
-      >
-        <span className="scroll-cue block h-3 w-[2px] rounded-full bg-accent" />
-      </a>
     </section>
   );
 }

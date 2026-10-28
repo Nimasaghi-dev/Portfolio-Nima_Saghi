@@ -217,24 +217,6 @@
   );
 }
 
-/* Scroll cue — a mouse outline with a falling arrow */
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-4px);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(10px);
-    opacity: 0;
-  }
-}
-.scroll-cue {
-  animation: scroll-cue 1.8s var(--ease-out-expo) infinite;
-}
-
 /* Infinite tech marquee */
 @keyframes marquee {
   to {
