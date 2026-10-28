@@ -155,12 +155,8 @@ const pointerNdc = { x: 0, y: 0 };
 function Rig() {
   const group = useRef<THREE.Group>(null);
   const outer = useRef<THREE.Group>(null);
-  const inner = useRef<THREE.Group>(null);
-  const core = useRef<THREE.Mesh>(null);
 
   const ico = useMemo(() => new THREE.IcosahedronGeometry(2.25, 1), []);
-  const octa = useMemo(() => new THREE.OctahedronGeometry(0.85, 0), []);
-  const coreGeo = useMemo(() => new THREE.IcosahedronGeometry(0.42, 0), []);
 
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime;
@@ -183,16 +179,6 @@ function Rig() {
       outer.current.rotation.y = t * 0.08;
       outer.current.rotation.z = t * 0.03;
     }
-    if (inner.current) {
-      inner.current.rotation.x = -t * 0.25;
-      inner.current.rotation.y = -t * 0.18;
-      const s = 1 + Math.sin(t * 1.2) * 0.04;
-      inner.current.scale.setScalar(s);
-    }
-    if (core.current) {
-      core.current.rotation.x = t * 0.4;
-      core.current.rotation.y = t * 0.3;
-    }
   });
 
   return (
@@ -200,23 +186,6 @@ function Rig() {
       <group ref={outer}>
         <WirePoly geometry={ico} color={WHITE} opacity={0.12} />
         <Shards />
-      </group>
-      {/* Orange gem sits low-left, over the shoulder, so the face stays clear */}
-      <group position={[-1.25, -1.35, 0.8]}>
-        <group ref={inner}>
-          <WirePoly geometry={octa} color={ORANGE} opacity={0.95} additive />
-        </group>
-        {/* Solid faceted core catching a warm rim light */}
-        <mesh ref={core} geometry={coreGeo}>
-          <meshStandardMaterial
-            color="#1a1a1a"
-            emissive={ORANGE}
-            emissiveIntensity={0.12}
-            metalness={0.6}
-            roughness={0.35}
-            flatShading
-          />
-        </mesh>
       </group>
       <Particles />
     </group>
