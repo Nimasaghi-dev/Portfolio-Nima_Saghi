@@ -21,7 +21,7 @@ export function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 10 }}
           whileHover={{ y: -2 }}
-          className="fixed bottom-6 right-6 z-40 grid size-11 place-items-center rounded-md bg-accent text-accent-fg shadow-[0_10px_30px_-10px_rgb(255_90_31/0.8)]"
+          className="fixed bottom-6 right-6 z-40 grid size-11 place-items-center rounded-md bg-accent text-accent-fg shadow-[0_10px_30px_-10px_rgb(255_122_61/0.8)]"
         >
           <ArrowUp className="size-5" />
         </motion.button>

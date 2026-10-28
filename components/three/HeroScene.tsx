@@ -4,7 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const ORANGE = new THREE.Color("#ff5a1f");
+const ORANGE = new THREE.Color("#ff7a3d");
+const TEAL = new THREE.Color("#2dd4bf");
 const WHITE = new THREE.Color("#ffffff");
 
 /** Small deterministic PRNG so the shard layout is stable between renders. */
@@ -103,7 +104,7 @@ function Shards({ count = 7 }: { count?: number }) {
   );
 }
 
-/** Dust of orange and white points on a loose spherical shell. */
+/** Dust of orange, teal and white points on a loose spherical shell. */
 function Particles({ count = 520 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const map = useDotTexture();
@@ -118,7 +119,8 @@ function Particles({ count = 520 }: { count?: number }) {
       const s = Math.sqrt(1 - u * u);
       const r = 2.2 + Math.pow(rand(), 0.6) * 3.2;
       pos.set([s * Math.cos(t) * r, u * r * 0.85, s * Math.sin(t) * r], i * 3);
-      const c = rand() < 0.35 ? ORANGE : WHITE;
+      const roll = rand();
+      const c = roll < 0.3 ? ORANGE : roll < 0.5 ? TEAL : WHITE;
       col.set([c.r, c.g, c.b], i * 3);
     }
     const g = new THREE.BufferGeometry();
@@ -267,8 +269,9 @@ export default function HeroScene() {
         style={{ pointerEvents: "none" }}
       >
         <ambientLight intensity={0.25} />
-        <pointLight position={[0, 1, 4]} intensity={25} color="#ff5a1f" />
-        <pointLight position={[-4, -2, 2]} intensity={15} color="#ffffff" />
+        <pointLight position={[0, 1, 4]} intensity={25} color="#ff7a3d" />
+        {/* Teal fill from the opposite side gives the gem a cool rim */}
+        <pointLight position={[-4, -2, 2]} intensity={18} color="#2dd4bf" />
         <Rig />
       </Canvas>
     </div>

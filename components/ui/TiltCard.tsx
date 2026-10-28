@@ -31,7 +31,7 @@ export function TiltCard({ children, className, max = 8 }: TiltCardProps) {
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(50);
 
-  const glow = useMotionTemplate`radial-gradient(320px circle at ${glowX}% ${glowY}%, rgba(255,90,31,0.14), transparent 65%)`;
+  const glow = useMotionTemplate`radial-gradient(320px circle at ${glowX}% ${glowY}%, rgba(255,122,61,0.14), transparent 65%)`;
 
   function handleMove(e: React.PointerEvent<HTMLDivElement>) {
     const el = ref.current;

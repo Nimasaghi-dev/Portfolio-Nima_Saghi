@@ -48,7 +48,9 @@ function Subtitle() {
   return (
     <>
       {subtitle.slice(0, i)}
-      <span className="text-accent">{accent}</span>
+      <span className="bg-linear-to-r from-accent to-secondary bg-clip-text text-transparent">
+        {accent}
+      </span>
       {subtitle.slice(i + accent.length)}
     </>
   );
@@ -91,7 +93,12 @@ export function Hero() {
       {/* Warm glow behind the portrait */}
       <div
         aria-hidden
-        className="absolute -z-10 right-[-10%] top-[10%] size-[720px] rounded-full bg-[radial-gradient(closest-side,rgb(255_90_31/0.18),transparent)]"
+        className="absolute -z-10 right-[-10%] top-[10%] size-[720px] rounded-full bg-[radial-gradient(closest-side,rgb(255_122_61/0.18),transparent)]"
+      />
+      {/* Cool counter-glow, low left */}
+      <div
+        aria-hidden
+        className="absolute -z-10 top-[30%] left-[-15%] size-[560px] rounded-full bg-[radial-gradient(closest-side,rgb(45_212_191/0.08),transparent)]"
       />
 
       <div className="mx-auto grid min-h-[calc(100svh-5rem)] max-w-6xl grid-cols-1 items-center gap-12 px-gutter py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:py-0">
@@ -132,8 +139,8 @@ export function Hero() {
             {hero.showAvailability && (
               <p className="inline-flex items-center gap-2.5 text-sm text-muted">
                 <span className="relative flex size-2">
-                  <span className="ping-soft absolute inline-flex size-full rounded-full bg-accent" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
+                  <span className="ping-soft absolute inline-flex size-full rounded-full bg-secondary" />
+                  <span className="relative inline-flex size-2 rounded-full bg-secondary" />
                 </span>
                 {hero.availability}
               </p>

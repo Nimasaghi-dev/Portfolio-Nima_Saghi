@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * Design tokens — "orange noir": near-black surfaces, one hot orange *
- * accent. Edit values here to reskin the whole site.                 *
+ * Design tokens — "orange noir": near-black surfaces, a tangerine    *
+ * accent and a teal secondary. Edit values here to reskin the site.  *
  * ------------------------------------------------------------------ */
 @theme {
   /* Surfaces */
@@ -17,12 +17,17 @@
   --color-muted: #b0b0b0;
   --color-faint: #8c8c8c;
 
-  /* Accent — signal orange */
-  --color-accent: #ff5a1f;
-  --color-accent-bright: #ff7a45;
-  --color-accent-dim: #3a1608;
+  /* Accent — warm tangerine (primary actions, fills) */
+  --color-accent: #ff7a3d;
+  --color-accent-bright: #ff9a66;
+  --color-accent-dim: #3d1d0e;
   /* Text on a solid accent fill (dark ink keeps AA contrast on orange) */
   --color-accent-fg: #0a0a0a;
+
+  /* Secondary — teal, orange's complement (labels, status, highlights) */
+  --color-secondary: #2dd4bf;
+  --color-secondary-bright: #5eead4;
+  --color-secondary-fg: #0a0a0a;
 
   /* Fonts (values injected by next/font on <html>) */
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system,

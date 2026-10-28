@@ -12,7 +12,7 @@ export function CtaBand() {
             {[520, 400, 280].map((size, i) => (
               <div
                 key={size}
-                className="ring-3d absolute rounded-full border border-accent/40"
+                className={`ring-3d absolute rounded-full border ${i === 1 ? "border-secondary/45" : "border-accent/40"}`}
                 style={{
                   width: size,
                   height: size,
@@ -22,7 +22,7 @@ export function CtaBand() {
                 }}
               />
             ))}
-            <div className="absolute size-[420px] rounded-full bg-[radial-gradient(closest-side,rgb(255_90_31/0.22),transparent)]" />
+            <div className="absolute size-[420px] rounded-full bg-[radial-gradient(closest-side,rgb(255_122_61/0.22),transparent)]" />
           </div>
           <div aria-hidden className="bg-grid absolute inset-0" />
 

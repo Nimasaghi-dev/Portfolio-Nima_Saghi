@@ -28,7 +28,7 @@ export function SectionHeading({
       )}
     >
       {eyebrow && (
-        <p className="text-sm font-medium tracking-[0.2em] text-accent uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
           {eyebrow}
         </p>
       )}
@@ -38,7 +38,7 @@ export function SectionHeading({
       <span aria-hidden className="flex items-center gap-1.5">
         <span className="h-[3px] w-10 rounded-full bg-accent" />
         <span className="h-[3px] w-3 rounded-full bg-accent/60" />
-        <span className="h-[3px] w-1.5 rounded-full bg-accent/30" />
+        <span className="h-[3px] w-1.5 rounded-full bg-secondary" />
       </span>
       {intro && (
         <p

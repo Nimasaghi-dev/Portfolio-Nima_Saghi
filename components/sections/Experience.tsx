@@ -75,7 +75,7 @@ export function Experience() {
 
                   <div className="text-center">
                     <h3 className="text-xl font-semibold text-fg">{job.role}</h3>
-                    <p className="mt-1 text-sm text-accent">
+                    <p className="mt-1 text-sm text-secondary">
                       {job.company} · <span className="text-muted">{job.period}</span>
                     </p>
                     <p className="mx-auto mt-5 max-w-prose text-pretty leading-relaxed text-muted">
@@ -86,7 +86,7 @@ export function Experience() {
                   <ul className="mt-6 flex flex-col gap-2.5 text-left text-sm leading-relaxed text-fg/85">
                     {job.highlights.map((h) => (
                       <li key={h.slice(0, 32)} className="flex gap-3">
-                        <span aria-hidden className="mt-2 h-[2px] w-3 flex-none bg-accent" />
+                        <span aria-hidden className="mt-2 h-[2px] w-3 flex-none bg-secondary" />
                         {h}
                       </li>
                     ))}

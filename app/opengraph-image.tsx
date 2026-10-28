@@ -18,12 +18,12 @@ export default function OpengraphImage() {
           justifyContent: "space-between",
           background: "#0a0a0a",
           backgroundImage:
-            "radial-gradient(1000px circle at 15% 0%, rgba(255,90,31,0.25), transparent 55%)",
+            "radial-gradient(1000px circle at 15% 0%, rgba(255,122,61,0.25), transparent 55%)",
           padding: "80px",
           fontFamily: "monospace",
         }}
       >
-        <div style={{ display: "flex", color: "#ff5a1f", fontSize: 30 }}>
+        <div style={{ display: "flex", color: "#ff7a3d", fontSize: 30 }}>
           ~/{site.handle}
         </div>
 
@@ -31,7 +31,7 @@ export default function OpengraphImage() {
           <div
             style={{
               display: "flex",
-              color: "#ff5a1f",
+              color: "#ff7a3d",
               fontSize: 28,
               marginBottom: 12,
             }}

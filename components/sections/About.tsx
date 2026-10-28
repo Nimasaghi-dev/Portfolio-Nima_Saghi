@@ -9,11 +9,11 @@ import { TiltCard } from "@/components/ui/TiltCard";
 
 /** Syntax-tinted snippet for the code window; tokens are [text, class]. */
 const code: [string, string][][] = [
-  [["export function ", "text-accent"], ["PanelGate", "text-fg"], ["({ ", "text-muted"], ["can", "text-[#ffb38f]"], [", children }) {", "text-muted"]],
-  [["  const ", "text-accent"], ["{ ok, loading } ", "text-fg"], ["= ", "text-muted"], ["usePermissions", "text-[#ffd0b8]"], ["(can);", "text-muted"]],
+  [["export function ", "text-accent"], ["PanelGate", "text-fg"], ["({ ", "text-muted"], ["can", "text-accent-bright"], [", children }) {", "text-muted"]],
+  [["  const ", "text-accent"], ["{ ok, loading } ", "text-fg"], ["= ", "text-muted"], ["usePermissions", "text-secondary-bright"], ["(can);", "text-muted"]],
   [["", ""]],
-  [["  if ", "text-accent"], ["(loading) ", "text-muted"], ["return ", "text-accent"], ["<Skeleton />", "text-[#ffb38f]"], [";", "text-muted"]],
-  [["  if ", "text-accent"], ["(!ok) ", "text-muted"], ["return ", "text-accent"], ["<NoAccess />", "text-[#ffb38f]"], [";", "text-muted"]],
+  [["  if ", "text-accent"], ["(loading) ", "text-muted"], ["return ", "text-accent"], ["<Skeleton />", "text-secondary"], [";", "text-muted"]],
+  [["  if ", "text-accent"], ["(!ok) ", "text-muted"], ["return ", "text-accent"], ["<NoAccess />", "text-secondary"], [";", "text-muted"]],
   [["", ""]],
   [["  return ", "text-accent"], ["<>{children}</>", "text-fg"], [";", "text-muted"]],
   [["}", "text-muted"]],
@@ -80,7 +80,7 @@ export function About() {
         {/* Copy */}
         <div className="flex flex-col items-start">
           <Reveal>
-            <p className="text-sm font-medium tracking-[0.2em] text-accent uppercase">
+            <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
               About me
             </p>
             <h2 className="mt-4 max-w-[18ch] text-balance text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
@@ -114,7 +114,7 @@ export function About() {
                     aria-valuemax={100}
                   >
                     <motion.div
-                      className="h-full rounded-full bg-gradient-to-r from-accent to-accent-bright"
+                      className="h-full rounded-full bg-gradient-to-r from-accent to-secondary"
                       initial={{ width: 0 }}
                       whileInView={{ width: `${s.level}%` }}
                       viewport={inView}

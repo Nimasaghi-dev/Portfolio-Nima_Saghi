@@ -63,7 +63,7 @@ export function Stats() {
               className={cn(
                 "flex flex-col items-center justify-center rounded-[10px] border px-4 py-8 text-center",
                 s.highlight
-                  ? "border-accent bg-accent text-accent-fg shadow-[0_20px_50px_-20px_rgb(255_90_31/0.7)]"
+                  ? "border-accent bg-accent text-accent-fg shadow-[0_20px_50px_-20px_rgb(255_122_61/0.7)]"
                   : "border-line-soft bg-surface text-fg",
               )}
             >
