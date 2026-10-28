@@ -47,7 +47,7 @@ export function CtaBand() {
         </h2>
       </Reveal>
 
-      {/* Invisible click target over the star. The star itself flares on hover. */}
+      {/* Invisible click target over the star. The star flares on hover. */}
       <a
         href={cta.href}
         aria-label={cta.label}
@@ -55,12 +55,8 @@ export function CtaBand() {
         onPointerLeave={() => setHover(false)}
         onFocus={() => setHover(true)}
         onBlur={() => setHover(false)}
-        className="group absolute left-1/2 top-1/2 z-10 flex size-36 -translate-x-1/2 -translate-y-1/2 items-end justify-center rounded-full outline-none sm:size-44"
-      >
-        <span className="translate-y-9 rounded-full border border-fg/20 bg-bg/70 px-3 py-1 text-xs font-medium tracking-wider text-fg uppercase opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-12 group-hover:opacity-100 group-focus-visible:translate-y-12 group-focus-visible:opacity-100">
-          {cta.label}
-        </span>
-      </a>
+        className="absolute left-1/2 top-1/2 z-10 size-36 -translate-x-1/2 -translate-y-1/2 rounded-full outline-none sm:size-44"
+      />
     </section>
   );
 }
