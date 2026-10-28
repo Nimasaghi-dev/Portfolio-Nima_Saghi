@@ -78,7 +78,9 @@ const SUN_FRAG = /* glsl */ `
     col = mix(col, hot, smoothstep(0.65, 1.0, v));
     // Limb darkening: edges fall off like a real photosphere
     float limb = pow(max(dot(vNormal, vec3(0.0, 0.0, 1.0)), 0.0), 0.45);
-    col *= mix(0.55, 1.0, limb);
+    col *= mix(0.8, 1.0, limb);
+    // Edge heats up toward the flame base colour so the two read as one body
+    col = mix(col, vec3(1.0, 0.5, 0.12), pow(1.0 - limb, 2.0) * 0.7);
     col *= 1.0 + uBoost * 0.35;
     gl_FragColor = vec4(col, 1.0);
   }
@@ -153,7 +155,9 @@ const FLAME_VERT = /* glsl */ `
     float rise = uTime * 0.25;
     float d = fbm(n * 2.2 + vec3(0.0, -rise, 0.0) + fbm(n * 4.0 + rise * 0.4) * 0.6);
     vDisp = d;
-    vec3 displaced = position + normal * (d - 0.4) * 0.14;
+    // Only push outward, so every tongue is anchored on the photosphere
+    float lift = max(d - 0.38, 0.0);
+    vec3 displaced = position + normal * lift * 0.34;
     vPos = n;
     vNormal = normalize(normalMatrix * normal);
     vec4 mv = modelViewMatrix * vec4(displaced, 1.0);
@@ -170,11 +174,11 @@ const FLAME_FRAG = /* glsl */ `
   varying float vDisp;
   ${NOISE_GLSL}
   void main() {
-    float fres = pow(1.0 - max(dot(vNormal, vView), 0.0), 3.2);
+    float fres = pow(1.0 - max(dot(vNormal, vView), 0.0), 3.0);
     float t = uTime * 0.3;
     // Tongues of fire: turbulence advected upward along the sphere
     float n = fbm(vPos * 3.0 + vec3(0.0, -t, 0.0) + fbm(vPos * 5.5 - t * 0.5) * 0.9);
-    float tongue = smoothstep(0.48, 0.82, n + vDisp * 0.3);
+    float tongue = smoothstep(0.5, 0.85, n + vDisp * 0.3);
     vec3 ember = vec3(1.0, 0.28, 0.04);
     vec3 flame = vec3(1.0, 0.62, 0.22);
     vec3 hot = vec3(1.0, 0.92, 0.72);
@@ -231,7 +235,14 @@ function useDotTexture() {
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = size;
     const ctx = canvas.getContext("2d")!;
-    const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+    const g = ctx.createRadialGradient(
+      size / 2,
+      size / 2,
+      0,
+      size / 2,
+      size / 2,
+      size / 2,
+    );
     g.addColorStop(0, "rgba(255,255,255,1)");
     g.addColorStop(0.3, "rgba(255,255,255,0.6)");
     g.addColorStop(1, "rgba(255,255,255,0)");
@@ -257,9 +268,14 @@ function makePlanetTextures(seed: number, kind: PlanetKind, palette: string[]) {
 
   // Value noise on a small grid, upsampled with smooth interpolation
   const grid = 24;
-  const cells = Array.from({ length: (grid + 1) * (grid / 2 + 1) }, () => rand());
+  const cells = Array.from({ length: (grid + 1) * (grid / 2 + 1) }, () =>
+    rand(),
+  );
   const cellAt = (x: number, y: number) =>
-    cells[((y + grid / 2 + 1) % (grid / 2 + 1)) * (grid + 1) + ((x + grid + 1) % (grid + 1))];
+    cells[
+      ((y + grid / 2 + 1) % (grid / 2 + 1)) * (grid + 1) +
+        ((x + grid + 1) % (grid + 1))
+    ];
   const smooth = (t: number) => t * t * (3 - 2 * t);
   const noise = (u: number, v: number) => {
     const x = u * grid;
@@ -330,7 +346,8 @@ function makePlanetTextures(seed: number, kind: PlanetKind, palette: string[]) {
       ci.data[idx + 1] = tmp.g * 255;
       ci.data[idx + 2] = tmp.b * 255;
       ci.data[idx + 3] = 255;
-      const bv = kind === "banded" || kind === "smooth" ? 128 : Math.min(255, n * 255);
+      const bv =
+        kind === "banded" || kind === "smooth" ? 128 : Math.min(255, n * 255);
       bi.data[idx] = bi.data[idx + 1] = bi.data[idx + 2] = bv;
       bi.data[idx + 3] = 255;
     }
@@ -376,7 +393,8 @@ function Galaxy({ count = 32000 }: { count?: number }) {
       const angle = branch + r * spin;
       const spread = 0.22 + r * 0.1;
       const rx = Math.pow(rand(), power) * (rand() < 0.5 ? 1 : -1) * spread;
-      const ry = Math.pow(rand(), power) * (rand() < 0.5 ? 1 : -1) * spread * 0.35;
+      const ry =
+        Math.pow(rand(), power) * (rand() < 0.5 ? 1 : -1) * spread * 0.35;
       const rz = Math.pow(rand(), power) * (rand() < 0.5 ? 1 : -1) * spread;
 
       pos[i * 3] = Math.cos(angle) * r + rx;
@@ -401,7 +419,7 @@ function Galaxy({ count = 32000 }: { count?: number }) {
   });
 
   return (
-    <points ref={ref} geometry={geometry}>
+    <points ref={ref} geometry={geometry} raycast={() => null}>
       <pointsMaterial
         size={0.06}
         map={map}
@@ -423,14 +441,17 @@ function Backdrop({ count = 700 }: { count?: number }) {
     const rand = mulberry32(9);
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos.set([(rand() - 0.5) * 34, (rand() - 0.5) * 16, -6 - rand() * 10], i * 3);
+      pos.set(
+        [(rand() - 0.5) * 34, (rand() - 0.5) * 16, -6 - rand() * 10],
+        i * 3,
+      );
     }
     const g = new THREE.BufferGeometry();
     g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     return g;
   }, [count]);
   return (
-    <points geometry={geometry}>
+    <points geometry={geometry} raycast={() => null}>
       <pointsMaterial
         size={0.05}
         map={map}
@@ -565,11 +586,21 @@ const PLANETS: PlanetSpec[] = [
   },
 ];
 
+/** DOM label elements, one per planet, positioned from inside the scene. */
+const labelEls = new Map<string, HTMLSpanElement>();
+const labelAnchor = new THREE.Vector3();
+
 /** Textured, lit sphere with a fresnel atmosphere, orbiting the core. */
 function Planet(p: PlanetSpec) {
   const pivot = useRef<THREE.Group>(null);
   const body = useRef<THREE.Mesh>(null);
-  const tex = useMemo(() => makePlanetTextures(p.seed, p.kind, p.palette), [p.seed, p.kind, p.palette]);
+  const scaler = useRef<THREE.Group>(null);
+  const [hover, setHover] = useState(false);
+  const lift = useRef(0);
+  const tex = useMemo(
+    () => makePlanetTextures(p.seed, p.kind, p.palette),
+    [p.seed, p.kind, p.palette],
+  );
   // Kepler-ish: angular speed ~ r^-1.5, scaled so Earth takes ~40s
   const speed = useMemo(() => 0.42 * Math.pow(1.9 / p.radius, 1.5), [p.radius]);
   const glowUniforms = useMemo(
@@ -590,53 +621,90 @@ function Planet(p: PlanetSpec) {
     [p.ring, p.size],
   );
 
-  useFrame((state) => {
+  useFrame((state, dt) => {
     const t = state.clock.elapsedTime;
     if (pivot.current) pivot.current.rotation.y = p.start + t * speed;
     if (body.current) body.current.rotation.y = t * 0.25;
+    lift.current = THREE.MathUtils.damp(lift.current, hover ? 1 : 0, 8, dt);
+    if (scaler.current) scaler.current.scale.setScalar(1 + lift.current * 0.18);
+
+    // Project the point just above the planet into the canvas and move the label there
+    const el = labelEls.get(p.name);
+    if (el && scaler.current) {
+      scaler.current.getWorldPosition(labelAnchor);
+      labelAnchor.y += p.size * 1.9 + 0.08;
+      labelAnchor.project(state.camera);
+      const x = (labelAnchor.x * 0.5 + 0.5) * state.size.width;
+      const y = (-labelAnchor.y * 0.5 + 0.5) * state.size.height;
+      el.style.transform = `translate(-50%, -100%) translate(${x}px, ${y - lift.current * 4}px)`;
+      el.style.opacity = String(lift.current);
+    }
   });
+
+  useEffect(() => {
+    document.body.style.cursor = hover ? "pointer" : "";
+    return () => {
+      document.body.style.cursor = "";
+    };
+  }, [hover]);
 
   const rough = p.kind === "earth" ? 0.55 : p.kind === "smooth" ? 0.6 : 0.85;
 
   return (
     <group ref={pivot}>
-      <group position={[p.radius, 0, 0]} rotation={[0, 0, p.tilt]}>
-        <mesh ref={body}>
-          <sphereGeometry args={[p.size, 64, 64]} />
-          <meshStandardMaterial
-            map={tex.map}
-            bumpMap={tex.bumpMap}
-            bumpScale={p.kind === "rocky" || p.kind === "earth" ? 0.004 : 0}
-            roughness={rough}
-            metalness={0}
-          />
+      <group position={[p.radius, 0, 0]}>
+        {/* Generous invisible hit target; small planets are hard to catch otherwise */}
+        <mesh
+          onPointerOver={(e) => {
+            e.stopPropagation();
+            setHover(true);
+          }}
+          onPointerOut={() => setHover(false)}
+          visible={false}
+        >
+          <sphereGeometry args={[Math.max(p.size * 2.4, 0.2), 16, 16]} />
+          <meshBasicMaterial />
         </mesh>
-        {/* Atmosphere: fresnel shell, visible only at the limb */}
-        <mesh scale={1.06}>
-          <sphereGeometry args={[p.size, 48, 48]} />
-          <shaderMaterial
-            vertexShader={GLOW_VERT}
-            fragmentShader={GLOW_FRAG}
-            uniforms={glowUniforms}
-            transparent
-            depthWrite={false}
-            blending={THREE.AdditiveBlending}
-            side={THREE.FrontSide}
-          />
-        </mesh>
-        {p.ring && (
-          <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[p.size * p.ring.inner, p.size * p.ring.outer, 128]} />
-            <shaderMaterial
-              vertexShader={RING_VERT}
-              fragmentShader={RING_FRAG}
-              uniforms={ringUniforms}
-              transparent
-              depthWrite={false}
-              side={THREE.DoubleSide}
+        <group ref={scaler} rotation={[0, 0, p.tilt]}>
+          <mesh ref={body}>
+            <sphereGeometry args={[p.size, 64, 64]} />
+            <meshStandardMaterial
+              map={tex.map}
+              bumpMap={tex.bumpMap}
+              bumpScale={p.kind === "rocky" || p.kind === "earth" ? 0.004 : 0}
+              roughness={rough}
+              metalness={0}
             />
           </mesh>
-        )}
+          {/* Atmosphere: fresnel shell, visible only at the limb */}
+          <mesh scale={1.06}>
+            <sphereGeometry args={[p.size, 48, 48]} />
+            <shaderMaterial
+              vertexShader={GLOW_VERT}
+              fragmentShader={GLOW_FRAG}
+              uniforms={glowUniforms}
+              transparent
+              depthWrite={false}
+              blending={THREE.AdditiveBlending}
+              side={THREE.FrontSide}
+            />
+          </mesh>
+          {p.ring && (
+            <mesh rotation={[Math.PI / 2, 0, 0]}>
+              <ringGeometry
+                args={[p.size * p.ring.inner, p.size * p.ring.outer, 128]}
+              />
+              <shaderMaterial
+                vertexShader={RING_VERT}
+                fragmentShader={RING_FRAG}
+                uniforms={ringUniforms}
+                transparent
+                depthWrite={false}
+                side={THREE.DoubleSide}
+              />
+            </mesh>
+          )}
+        </group>
       </group>
     </group>
   );
@@ -646,40 +714,43 @@ function Planet(p: PlanetSpec) {
 export const sunHover = { on: false };
 
 /**
- * The star at the core: plasma surface, fresnel chromosphere, a shell of
- * dancing flames and a noisy corona that merges with the surrounding
- * stars. Brightens and swells while the pointer is over its click target.
+ * The star at the core: plasma surface, flames rooted on it, and a noisy
+ * corona that merges with the surrounding stars. Brightens and swells while the pointer is over its click target.
  */
 function Sun() {
   const group = useRef<THREE.Group>(null);
   const light = useRef<THREE.PointLight>(null);
   const surface = useRef<THREE.ShaderMaterial>(null);
-  const shell = useRef<THREE.ShaderMaterial>(null);
   const flames = useRef<THREE.ShaderMaterial>(null);
   const corona = useRef<THREE.ShaderMaterial>(null);
   const coronaMesh = useRef<THREE.Mesh>(null);
   const boost = useRef(0);
 
-  const surfaceU = useMemo(() => ({ uTime: { value: 0 }, uBoost: { value: 0 } }), []);
-  const shellU = useMemo(
-    () => ({
-      uColor: { value: new THREE.Color("#ff8a3d") },
-      uPower: { value: 2.2 },
-      uStrength: { value: 1.1 },
-    }),
+  const surfaceU = useMemo(
+    () => ({ uTime: { value: 0 }, uBoost: { value: 0 } }),
     [],
   );
-  const flameU = useMemo(() => ({ uTime: { value: 0 }, uStrength: { value: 1 } }), []);
-  const coronaU = useMemo(() => ({ uTime: { value: 0 }, uStrength: { value: 1 } }), []);
+  const flameU = useMemo(
+    () => ({ uTime: { value: 0 }, uStrength: { value: 1 } }),
+    [],
+  );
+  const coronaU = useMemo(
+    () => ({ uTime: { value: 0 }, uStrength: { value: 1 } }),
+    [],
+  );
 
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime;
-    const b = (boost.current = THREE.MathUtils.damp(boost.current, sunHover.on ? 1 : 0, 6, dt));
+    const b = (boost.current = THREE.MathUtils.damp(
+      boost.current,
+      sunHover.on ? 1 : 0,
+      6,
+      dt,
+    ));
     if (surface.current) {
       surface.current.uniforms.uTime.value = t;
       surface.current.uniforms.uBoost.value = b;
     }
-    if (shell.current) shell.current.uniforms.uStrength.value = 1.1 + b * 0.5;
     if (flames.current) {
       flames.current.uniforms.uTime.value = t;
       flames.current.uniforms.uStrength.value = 1 + b * 0.8;
@@ -688,7 +759,8 @@ function Sun() {
       corona.current.uniforms.uTime.value = t;
       corona.current.uniforms.uStrength.value = 1 + b * 0.6;
     }
-    if (coronaMesh.current) coronaMesh.current.quaternion.copy(state.camera.quaternion);
+    if (coronaMesh.current)
+      coronaMesh.current.quaternion.copy(state.camera.quaternion);
     if (group.current) {
       const s = 1 + b * 0.08 + Math.sin(t * 1.6) * 0.008;
       group.current.scale.setScalar(s);
@@ -699,27 +771,25 @@ function Sun() {
 
   return (
     <group ref={group}>
-      <pointLight ref={light} intensity={18} color="#ffb070" distance={10} decay={1.5} />
+      <pointLight
+        ref={light}
+        intensity={18}
+        color="#ffb070"
+        distance={10}
+        decay={1.5}
+      />
       <mesh>
         <sphereGeometry args={[0.46, 96, 96]} />
-        <shaderMaterial ref={surface} vertexShader={SUN_VERT} fragmentShader={SUN_FRAG} uniforms={surfaceU} />
-      </mesh>
-      {/* Chromosphere glow hugging the limb */}
-      <mesh scale={1.12}>
-        <sphereGeometry args={[0.46, 64, 64]} />
         <shaderMaterial
-          ref={shell}
-          vertexShader={GLOW_VERT}
-          fragmentShader={GLOW_FRAG}
-          uniforms={shellU}
-          transparent
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
+          ref={surface}
+          vertexShader={SUN_VERT}
+          fragmentShader={SUN_FRAG}
+          uniforms={surfaceU}
         />
       </mesh>
-      {/* Flames: displaced outer shell, additive so they dissolve into the stars */}
-      <mesh scale={1.24}>
-        <sphereGeometry args={[0.46, 128, 128]} />
+      {/* Flames: tongues displaced out of the surface, additive so they dissolve into the stars */}
+      <mesh>
+        <sphereGeometry args={[0.468, 160, 160]} />
         <shaderMaterial
           ref={flames}
           vertexShader={FLAME_VERT}
@@ -755,8 +825,18 @@ const pointerNdc = { x: 0, y: 0 };
 function CameraRig() {
   useFrame((state, dt) => {
     const cam = state.camera;
-    cam.position.x = THREE.MathUtils.damp(cam.position.x, pointerNdc.x * 0.8, 2.5, dt);
-    cam.position.y = THREE.MathUtils.damp(cam.position.y, 3.6 - pointerNdc.y * 0.5, 2.5, dt);
+    cam.position.x = THREE.MathUtils.damp(
+      cam.position.x,
+      pointerNdc.x * 0.8,
+      2.5,
+      dt,
+    );
+    cam.position.y = THREE.MathUtils.damp(
+      cam.position.y,
+      3.6 - pointerNdc.y * 0.5,
+      2.5,
+      dt,
+    );
     cam.lookAt(0, 0, 0);
   });
   return null;
@@ -802,8 +882,13 @@ export default function GalaxyScene() {
         frameloop={reduce ? "demand" : visible ? "always" : "never"}
         dpr={[1, 1.75]}
         camera={{ position: [0, 3.6, 7], fov: 42 }}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ pointerEvents: "none" }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+        }}
+        // Planets are hoverable; the canvas never swallows wheel scrolling.
+        style={{ touchAction: "pan-y" }}
       >
         <ambientLight intensity={0.35} />
         <hemisphereLight args={["#8a9cc4", "#3a2418", 0.9]} />
@@ -815,6 +900,25 @@ export default function GalaxyScene() {
         ))}
         <CameraRig />
       </Canvas>
+      {/* Planet name labels; the scene positions them every frame */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {PLANETS.map((p) => (
+          <span
+            key={p.name}
+            ref={(el) => {
+              if (el) labelEls.set(p.name, el);
+              else labelEls.delete(p.name);
+            }}
+            style={{ opacity: 0 }}
+            className="absolute left-0 top-0 block select-none whitespace-nowrap rounded-full border border-fg/20 bg-bg/70 px-2.5 py-1 text-[11px] font-medium tracking-[0.18em] text-fg uppercase backdrop-blur will-change-transform"
+          >
+            {p.name}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
