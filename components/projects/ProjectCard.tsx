@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import type { Project } from "@/data/portfolio";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { GithubIcon } from "@/components/icons/BrandIcons";
 
 /**
  * Grayscale cover that blooms into color on hover while an orange panel
@@ -59,34 +58,6 @@ export function ProjectCard({
             </div>
           </div>
         </button>
-
-        <div className="flex items-center justify-between gap-3 px-5 py-4">
-          <span className="text-xs tracking-wider text-faint uppercase">{project.year}</span>
-          <div className="flex items-center gap-2">
-            {project.repoUrl && (
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${project.title} source on GitHub`}
-                className="inline-flex size-9 items-center justify-center rounded-md border border-line text-muted transition-colors hover:border-accent hover:text-accent"
-              >
-                <GithubIcon className="size-4" />
-              </a>
-            )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${project.title} live site`}
-                className="inline-flex size-9 items-center justify-center rounded-md border border-line text-muted transition-colors hover:border-accent hover:text-accent"
-              >
-                <ArrowUpRight className="size-4" />
-              </a>
-            )}
-          </div>
-        </div>
       </article>
     </TiltCard>
   );
