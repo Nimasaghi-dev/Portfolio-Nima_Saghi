@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
 import { services } from "@/data/portfolio";
 import { fadeUp, inView, staggerParent } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -72,13 +71,6 @@ export function Services() {
                     >
                       {s.body}
                     </p>
-                    <ArrowUpRight
-                      aria-hidden
-                      className={cn(
-                        "mt-6 size-5 transition-all duration-300",
-                        on ? "translate-x-1 -translate-y-1 opacity-100" : "opacity-40",
-                      )}
-                    />
                   </div>
                 </TiltCard>
               </motion.li>
