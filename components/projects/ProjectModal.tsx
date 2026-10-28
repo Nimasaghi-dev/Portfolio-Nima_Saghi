@@ -68,7 +68,7 @@ export function ProjectModal({
               show: { opacity: 1, y: 0, scale: 1 },
             }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="surface-card relative z-10 flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl sm:rounded-2xl"
+            className="card relative z-10 bg-surface! border-line! flex max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden rounded-t-2xl sm:rounded-2xl"
           >
             {/* Cover */}
             <div className="relative aspect-[2/1] shrink-0 overflow-hidden border-b border-line">
@@ -95,15 +95,15 @@ export function ProjectModal({
                   <div className="bg-grid absolute inset-0 opacity-20" />
                 </>
               )}
-              <span className="absolute bottom-3 left-4 font-mono text-xs text-muted">
-                ~/work/{project.slug} / {project.year}
+              <span className="absolute bottom-3 left-4 rounded-[3px] bg-accent px-2.5 py-1 text-xs font-medium text-accent-fg">
+                {project.year}
               </span>
               <button
                 ref={closeRef}
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="absolute right-3 top-3 inline-flex size-9 items-center justify-center liquid-glass rounded-lg text-fg transition-colors hover:border-accent/60 hover:text-accent"
+                className="absolute right-3 top-3 inline-flex size-10 items-center justify-center rounded-md border border-line bg-bg/70 text-fg backdrop-blur transition-colors hover:border-accent hover:text-accent"
               >
                 <X className="size-4" />
               </button>
@@ -122,8 +122,8 @@ export function ProjectModal({
               </p>
 
               <div className="mt-6">
-                <span className="font-mono text-xs text-faint">
-                  {"// stack"}
+                <span className="text-xs tracking-wider text-faint uppercase">
+                  Stack
                 </span>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {project.tags.map((t) => (
@@ -138,7 +138,7 @@ export function ProjectModal({
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg transition-colors hover:bg-accent-bright"
+                    className="btn-primary text-sm"
                   >
                     <ExternalLink className="size-4" />
                     Visit live site
@@ -149,7 +149,7 @@ export function ProjectModal({
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 liquid-glass rounded-lg px-4 py-2.5 text-sm text-fg transition-colors hover:border-accent/60 hover:text-accent"
+                    className="btn-outline text-sm"
                   >
                     <GithubIcon className="size-4" />
                     View source

@@ -1,24 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono, Unbounded } from "next/font/google";
+import { JetBrains_Mono, Poppins } from "next/font/google";
 import { site } from "@/data/portfolio";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const unbounded = Unbounded({
-  variable: "--font-unbounded",
-  weight: "600",
   subsets: ["latin"],
   display: "swap",
 });
@@ -65,7 +59,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1229",
+  themeColor: "#0a0a0a",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -78,7 +72,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${jetbrainsMono.variable} ${unbounded.variable} antialiased`}
+      className={`${poppins.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-dvh bg-bg text-fg">
         {/* Without JS, scroll-reveal elements would stay at opacity 0 — force them visible. */}

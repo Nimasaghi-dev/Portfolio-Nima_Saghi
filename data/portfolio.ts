@@ -10,6 +10,9 @@ import {
   Accessibility,
   ArrowLeftRight,
   CheckCheck,
+  Code2,
+  FlaskConical,
+  Layers,
   Mail,
   Network,
   ShieldCheck,
@@ -48,32 +51,29 @@ export const site = {
  * Hero — every string in the brick-wall hero                          *
  * ------------------------------------------------------------------ */
 export const hero = {
+  /** Orange speech tag above the name. */
+  greeting: "Hello, I am",
+  /** Big name line. */
+  name: "Nima Saghi",
+  /** One-liner under the name. `accent` is highlighted in orange. */
+  subtitle: "Frontend & Full-Stack Engineer building interfaces for maps that think.",
+  accent: "maps that think",
   /** Set to false to hide the availability pill. */
   showAvailability: true,
   availability: "Open to frontend & full-stack roles · NL",
-  /** Rendered in mono above the headline. */
-  eyebrow: "Frontend engineer · React / TypeScript",
-  headline: "I build interfaces for maps that think.",
-  /** This word in the headline is highlighted in the accent colour. */
-  accentWord: "think",
-  body: "Primary frontend engineer on Spectra, a multi-tenant geospatial AI platform at MaviSoft. I turn map data, gRPC microservices, and AI pipelines into interfaces that feel simple.",
-  primaryCta: { label: "See my work", href: "#work" },
-  secondaryCta: {
-    label: "GitHub",
-    href: "https://github.com/Nimasaghi-dev",
-    external: true,
-  },
+  primaryCta: { label: "Download CV", href: "/resume.pdf" },
+  secondaryCta: { label: "My Work", href: "#work" },
 } as const;
 
 /* ------------------------------------------------------------------ *
  * Navigation — `id` must match each <section id="…">                  *
  * ------------------------------------------------------------------ */
 export const nav = [
-  { id: "about", label: "about" },
-  { id: "skills", label: "skills" },
-  { id: "work", label: "work" },
-  { id: "experience", label: "experience" },
-  { id: "contact", label: "contact" },
+  { id: "about", label: "About Me" },
+  { id: "services", label: "Services" },
+  { id: "work", label: "Portfolio" },
+  { id: "experience", label: "Experience" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
 /* ------------------------------------------------------------------ *
@@ -82,6 +82,20 @@ export const nav = [
 export const about = {
   /** Replace with a real photo in /public (see README). */
   avatar: "/nima.png",
+  /** Section title next to the code window. */
+  title: "From messy data to interfaces that feel simple.",
+  /** Badge pinned to the code window. */
+  badge: { value: "12", label: "UI panels owned on Spectra" },
+  /**
+   * Bars under the bio. Self-rated, 0–100 — edit to taste, or empty the
+   * array to hide the bars.
+   */
+  levels: [
+    { name: "React / Next.js", level: 90 },
+    { name: "TypeScript", level: 88 },
+    { name: "Node.js / APIs", level: 75 },
+    { name: "Testing (Jest, Cypress)", level: 80 },
+  ],
   /** Large, bright opening line. `leadAccent` is highlighted in the accent colour. */
   lead: "I like frontend work where the data is messy, the services are many, and the interface still has to be easy to use.",
   leadAccent: "easy to use",
@@ -97,6 +111,54 @@ export const about = {
     { label: "Languages", value: "Farsi · English · Dutch" },
   ],
 } as const;
+
+/* ------------------------------------------------------------------ *
+ * Services — "What I do" grid. The first card is highlighted.         *
+ * ------------------------------------------------------------------ */
+export type Service = { title: string; body: string; icon: IconType };
+
+export const services: Service[] = [
+  {
+    title: "Frontend Engineering",
+    body: "React and Next.js apps with typed state, solid loading / error / empty states, and UI that stays fast.",
+    icon: Code2,
+  },
+  {
+    title: "Full-Stack Apps",
+    body: "Node.js and Express services, MongoDB or PostgreSQL, wired end to end with auth and CI.",
+    icon: Layers,
+  },
+  {
+    title: "API & gRPC Integration",
+    body: "Typed contracts for REST and gRPC microservices, so the frontend and backend never drift apart.",
+    icon: Network,
+  },
+  {
+    title: "Testing & Quality",
+    body: "Unit and integration tests with Jest, end-to-end flows with Cypress, reviews on every change.",
+    icon: FlaskConical,
+  },
+  {
+    title: "Access Control",
+    body: "Permission-aware UI with RBAC hooks and gates on every surface, backed by input validation.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Accessible UI",
+    body: "Keyboard-friendly, screen-reader-aware interfaces that respect motion and contrast settings.",
+    icon: Accessibility,
+  },
+];
+
+/* ------------------------------------------------------------------ *
+ * Stats row. `value` counts up on scroll; `highlight` fills orange.  *
+ * ------------------------------------------------------------------ */
+export const stats: { value: number; suffix?: string; label: string; highlight?: boolean }[] = [
+  { value: 12, label: "UI panels owned" },
+  { value: 4, label: "gRPC services integrated", highlight: true },
+  { value: 3, label: "Projects shipped" },
+  { value: 20, suffix: "+", label: "Technologies" },
+];
 
 /* ------------------------------------------------------------------ *
  * Skills — grouped by category                                        *
@@ -224,6 +286,19 @@ export const projects: Project[] = [
     image: "/projects/cocktail-explorer.png",
   },
 ];
+
+/** Portfolio filter tabs. Each matches projects whose `tags` include it. */
+export const projectFilters = ["All", "Next.js", "React", "Node.js", "REST API"] as const;
+
+/* ------------------------------------------------------------------ *
+ * Call-to-action band before the contact section                      *
+ * ------------------------------------------------------------------ */
+export const cta = {
+  eyebrow: "Have a role or project in mind?",
+  title: "I'm available for frontend & full-stack work",
+  label: "Hire Me",
+  href: "#contact",
+} as const;
 
 /* ------------------------------------------------------------------ *
  * Experience / timeline                                               *
