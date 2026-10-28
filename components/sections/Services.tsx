@@ -49,31 +49,20 @@ export function Services() {
                         : "border-line-soft bg-surface text-fg",
                     )}
                   >
-                    <div className="flex items-start justify-between">
-                      <span
-                        className={cn(
-                          "inline-flex size-14 items-center justify-center rounded-md transition-colors duration-300",
-                          on ? "bg-accent-fg/10" : "bg-elevated",
-                        )}
-                      >
-                        <Icon3D
-                          render={(p) => <s.icon {...p} />}
-                          depth={4}
-                          duration={7 + i}
-                          delay={-i * 1.3}
-                          className={cn("size-7", on ? "text-accent-fg" : "text-accent")}
-                        />
-                      </span>
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "text-5xl font-bold leading-none transition-colors duration-300",
-                          on ? "text-accent-fg/15" : "text-fg/5",
-                        )}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </div>
+                    <span
+                      className={cn(
+                        "inline-flex size-14 items-center justify-center rounded-md transition-colors duration-300",
+                        on ? "bg-accent-fg/10" : "bg-elevated",
+                      )}
+                    >
+                      <Icon3D
+                        render={(p) => <s.icon {...p} />}
+                        depth={4}
+                        duration={7 + i}
+                        delay={-i * 1.3}
+                        className={cn("size-7", on ? "text-accent-fg" : "text-accent")}
+                      />
+                    </span>
                     <h3 className="mt-7 text-lg font-semibold">{s.title}</h3>
                     <p
                       className={cn(
