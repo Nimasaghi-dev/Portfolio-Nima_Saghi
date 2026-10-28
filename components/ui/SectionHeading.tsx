@@ -1,60 +1,55 @@
-import { Reveal } from "./Reveal";
+import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 
-type SectionHeadingProps = {
-  /** Two-digit section number, e.g. "01". */
-  index: string;
-  /** Path-style slug shown after the number, e.g. "about". */
-  path: string;
-  title: string;
-  description?: string;
-  align?: "left" | "center";
-  className?: string;
-};
-
-/** Terminal-flavoured section header: `// 01  ~/about` + title. */
+/**
+ * Centered section title with a short orange rule and an optional intro
+ * line, as in the reference layout.
+ */
 export function SectionHeading({
-  index,
-  path,
+  eyebrow,
   title,
-  description,
-  align = "left",
+  intro,
+  align = "center",
   className,
-}: SectionHeadingProps) {
-  const centered = align === "center";
+}: {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  align?: "center" | "left";
+  className?: string;
+}) {
+  const center = align === "center";
   return (
-    <div
+    <Reveal
       className={cn(
         "flex flex-col gap-4",
-        centered && "items-center text-center",
+        center ? "items-center text-center" : "items-start",
         className,
       )}
     >
-      <Reveal>
-        <div className="flex items-center gap-2 font-mono text-sm">
-          <span className="text-accent">{`// ${index}`}</span>
-          <span className="text-faint">~/{path}</span>
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.05}>
-        <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl lg:text-[2.75rem]">
-          {title}
-        </h2>
-      </Reveal>
-
-      {description && (
-        <Reveal delay={0.1}>
-          <p
-            className={cn(
-              "max-w-2xl text-pretty text-base leading-relaxed text-muted",
-              centered && "mx-auto",
-            )}
-          >
-            {description}
-          </p>
-        </Reveal>
+      {eyebrow && (
+        <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
+          {eyebrow}
+        </p>
       )}
-    </div>
+      <h2 className="text-balance text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
+        {title}
+      </h2>
+      <span aria-hidden className="flex items-center gap-1.5">
+        <span className="h-[3px] w-10 rounded-full bg-accent" />
+        <span className="h-[3px] w-3 rounded-full bg-accent/60" />
+        <span className="h-[3px] w-1.5 rounded-full bg-secondary" />
+      </span>
+      {intro && (
+        <p
+          className={cn(
+            "max-w-2xl text-pretty leading-relaxed text-muted",
+            center && "mx-auto",
+          )}
+        >
+          {intro}
+        </p>
+      )}
+    </Reveal>
   );
 }
