@@ -95,10 +95,10 @@ export function Hero() {
         aria-hidden
         className="absolute -z-10 right-[-10%] top-[10%] size-[720px] rounded-full bg-[radial-gradient(closest-side,rgb(255_122_61/0.18),transparent)]"
       />
-      {/* Cool counter-glow, low left */}
+      {/* Soft sand counter-glow, left */}
       <div
         aria-hidden
-        className="absolute -z-10 top-[30%] left-[-15%] size-[560px] rounded-full bg-[radial-gradient(closest-side,rgb(45_212_191/0.08),transparent)]"
+        className="absolute -z-10 top-[30%] left-[-15%] size-[560px] rounded-full bg-[radial-gradient(closest-side,rgb(240_207_160/0.07),transparent)]"
       />
 
       <div className="mx-auto grid min-h-[calc(100svh-5rem)] max-w-6xl grid-cols-1 items-center gap-12 px-gutter py-12 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:py-0">

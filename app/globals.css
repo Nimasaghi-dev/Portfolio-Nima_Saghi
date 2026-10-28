@@ -2,7 +2,7 @@
 
 /* ------------------------------------------------------------------ *
  * Design tokens — "orange noir": near-black surfaces, a tangerine    *
- * accent and a teal secondary. Edit values here to reskin the site.  *
+ * accent and a warm sand secondary. Edit values here to reskin.     *
  * ------------------------------------------------------------------ */
 @theme {
   /* Surfaces */
@@ -24,9 +24,9 @@
   /* Text on a solid accent fill (dark ink keeps AA contrast on orange) */
   --color-accent-fg: #0a0a0a;
 
-  /* Secondary — teal, orange's complement (labels, status, highlights) */
-  --color-secondary: #2dd4bf;
-  --color-secondary-bright: #5eead4;
+  /* Secondary — warm sand (labels, status, highlights) */
+  --color-secondary: #f0cfa0;
+  --color-secondary-bright: #f7e3c4;
   --color-secondary-fg: #0a0a0a;
 
   /* Fonts (values injected by next/font on <html>) */
