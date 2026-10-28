@@ -303,15 +303,66 @@
   }
 }
 
-/* Slowly turning 3D rings (CTA band) */
-@keyframes ring-turn {
-  to {
-    transform: rotateX(68deg) rotateZ(360deg);
+/* Galaxy (CTA band): twinkling stars, orbiting planets, glowing sun */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
   }
 }
-.ring-3d {
-  transform: rotateX(68deg);
-  animation: ring-turn 24s linear infinite;
+.star {
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes orbit {
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+.orbit {
+  animation: orbit 30s linear infinite;
+}
+/* Planet undoes the orbit spin and the 72deg tilt (TILT in CtaBand.tsx) */
+@keyframes counter-orbit {
+  from {
+    transform: rotateZ(0deg) rotateX(-72deg);
+  }
+  to {
+    transform: rotateZ(-360deg) rotateX(-72deg);
+  }
+}
+.planet {
+  animation: counter-orbit 30s linear infinite;
+  transition: filter 0.3s;
+}
+.planet:hover,
+.planet:focus-visible {
+  filter: brightness(1.4);
+}
+
+.sun {
+  background: radial-gradient(
+    circle at 35% 30%,
+    #ffd2b0 0%,
+    var(--color-accent) 35%,
+    #c84a14 100%
+  );
+  box-shadow:
+    0 0 40px color-mix(in oklab, var(--color-accent) 70%, transparent),
+    0 0 120px color-mix(in oklab, var(--color-accent) 35%, transparent),
+    inset -10px -12px 24px rgb(0 0 0 / 0.35);
+}
+@keyframes sun-ring {
+  to {
+    transform: rotateX(70deg) rotateZ(360deg);
+  }
+}
+.sun-ring {
+  transform: rotateX(70deg);
+  animation: sun-ring 12s linear infinite;
 }
 
 /* ------------------------------------------------------------------ *
