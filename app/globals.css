@@ -33,6 +33,7 @@
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system,
     sans-serif;
   --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular",
     monospace;
 

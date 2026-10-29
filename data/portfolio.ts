@@ -294,8 +294,11 @@ export const projectFilters = ["All", "Next.js", "React", "Node.js", "REST API"]
  * Call-to-action band before the contact section                      *
  * ------------------------------------------------------------------ */
 export const cta = {
-  eyebrow: "Have a role or project in mind?",
+  /** Coordinates of home base (Nieuw-Vennep, NL), shown above the headline. */
+  eyebrow: "52.26° N · 4.63° E",
   title: "I'm available for frontend & full-stack work",
+  /** Part of the title set in italic with the accent gradient. */
+  accent: "full-stack",
   label: "Hire Me",
   href: "#contact",
 } as const;

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Poppins } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono, Poppins } from "next/font/google";
 import { site } from "@/data/portfolio";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -9,6 +9,16 @@ const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
+});
+
+// Editorial serif for the galaxy headline. Below the fold, so not preloaded.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  weight: "400",
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -72,7 +82,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${poppins.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${poppins.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-dvh bg-bg text-fg">
         {/* Without JS, scroll-reveal elements would stay at opacity 0 — force them visible. */}
