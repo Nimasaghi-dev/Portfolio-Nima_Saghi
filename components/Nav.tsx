@@ -58,14 +58,14 @@ export function Nav() {
                   href={`#${item.id}`}
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
-                    "relative z-10 inline-block rounded-[4px] px-4 py-2 text-sm transition-colors",
+                    "relative z-10 inline-block rounded-full px-4 py-2 text-sm transition-colors",
                     isActive ? "text-accent-fg" : "text-muted hover:text-fg",
                   )}
                 >
                   {isActive && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-10 rounded-[4px] bg-accent"
+                      className="absolute inset-0 -z-10 rounded-full bg-accent"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}
@@ -77,7 +77,7 @@ export function Nav() {
           <li className="ml-3">
             <a
               href="#contact"
-              className="btn-primary min-h-10! px-5! text-sm"
+              className="btn-primary btn-sm"
             >
               Hire Me!
             </a>
@@ -90,7 +90,7 @@ export function Nav() {
           aria-label="Open menu"
           aria-expanded={open}
           aria-controls="mobile-menu"
-          className="inline-flex size-11 items-center justify-center rounded-md border border-line text-fg lg:hidden"
+          className="btn-icon text-fg hover:text-secondary-bright lg:hidden"
         >
           <Menu className="size-5" />
         </button>
@@ -126,12 +126,12 @@ export function Nav() {
                   className="absolute right-0 top-0 flex h-full w-[80%] max-w-xs flex-col border-l border-line bg-surface p-6"
                 >
                   <div className="flex items-center justify-between">
-                    <Logo className="text-xl" />
+                    <Logo />
                     <button
                       type="button"
                       onClick={() => setOpen(false)}
                       aria-label="Close menu"
-                      className="inline-flex size-11 items-center justify-center rounded-md border border-line text-fg"
+                      className="btn-icon text-fg hover:text-secondary-bright"
                     >
                       <X className="size-5" />
                     </button>
@@ -179,7 +179,7 @@ export function Nav() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={s.label}
-                        className="inline-flex size-11 items-center justify-center rounded-md border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                        className="btn-icon"
                       >
                         <s.icon className="size-4" />
                       </a>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, JetBrains_Mono, Poppins } from "next/font/google";
+import { Instrument_Serif, JetBrains_Mono, Jost, Poppins } from "next/font/google";
 import { site } from "@/data/portfolio";
 import { Providers } from "./providers";
 import "./globals.css";
@@ -19,6 +19,13 @@ const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   display: "swap",
   preload: false,
+});
+
+// Futura-style geometric face for the logotype (space-age, pairs with Poppins).
+const jost = Jost({
+  variable: "--font-jost",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -82,7 +89,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${poppins.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${poppins.variable} ${instrumentSerif.variable} ${jost.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body className="min-h-dvh bg-bg text-fg">
         {/* Without JS, scroll-reveal elements would stay at opacity 0 — force them visible. */}

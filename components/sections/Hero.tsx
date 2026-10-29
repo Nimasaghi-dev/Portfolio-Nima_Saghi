@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useEffect } from "react";
 import { Download } from "lucide-react";
+import { BtnChip } from "@/components/ui/BtnChip";
 import { about, hero, socials } from "@/data/portfolio";
 import { easeOutExpo } from "@/lib/motion";
 
@@ -127,8 +128,8 @@ export function Hero() {
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              <Download aria-hidden className="size-4" />
               {hero.primaryCta.label}
+              <BtnChip icon={Download} dir="down" />
             </a>
             <a href={hero.secondaryCta.href} className="btn-outline">
               {hero.secondaryCta.label}
@@ -146,7 +147,7 @@ export function Hero() {
               </p>
             )}
             <span aria-hidden className="hidden h-4 w-px bg-line sm:block" />
-            <ul className="flex items-center gap-2">
+            <ul className="flex items-center gap-2.5">
               {socials.map((s) => (
                 <li key={s.label}>
                   <a
@@ -154,7 +155,7 @@ export function Hero() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="inline-flex size-10 items-center justify-center rounded-md border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                    className="btn-icon"
                   >
                     <s.icon className="size-4" />
                   </a>

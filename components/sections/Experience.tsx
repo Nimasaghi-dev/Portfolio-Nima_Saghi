@@ -111,7 +111,7 @@ export function Experience() {
               onClick={() => go(active - 1)}
               disabled={active === 0}
               aria-label="Previous role"
-              className="inline-flex size-11 items-center justify-center rounded-md border border-line text-fg transition-colors hover:border-accent hover:text-accent disabled:opacity-30 disabled:hover:border-line disabled:hover:text-fg"
+              className="btn-icon text-fg hover:text-secondary-bright"
             >
               <ChevronLeft className="size-5" />
             </button>
@@ -139,7 +139,7 @@ export function Experience() {
               onClick={() => go(active + 1)}
               disabled={active === last}
               aria-label="Next role"
-              className="inline-flex size-11 items-center justify-center rounded-md border border-line text-fg transition-colors hover:border-accent hover:text-accent disabled:opacity-30 disabled:hover:border-line disabled:hover:text-fg"
+              className="btn-icon text-fg hover:text-secondary-bright"
             >
               <ChevronRight className="size-5" />
             </button>
