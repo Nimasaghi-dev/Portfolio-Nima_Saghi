@@ -9,6 +9,21 @@ const GalaxyScene = dynamic(() => import("@/components/three/GalaxyScene"), {
   ssr: false,
 });
 
+/** Headline with the accent phrase in italic, warm gradient. */
+function Title() {
+  const i = cta.title.indexOf(cta.accent);
+  if (i === -1) return <>{cta.title}</>;
+  return (
+    <>
+      {cta.title.slice(0, i)}
+      <em className="whitespace-nowrap bg-linear-to-r from-accent via-accent-bright to-secondary bg-clip-text pr-[0.08em] text-transparent [text-shadow:none]">
+        {cta.accent}
+      </em>
+      {cta.title.slice(i + cta.accent.length)}
+    </>
+  );
+}
+
 /**
  * Call to action set inside a slowly turning spiral galaxy that bleeds
  * into the page background. The star at the core is the click target.
@@ -40,10 +55,12 @@ export function CtaBand() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-bg to-transparent"
       />
 
-      <Reveal className="relative z-10 px-gutter pt-20 text-center sm:pt-24">
-        <p className="text-sm text-secondary">{cta.eyebrow}</p>
-        <h2 className="mx-auto mt-3 max-w-[22ch] text-balance text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
-          {cta.title}
+      <Reveal className="relative z-10 px-gutter pt-14 text-center sm:pt-16">
+        <p className="font-mono text-[11px] tracking-[0.28em] text-secondary/80 uppercase">
+          {cta.eyebrow}
+        </p>
+        <h2 className="mx-auto mt-4 max-w-[26ch] text-balance font-serif text-[clamp(2.2rem,4.6vw,3.75rem)] leading-[1.05] font-normal tracking-[-0.005em] text-fg [text-shadow:0_2px_24px_rgb(0_0_0/0.85)]">
+          <Title />
         </h2>
       </Reveal>
 
