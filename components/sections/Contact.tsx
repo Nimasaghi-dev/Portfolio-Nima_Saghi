@@ -99,7 +99,7 @@ export function Contact() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={s.label}
-                      className="inline-flex size-10 items-center justify-center rounded-md border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+                      className="btn-icon"
                     >
                       <s.icon className="size-4" />
                     </a>
@@ -113,7 +113,7 @@ export function Contact() {
 
       <footer className="border-t border-line-soft">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-gutter py-10 md:flex-row md:justify-between">
-          <Logo className="text-xl" />
+          <Logo />
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
             {nav.map((n) => (
               <li key={n.id}>

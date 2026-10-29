@@ -34,6 +34,7 @@
     sans-serif;
   --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-brand: var(--font-jost), var(--font-poppins), ui-sans-serif, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SFMono-Regular",
     monospace;
 
@@ -92,73 +93,197 @@
 /* ------------------------------------------------------------------ *
  * Components                                                          *
  * ------------------------------------------------------------------ */
+/* Animatable angle for the orbit arc on .btn-outline / .btn-icon */
+@property --orbit {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes orbit {
+  to {
+    --orbit: 360deg;
+  }
+}
+
 @layer components {
-  /* Solid orange call-to-action */
-  .btn-primary {
+  /* ---------------------------------------------------------------- *
+   * Buttons. Pills, like the bodies in the galaxy below.               *
+   *  .btn-primary  sun-lit fill with a dark "planet" icon chip         *
+   *  .btn-outline  glass pill; a comet arc orbits its rim on hover     *
+   *  .btn-icon     round icon button with the same orbit               *
+   * ---------------------------------------------------------------- */
+  .btn-primary,
+  .btn-outline {
+    --h: 3.25rem;
     position: relative;
     display: inline-flex;
-    min-height: 3rem;
+    height: var(--h);
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    overflow: hidden;
-    isolation: isolate;
-    border-radius: 6px;
-    background: var(--color-accent);
-    padding-inline: 1.5rem;
+    border-radius: 9999px;
+    padding-inline: 1.625rem;
+    font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--color-accent-fg);
-    box-shadow: 0 10px 30px -12px
-      color-mix(in oklab, var(--color-accent) 70%, transparent);
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
     transition:
-      transform 0.25s var(--ease-out-expo),
-      box-shadow 0.25s var(--ease-out-expo);
+      box-shadow 0.45s var(--ease-out-expo),
+      background-color 0.3s,
+      color 0.3s,
+      scale 0.2s var(--ease-out-expo);
   }
-  /* Light sweep on hover */
-  .btn-primary::after {
+  .btn-primary:active,
+  .btn-outline:active,
+  .btn-icon:active {
+    scale: 0.97;
+  }
+  .btn-sm {
+    --h: 2.5rem;
+    padding-inline: 1.125rem;
+    font-size: 0.875rem;
+  }
+
+  /* Lit from above like the sun's limb: warm highlight over a tangerine body */
+  .btn-primary {
+    background:
+      radial-gradient(130% 120% at 28% -30%, rgb(255 214 184 / 0.75), transparent 55%),
+      linear-gradient(180deg, #ff9257, var(--color-accent) 55%, #f0672b);
+    color: var(--color-accent-fg);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.4),
+      inset 0 -1px 0 rgb(110 36 6 / 0.35),
+      0 0 0 1px rgb(255 122 61 / 0.6),
+      0 0 0 0 rgb(255 122 61 / 0),
+      0 14px 30px -18px rgb(255 122 61 / 0.9);
+  }
+  .btn-primary:hover {
+    /* corona: a faint ring and bloom wake up around the body */
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      inset 0 -1px 0 rgb(110 36 6 / 0.35),
+      0 0 0 1px rgb(255 140 85 / 0.8),
+      0 0 0 6px rgb(255 122 61 / 0.13),
+      0 10px 40px -8px rgb(255 122 61 / 0.65);
+  }
+  .btn-primary:has(.btn-chip) {
+    gap: 0.875rem;
+    padding-inline: 1.625rem 0.3125rem;
+  }
+
+  .btn-chip {
+    position: relative;
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: calc(var(--h) - 0.625rem);
+    height: calc(var(--h) - 0.625rem);
+    overflow: hidden;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 30%, #262019, var(--color-bg) 70%);
+    color: var(--color-accent-bright);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.07),
+      0 1px 2px rgb(110 36 6 / 0.4);
+  }
+  .btn-chip > svg {
+    position: absolute;
+    width: 1.0625rem;
+    height: 1.0625rem;
+    transition: translate 0.5s var(--ease-out-expo);
+  }
+  .btn-chip[data-dir="down"] { --dx: 0; --dy: 1; }
+  .btn-chip[data-dir="right"] { --dx: 1; --dy: 0; }
+  .btn-chip[data-dir="up-right"] { --dx: 1; --dy: -1; }
+  .btn-chip .btn-chip-b {
+    translate: calc(var(--dx) * -170%) calc(var(--dy) * -170%);
+  }
+  :is(a, button):hover > .btn-chip .btn-chip-a {
+    translate: calc(var(--dx) * 170%) calc(var(--dy) * 170%);
+  }
+  :is(a, button):hover > .btn-chip .btn-chip-b {
+    translate: 0 0;
+  }
+
+  /* Glass pill with a hairline rim */
+  .btn-outline {
+    background: rgb(255 255 255 / 0.025);
+    color: var(--color-fg);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.15);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+  .btn-outline:hover {
+    background: rgb(240 207 160 / 0.05);
+    color: var(--color-secondary-bright);
+    box-shadow: inset 0 0 0 1px rgb(240 207 160 / 0.2);
+  }
+
+  /* Round icon button */
+  .btn-icon {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.02);
+    color: var(--color-muted);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.13);
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      color 0.3s,
+      background-color 0.3s,
+      box-shadow 0.3s,
+      scale 0.2s var(--ease-out-expo),
+      opacity 0.2s;
+  }
+  .btn-icon:hover {
+    color: var(--color-secondary-bright);
+    background: rgb(240 207 160 / 0.05);
+    box-shadow: inset 0 0 0 1px rgb(240 207 160 / 0.2);
+  }
+  .btn-icon:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* The orbit: a comet-shaped arc that circles the rim while hovered */
+  .btn-outline::before,
+  .btn-icon::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      110deg,
-      transparent 30%,
-      rgb(255 255 255 / 0.35) 50%,
-      transparent 70%
+    border-radius: inherit;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(
+      from var(--orbit),
+      transparent 0deg 230deg,
+      rgb(240 207 160 / 0.15) 270deg,
+      rgb(247 227 196 / 0.9) 335deg,
+      #fff 347deg,
+      var(--color-accent-bright) 353deg,
+      transparent 360deg
     );
-    translate: -110% 0;
-    transition: translate 0.6s var(--ease-out-expo);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    filter: drop-shadow(0 0 5px rgb(255 154 102 / 0.85));
+    opacity: 0;
+    transition: opacity 0.4s;
   }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 36px -12px
-      color-mix(in oklab, var(--color-accent) 85%, transparent);
-  }
-  .btn-primary:hover::after {
-    translate: 110% 0;
-  }
-
-  /* Hairline outline button */
-  .btn-outline {
-    display: inline-flex;
-    min-height: 3rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid rgb(255 255 255 / 0.35);
-    padding-inline: 1.5rem;
-    font-weight: 500;
-    color: var(--color-fg);
-    transition:
-      border-color 0.2s,
-      color 0.2s,
-      background-color 0.2s;
-  }
-  .btn-outline:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background: color-mix(in oklab, var(--color-accent) 8%, transparent);
+  .btn-outline:hover::before,
+  .btn-icon:hover::before {
+    opacity: 1;
+    animation: orbit 2.6s linear infinite;
   }
 
   /* Dark card used across services, stats, experience */
@@ -189,6 +314,28 @@
   border: 7px solid transparent;
   border-top-color: var(--color-accent);
   border-left-color: var(--color-accent);
+}
+
+/* Logo: a miniature of the galaxy's sun with one orbiting planet.
+   Hovering sends the planet once around, behind the sun and back. */
+.logo-corona {
+  opacity: 0.55;
+  transition: opacity 0.5s;
+}
+.logo:hover .logo-corona {
+  opacity: 1;
+}
+.logo-planet {
+  offset-distance: 9%;
+  offset-rotate: 0deg;
+}
+.logo:hover .logo-planet {
+  animation: logo-orbit 2.4s cubic-bezier(0.45, 0, 0.25, 1);
+}
+@keyframes logo-orbit {
+  to {
+    offset-distance: 109%;
+  }
 }
 
 /* Piano-key stripe used on badges */

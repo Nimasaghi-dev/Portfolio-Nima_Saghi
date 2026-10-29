@@ -8,6 +8,7 @@ import { X, ExternalLink } from "lucide-react";
 import type { Project } from "@/data/portfolio";
 import { GithubIcon } from "@/components/icons/BrandIcons";
 import { Tag } from "@/components/ui/Tag";
+import { BtnChip } from "@/components/ui/BtnChip";
 import { useBodyScrollLock } from "@/lib/hooks";
 
 export function ProjectModal({
@@ -103,7 +104,7 @@ export function ProjectModal({
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="absolute right-3 top-3 inline-flex size-10 items-center justify-center rounded-md border border-line bg-bg/70 text-fg backdrop-blur transition-colors hover:border-accent hover:text-accent"
+                className="btn-icon absolute right-3 top-3 bg-bg/70 text-fg backdrop-blur hover:text-secondary-bright"
               >
                 <X className="size-4" />
               </button>
@@ -138,10 +139,10 @@ export function ProjectModal({
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-primary text-sm"
+                    className="btn-primary btn-sm"
                   >
-                    <ExternalLink className="size-4" />
                     Visit live site
+                    <BtnChip icon={ExternalLink} dir="up-right" />
                   </a>
                 )}
                 {project.repoUrl && (
@@ -149,7 +150,7 @@ export function ProjectModal({
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-outline text-sm"
+                    className="btn-outline btn-sm"
                   >
                     <GithubIcon className="size-4" />
                     View source

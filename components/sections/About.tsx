@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { FileText } from "lucide-react";
+import { FileText, Mail } from "lucide-react";
+import { BtnChip } from "@/components/ui/BtnChip";
 import { about, site } from "@/data/portfolio";
 import { easeOutExpo, inView } from "@/lib/motion";
 import { Reveal } from "@/components/ui/Reveal";
@@ -129,6 +130,7 @@ export function About() {
           <Reveal delay={0.1} className="mt-10 flex flex-wrap gap-4">
             <a href="#contact" className="btn-primary">
               Hire Me!
+              <BtnChip icon={Mail} dir="right" />
             </a>
             <a
               href={site.resumeUrl}
