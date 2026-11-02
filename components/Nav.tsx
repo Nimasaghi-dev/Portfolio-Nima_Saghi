@@ -76,10 +76,12 @@ export function Nav() {
           })}
           <li className="ml-3">
             <a
-              href="#contact"
+              href={site.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary btn-sm"
             >
-              Hire Me!
+              Download CV
             </a>
           </li>
         </ul>

@@ -1,150 +1,164 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Briefcase, ChevronLeft, ChevronRight, GraduationCap } from "lucide-react";
-import { experience } from "@/data/portfolio";
+import { Briefcase, MapPin } from "lucide-react";
+import { contributions, employer } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Tag } from "@/components/ui/Tag";
 
-/**
- * Coverflow of roles: the active card faces the viewer, neighbours swing
- * back in 3D. Swipe, the arrows, or the dots move between them.
- */
-export function Experience() {
-  const [active, setActive] = useState(0);
-  const last = experience.length - 1;
-  const go = (i: number) => setActive(Math.max(0, Math.min(last, i)));
-
+/** Small uppercase label used inside cards. */
+function Label({ children }: { children: string }) {
   return (
-    <section id="experience" className="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+    <p className="text-[11px] font-medium tracking-[0.18em] text-faint uppercase">
+      {children}
+    </p>
+  );
+}
+
+/** One employer, its roles as a short timeline (most recent first). */
+function EmployerCard() {
+  return (
+    <Reveal>
+      <article className="card grid grid-cols-1 gap-8 p-6 sm:p-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
+        <div>
+          <div className="flex items-center gap-4">
+            <span className="inline-flex size-12 flex-none items-center justify-center rounded-md bg-accent/10 text-accent">
+              <Briefcase aria-hidden className="size-5" />
+            </span>
+            <div>
+              <h3 className="text-2xl font-semibold tracking-tight text-fg">
+                {employer.company}
+              </h3>
+              <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted">
+                <MapPin aria-hidden className="size-3.5" />
+                {employer.location}
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 text-sm text-secondary">{employer.period}</p>
+          <p className="mt-3 text-pretty leading-relaxed text-muted">{employer.about}</p>
+          <ul aria-label="Technologies used" className="mt-6 flex flex-wrap gap-1.5">
+            {employer.stack.map((t) => (
+              <li key={t}>
+                <Tag>{t}</Tag>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <ol aria-label={`Roles at ${employer.company}`} className="relative flex flex-col gap-8">
+          {employer.roles.map((role, i) => {
+            const current = !role.end;
+            return (
+              <li key={role.title} className="relative pl-8">
+                {/* Timeline rail + node */}
+                {i < employer.roles.length - 1 && (
+                  <span
+                    aria-hidden
+                    className="absolute left-[5px] top-4 -bottom-8 w-px bg-line"
+                  />
+                )}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "absolute left-0 top-1.5 size-[11px] rounded-full border-2",
+                    current ? "border-accent bg-accent" : "border-faint bg-surface",
+                  )}
+                />
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h4 className="text-lg font-semibold text-fg">{role.title}</h4>
+                  {current && (
+                    <span className="rounded-full bg-accent/15 px-2 py-0.5 text-xs font-medium text-accent-bright">
+                      Current
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-sm text-muted">
+                  <time dateTime={role.start}>{role.from}</time>
+                  {" – "}
+                  {role.end ? <time dateTime={role.end}>{role.to}</time> : role.to}
+                </p>
+                <p className="mt-3 max-w-prose text-pretty text-sm leading-relaxed text-fg/85">
+                  {role.summary}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+      </article>
+    </Reveal>
+  );
+}
+
+/** Compact, text-first summaries of work at the employer. Not a gallery. */
+function Contributions() {
+  return (
+    <div id="contributions" className="mt-20 scroll-mt-24">
+      <Reveal className="flex flex-col gap-3">
+        <p className="text-sm font-medium tracking-[0.2em] text-secondary uppercase">
+          At {employer.company}
+        </p>
+        <h3 className="text-balance text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+          Selected engineering contributions
+        </h3>
+        <p className="max-w-2xl text-pretty leading-relaxed text-muted">
+          A general summary of areas I&apos;ve worked on. The product is proprietary, so
+          these describe the problem and my approach rather than internal details.
+        </p>
+      </Reveal>
+
+      <RevealGroup className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
+        {contributions.map((c) => (
+          <RevealItem key={c.area} className="h-full">
+            <article className="card flex h-full flex-col p-6 transition-colors duration-300 hover:border-line">
+              <div className="flex items-center gap-3">
+                <span className="inline-flex size-9 flex-none items-center justify-center rounded-md bg-elevated text-accent">
+                  <c.icon aria-hidden className="size-[18px]" />
+                </span>
+                <h4 className="text-base font-semibold leading-snug text-fg">{c.area}</h4>
+              </div>
+
+              <div className="mt-5">
+                <Label>Problem</Label>
+                <p className="mt-1.5 text-pretty text-sm leading-relaxed text-muted">
+                  {c.problem}
+                </p>
+              </div>
+
+              <div className="mt-4">
+                <Label>What I did</Label>
+                <p className="mt-1.5 text-pretty text-sm leading-relaxed text-fg/90">
+                  {c.contribution}
+                </p>
+              </div>
+
+              <ul aria-label="Skills" className="mt-auto flex flex-wrap gap-1.5 pt-5">
+                {c.skills.map((s) => (
+                  <li key={s}>
+                    <Tag className="px-2 py-0.5 text-[11px]">{s}</Tag>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </div>
+  );
+}
+
+export function Experience() {
+  return (
+    <section id="experience" className="relative scroll-mt-20 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-gutter">
         <SectionHeading
           eyebrow="Experience"
-          title="Where I've been building"
-          intro="Production work and the training behind it."
+          title="Professional experience"
+          intro="Frontend-focused full-stack engineer, working on enterprise software with React, TypeScript and Python."
         />
-
-        <Reveal className="relative mt-20">
-          <div
-            className="grid [perspective:1400px]"
-            onKeyDown={(e) => {
-              if (e.key === "ArrowRight") go(active + 1);
-              if (e.key === "ArrowLeft") go(active - 1);
-            }}
-          >
-            {experience.map((job, i) => {
-              const offset = i - active;
-              const abs = Math.abs(offset);
-              const on = offset === 0;
-              const Icon = job.kind === "work" ? Briefcase : GraduationCap;
-              return (
-                <motion.article
-                  key={job.role}
-                  aria-hidden={!on}
-                  inert={!on}
-                  onClick={() => !on && go(i)}
-                  drag={on ? "x" : false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.25}
-                  onDragEnd={(_, info) => {
-                    if (info.offset.x < -60) go(active + 1);
-                    if (info.offset.x > 60) go(active - 1);
-                  }}
-                  animate={{
-                    x: `${offset * 78}%`,
-                    rotateY: offset * -28,
-                    scale: 1 - Math.min(abs, 2) * 0.12,
-                    opacity: abs > 1 ? 0 : on ? 1 : 0.25,
-                  }}
-                  transition={{ type: "spring", stiffness: 160, damping: 24 }}
-                  style={{ gridArea: "1 / 1", zIndex: 10 - abs }}
-                  className={cn(
-                    "relative mx-auto w-full max-w-2xl rounded-[10px] border bg-surface px-6 pb-8 pt-14 sm:px-10",
-                    on
-                      ? "border-line shadow-[0_40px_80px_-40px_rgb(0_0_0/0.9)]"
-                      : "cursor-pointer border-line-soft",
-                  )}
-                >
-                  {/* Avatar-style icon breaking the top edge */}
-                  <span className="absolute left-1/2 top-0 inline-flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-bg bg-accent text-accent-fg">
-                    <Icon aria-hidden className="size-6" />
-                  </span>
-
-                  <div className="text-center">
-                    <h3 className="text-xl font-semibold text-fg">{job.role}</h3>
-                    <p className="mt-1 text-sm text-secondary">
-                      {job.company} · <span className="text-muted">{job.period}</span>
-                    </p>
-                    <p className="mx-auto mt-5 max-w-prose text-pretty leading-relaxed text-muted">
-                      {job.summary}
-                    </p>
-                  </div>
-
-                  <ul className="mt-6 flex flex-col gap-2.5 text-left text-sm leading-relaxed text-fg/85">
-                    {job.highlights.map((h) => (
-                      <li key={h.slice(0, 32)} className="flex gap-3">
-                        <span aria-hidden className="mt-2 h-[2px] w-3 flex-none bg-secondary" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {job.stack.length > 0 && (
-                    <div className="mt-6 flex flex-wrap justify-center gap-1.5">
-                      {job.stack.map((t) => (
-                        <Tag key={t}>{t}</Tag>
-                      ))}
-                    </div>
-                  )}
-                </motion.article>
-              );
-            })}
-          </div>
-
-          {/* Controls */}
-          <div className="mt-10 flex items-center justify-center gap-5">
-            <button
-              type="button"
-              onClick={() => go(active - 1)}
-              disabled={active === 0}
-              aria-label="Previous role"
-              className="btn-icon text-fg hover:text-secondary-bright"
-            >
-              <ChevronLeft className="size-5" />
-            </button>
-            <div className="flex items-center gap-2">
-              {experience.map((job, i) => (
-                <button
-                  key={job.role}
-                  type="button"
-                  onClick={() => go(i)}
-                  aria-label={`Show ${job.role}`}
-                  aria-current={i === active}
-                  className="flex h-11 items-center"
-                >
-                  <span
-                    className={cn(
-                      "block h-1.5 rounded-full transition-all duration-300",
-                      i === active ? "w-8 bg-accent" : "w-4 bg-line hover:bg-faint",
-                    )}
-                  />
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => go(active + 1)}
-              disabled={active === last}
-              aria-label="Next role"
-              className="btn-icon text-fg hover:text-secondary-bright"
-            >
-              <ChevronRight className="size-5" />
-            </button>
-          </div>
-        </Reveal>
+        <div className="mt-14">
+          <EmployerCard />
+        </div>
+        <Contributions />
       </div>
     </section>
   );

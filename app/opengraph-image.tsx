@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/data/portfolio";
 
-export const alt = `${site.name} | ${site.roles[0]}`;
+export const alt = `${site.name} | ${site.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -51,7 +51,10 @@ export default function OpengraphImage() {
           </div>
           <div style={{ display: "flex", color: "#b0b0b0", fontSize: 40 }}>
             <span style={{ color: "#8c8c8c", marginRight: 14 }}>&gt;</span>
-            {site.roles[0]}
+            {site.role}
+          </div>
+          <div style={{ display: "flex", color: "#8c8c8c", fontSize: 30, marginTop: 10 }}>
+            {site.stack}
           </div>
         </div>
 
