@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useEffect } from "react";
-import { Download } from "lucide-react";
+import { ArrowDown, Download } from "lucide-react";
 import { BtnChip } from "@/components/ui/BtnChip";
 import { about, hero, socials } from "@/data/portfolio";
 import { easeOutExpo } from "@/lib/motion";
@@ -42,17 +42,17 @@ function AnimatedName({ text }: { text: string }) {
   );
 }
 
-function Subtitle() {
-  const { subtitle, accent } = hero;
-  const i = accent ? subtitle.indexOf(accent) : -1;
-  if (i === -1) return <>{subtitle}</>;
+function Headline() {
+  const { headline, accent } = hero;
+  const i = accent ? headline.indexOf(accent) : -1;
+  if (i === -1) return <>{headline}</>;
   return (
     <>
-      {subtitle.slice(0, i)}
+      {headline.slice(0, i)}
       <span className="bg-linear-to-r from-accent to-secondary bg-clip-text text-transparent">
         {accent}
       </span>
-      {subtitle.slice(i + accent.length)}
+      {headline.slice(i + accent.length)}
     </>
   );
 }
@@ -116,23 +116,34 @@ export function Hero() {
 
           <motion.p
             {...rise(0.7)}
-            className="mt-5 max-w-[34ch] text-pretty text-lg leading-relaxed text-muted sm:text-xl"
+            className="mt-5 max-w-[30ch] text-pretty text-xl leading-snug font-medium text-fg sm:text-2xl"
           >
-            <Subtitle />
+            <Headline />
           </motion.p>
 
-          <motion.div {...rise(0.85)} className="mt-9 flex flex-wrap items-center gap-4">
+          <motion.p
+            {...rise(0.78)}
+            className="mt-4 max-w-[46ch] text-pretty leading-relaxed text-muted"
+          >
+            {hero.intro}
+          </motion.p>
+
+          <motion.div {...rise(0.85)} className="mt-9 flex flex-wrap items-center gap-3">
+            <a href={hero.ctas.experience.href} className="btn-primary">
+              {hero.ctas.experience.label}
+              <BtnChip icon={ArrowDown} dir="down" />
+            </a>
             <a
-              href={hero.primaryCta.href}
+              href={hero.ctas.cv.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-outline"
             >
-              {hero.primaryCta.label}
-              <BtnChip icon={Download} dir="down" />
+              <Download aria-hidden className="size-4" />
+              {hero.ctas.cv.label}
             </a>
-            <a href={hero.secondaryCta.href} className="btn-outline">
-              {hero.secondaryCta.label}
+            <a href={hero.ctas.contact.href} className="btn-outline">
+              {hero.ctas.contact.label}
             </a>
           </motion.div>
 

@@ -35,7 +35,7 @@ export function TiltCard({ children, className, max = 8 }: TiltCardProps) {
 
   function handleMove(e: React.PointerEvent<HTMLDivElement>) {
     const el = ref.current;
-    if (!el) return;
+    if (!el || reduce) return;
     const rect = el.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width;
     const ny = (e.clientY - rect.top) / rect.height;
@@ -52,10 +52,8 @@ export function TiltCard({ children, className, max = 8 }: TiltCardProps) {
     glowY.set(50);
   }
 
-  if (reduce) {
-    return <div className={cn("relative", className)}>{children}</div>;
-  }
-
+  // Same element tree with or without reduced motion, so server and client
+  // markup match on hydration; the tilt and glow are simply switched off.
   return (
     <motion.div
       ref={ref}
@@ -68,7 +66,7 @@ export function TiltCard({ children, className, max = 8 }: TiltCardProps) {
       <motion.div
         aria-hidden
         style={{ background: glow }}
-        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
       />
       {children}
     </motion.div>

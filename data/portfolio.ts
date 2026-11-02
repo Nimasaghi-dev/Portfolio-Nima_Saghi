@@ -3,19 +3,24 @@
  *  ------------------------------------------------------------------
  *  Edit THIS file to customise the whole site. Nothing else needs to
  *  be touched for copy, links, projects, skills, or experience.
+ *
+ *  Confidentiality: work done at Mavisoft is described only at a
+ *  general engineering level. Do not add product names, internal
+ *  numbers, service/API names, screenshots or code from that work.
  * ================================================================== */
 
 import type { ComponentType, SVGProps } from "react";
 import {
   Accessibility,
   ArrowLeftRight,
-  CheckCheck,
-  Code2,
-  FlaskConical,
-  Layers,
+  Component,
+  FileText,
+  GitPullRequest,
+  Gauge,
+  KeyRound,
   Mail,
-  Network,
   ShieldCheck,
+  TableProperties,
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/BrandIcons";
 
@@ -29,15 +34,12 @@ export const site = {
   name: "Nima Saghi",
   /** First name used in the terminal prompt logo. */
   handle: "nima",
-  /** Cycled by the hero typewriter. Keep them short. */
-  roles: [
-    "Frontend Engineer",
-    "Full-Stack Engineer",
-    "React Developer",
-    "TypeScript Engineer",
-  ],
+  /** Professional title, used in the page title and social card. */
+  role: "Full-Stack Engineer",
+  /** Core stack, shown under the title on the social card. */
+  stack: "React · TypeScript · Next.js · Python",
   tagline:
-    "I build production-grade web apps with React, TypeScript, and service-oriented backends. Clean, testable, and accessible.",
+    "Frontend-focused full-stack engineer. I build and improve enterprise web applications with React, TypeScript, Next.js and Python.",
   email: "nimasaghi.dev@gmail.com",
   phone: "+31 6 23 10 23 17",
   location: "Nieuw-Vennep, Netherlands",
@@ -48,179 +50,262 @@ export const site = {
 } as const;
 
 /* ------------------------------------------------------------------ *
- * Hero — every string in the brick-wall hero                          *
+ * Hero                                                                *
  * ------------------------------------------------------------------ */
 export const hero = {
   /** Orange speech tag above the name. */
   greeting: "Hello, I am",
   /** Big name line. */
   name: "Nima Saghi",
-  /** One-liner under the name. `accent` is highlighted in orange. */
-  subtitle: "Frontend & Full-Stack Engineer building interfaces for maps that think.",
-  accent: "maps that think",
+  /** Professional headline. `accent` is highlighted with the gradient. */
+  headline: "Full-Stack Engineer focused on React, TypeScript & Python.",
+  accent: "React, TypeScript & Python",
+  /** Short supporting line under the headline. */
+  intro:
+    "I build and improve enterprise web applications at Mavisoft, combining interactive frontend development with practical backend engineering.",
   /** Set to false to hide the availability pill. */
   showAvailability: true,
   availability: "Open to frontend & full-stack roles · NL",
-  primaryCta: { label: "Download CV", href: "/resume.pdf" },
-  secondaryCta: { label: "My Work", href: "#work" },
+  ctas: {
+    experience: { label: "View Experience", href: "#experience" },
+    cv: { label: "Download CV", href: "/resume.pdf" },
+    contact: { label: "Contact Me", href: "#contact" },
+  },
 } as const;
 
 /* ------------------------------------------------------------------ *
  * Navigation — `id` must match each <section id="…">                  *
  * ------------------------------------------------------------------ */
 export const nav = [
-  { id: "about", label: "About Me" },
-  { id: "services", label: "Services" },
-  { id: "work", label: "Portfolio" },
   { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
+] as const;
+
+/* ------------------------------------------------------------------ *
+ * Professional experience                                             *
+ * ------------------------------------------------------------------ */
+export type Role = {
+  title: string;
+  /** Human-readable start / end shown on the page. */
+  from: string;
+  to: string;
+  /** Machine-readable start / end (YYYY-MM) for <time>. Omit `end` if current. */
+  start: string;
+  end?: string;
+  summary: string;
+};
+
+export type Employer = {
+  company: string;
+  location: string;
+  /** Overall span with this employer. */
+  period: string;
+  about: string;
+  /** Most recent role first. */
+  roles: Role[];
+  stack: string[];
+};
+
+export const employer: Employer = {
+  company: "Mavisoft",
+  location: "Rotterdam, Netherlands",
+  period: "Nov 2025 – Present",
+  about:
+    "Mavisoft develops enterprise software that works with geospatial data and AI-assisted inspection.",
+  roles: [
+    {
+      title: "Full-Stack Engineer",
+      from: "May 2026",
+      to: "Present",
+      start: "2026-05",
+      summary:
+        "Work across the React and TypeScript frontend and Python backend services, including authentication, access control, reporting and performance.",
+    },
+    {
+      title: "Frontend Developer Intern",
+      from: "Nov 2025",
+      to: "May 2026",
+      start: "2025-11",
+      end: "2026-05",
+      summary:
+        "Built and improved user interfaces with React, Next.js and TypeScript as part of the product team.",
+    },
+  ],
+  stack: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Python", "gRPC", "PostgreSQL"],
+};
+
+/* ------------------------------------------------------------------ *
+ * Selected engineering contributions (at Mavisoft)                    *
+ * Keep these general: problem, approach, skills. No internal details. *
+ * ------------------------------------------------------------------ */
+export type Contribution = {
+  area: string;
+  icon: IconType;
+  problem: string;
+  contribution: string;
+  skills: string[];
+};
+
+export const contributions: Contribution[] = [
+  {
+    area: "Frontend Performance",
+    icon: Gauge,
+    problem:
+      "Some screens made unnecessary network requests, repeated calls and loaded images inefficiently.",
+    contribution:
+      "Investigated frontend performance, set up ways to measure it, improved image loading and removed redundant requests.",
+    skills: ["React", "Next.js", "TypeScript", "Performance profiling", "Network optimization"],
+  },
+  {
+    area: "Authentication & Sessions",
+    icon: KeyRound,
+    problem:
+      "Enterprise applications need secure sign-in and reliable session handling.",
+    contribution:
+      "Implemented two-factor authentication workflows and trusted-device support, and improved session management.",
+    skills: ["TypeScript", "Python", "Authentication", "TOTP", "Session management"],
+  },
+  {
+    area: "Role-Based Access Control",
+    icon: ShieldCheck,
+    problem:
+      "Different users and organisations need the right access restrictions.",
+    contribution:
+      "Implemented and improved role-based permission checks across frontend and backend services, and fixed authorization bugs.",
+    skills: ["Python", "TypeScript", "RBAC", "Authorization", "Backend services"],
+  },
+  {
+    area: "Dataset Interfaces",
+    icon: TableProperties,
+    problem:
+      "Data-heavy interfaces must make loading, readiness, errors and available actions clear.",
+    contribution:
+      "Improved dataset exploration screens, simplified data-fetching responsibilities and made application states easier to understand and maintain.",
+    skills: ["React", "TypeScript", "State management", "API integration", "Component design"],
+  },
+  {
+    area: "Interactive UI & React Architecture",
+    icon: Component,
+    problem:
+      "Complex interactive interfaces get hard to maintain when components take on too many responsibilities.",
+    contribution:
+      "Developed image-viewing interactions and refactored React components for clearer separation of concerns and state.",
+    skills: ["React", "TypeScript", "Custom hooks", "Component architecture", "Refactoring"],
+  },
+  {
+    area: "Reporting & Document Generation",
+    icon: FileText,
+    problem:
+      "Generating reports from application data needs frontend requests and backend processing to work together.",
+    contribution:
+      "Contributed to a reporting workflow covering backend processing, document generation and the frontend report interactions.",
+    skills: ["Python", "Backend services", "gRPC", "PDF generation", "Async processing"],
+  },
+];
+
+/* ------------------------------------------------------------------ *
+ * Education (shown in About)                                          *
+ * ------------------------------------------------------------------ */
+export const education = [
+  {
+    title: "Full-Stack Web Development",
+    school: "HackYourFuture, Amsterdam",
+    period: "2024 – 2025",
+  },
+  {
+    title: "BSc Computer Software Engineering",
+    school: "Azad University of Tehran",
+    period: "2010 – 2014",
+  },
 ] as const;
 
 /* ------------------------------------------------------------------ *
  * About                                                               *
  * ------------------------------------------------------------------ */
 export const about = {
-  /** Replace with a real photo in /public (see README). */
+  /** Portrait used in the hero. */
   avatar: "/nima.png",
-  /** Section title next to the code window. */
-  title: "From messy data to interfaces that feel simple.",
-  /** Badge pinned to the code window. */
-  badge: { value: "12", label: "UI panels owned on Spectra" },
-  /**
-   * Bars under the bio. Self-rated, 0–100 — edit to taste, or empty the
-   * array to hide the bars.
-   */
-  levels: [
-    { name: "React / Next.js", level: 90 },
-    { name: "TypeScript", level: 88 },
-    { name: "Node.js / APIs", level: 75 },
-    { name: "Testing (Jest, Cypress)", level: 80 },
-  ],
-  /** Large, bright opening line. `leadAccent` is highlighted in the accent colour. */
-  lead: "I like frontend work where the data is messy, the services are many, and the interface still has to be easy to use.",
-  leadAccent: "easy to use",
-  /** Supporting paragraphs, rendered smaller and muted under the lead. */
+  title: "Frontend at heart, growing across the stack.",
+  /** Large opening line. `leadAccent` is highlighted in the accent colour. */
+  lead: "I'm a software engineer based in the Netherlands, building enterprise web applications at Mavisoft. Frontend engineering is where I'm strongest.",
+  leadAccent: "Frontend engineering",
   paragraphs: [
-    "On Spectra I own 12 UI panels end to end: typed contracts for Python gRPC services, permission-aware UI on every surface, and a report pipeline that streams from React to PDF. Loading, error, and empty states are part of the feature, not an afterthought.",
-    "I treat testability as a design constraint, a habit from HackYourFuture, where we shipped in Agile teams with code review, pair programming, Jest, and Cypress. Next, I'm growing into cloud-native and event-driven systems. I use Claude Code and Cursor daily and review their output like any other pull request.",
+    "In my current role I also work on Python backend services, and I'm deliberately broadening my full-stack skills.",
+    "I care about maintainable code and interfaces that are clear to use. Before Mavisoft I completed HackYourFuture's full-stack programme, working in Agile teams with code review and pair programming. I still prefer building software that way.",
   ],
-  /** Short facts shown in a row under the bio. */
   facts: [
     { label: "Based in", value: "Nieuw-Vennep, NL" },
-    { label: "Education", value: "BSc + HackYourFuture" },
-    { label: "Languages", value: "Farsi · English · Dutch" },
+    { label: "Languages", value: "English · Dutch · Farsi" },
   ],
 } as const;
 
 /* ------------------------------------------------------------------ *
- * Services — "What I do" grid. The first card is highlighted.         *
- * ------------------------------------------------------------------ */
-export type Service = { title: string; body: string; icon: IconType };
-
-export const services: Service[] = [
-  {
-    title: "Frontend Engineering",
-    body: "React and Next.js apps with typed state, solid loading / error / empty states, and UI that stays fast.",
-    icon: Code2,
-  },
-  {
-    title: "Full-Stack Apps",
-    body: "Node.js and Express services, MongoDB or PostgreSQL, wired end to end with auth and CI.",
-    icon: Layers,
-  },
-  {
-    title: "API & gRPC Integration",
-    body: "Typed contracts for REST and gRPC microservices, so the frontend and backend never drift apart.",
-    icon: Network,
-  },
-  {
-    title: "Testing & Quality",
-    body: "Unit and integration tests with Jest, end-to-end flows with Cypress, reviews on every change.",
-    icon: FlaskConical,
-  },
-  {
-    title: "Access Control",
-    body: "Permission-aware UI with RBAC hooks and gates on every surface, backed by input validation.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Accessible UI",
-    body: "Keyboard-friendly, screen-reader-aware interfaces that respect motion and contrast settings.",
-    icon: Accessibility,
-  },
-];
-
-/* ------------------------------------------------------------------ *
- * Stats row. `value` counts up on scroll; `highlight` fills orange.  *
- * ------------------------------------------------------------------ */
-export const stats: { value: number; suffix?: string; label: string; highlight?: boolean }[] = [
-  { value: 12, label: "UI panels owned" },
-  { value: 4, label: "gRPC services integrated", highlight: true },
-  { value: 3, label: "Projects shipped" },
-  { value: 20, suffix: "+", label: "Technologies" },
-];
-
-/* ------------------------------------------------------------------ *
- * Skills — grouped by category                                        *
+ * Technical skills — grouped by category, no ratings                  *
  * ------------------------------------------------------------------ */
 export type SkillGroup = {
   category: string;
   /**
-   * `note` shows on hover. `slug` links to a brand mark in TechIcons (shown in
-   * brand color); `icon` is a generic mark for concepts (shown in the accent
-   * color). Items with neither render as a text label.
+   * `slug` links to a brand mark in TechIcons (shown in brand color);
+   * `logo` is an official logo file under /public for brands that have
+   * no single-colour mark; `icon` is a generic mark for concepts that
+   * have no logo (REST, accessibility, code review).
    */
-  items: { name: string; note?: string; slug?: string; icon?: IconType }[];
+  items: { name: string; slug?: string; logo?: string; icon?: IconType }[];
 };
 
 export const skills: SkillGroup[] = [
   {
     category: "Frontend",
     items: [
-      { name: "React", note: "Hooks, RSC, Suspense", slug: "react" },
-      { name: "Next.js", note: "App Router, SSR/ISR", slug: "nextdotjs" },
-      { name: "TypeScript", note: "Everyday driver", slug: "typescript" },
-      { name: "Tailwind CSS", note: "Design systems", slug: "tailwindcss" },
-      { name: "JavaScript", note: "ES2022+", slug: "javascript" },
-      { name: "Accessibility", note: "WCAG-minded", icon: Accessibility },
+      { name: "React", slug: "react" },
+      { name: "Next.js", slug: "nextdotjs" },
+      { name: "TypeScript", slug: "typescript" },
+      { name: "JavaScript", slug: "javascript" },
+      { name: "HTML", slug: "html5" },
+      { name: "CSS", slug: "css" },
+      { name: "Tailwind CSS", slug: "tailwindcss" },
+      { name: "Accessibility", icon: Accessibility },
     ],
   },
   {
-    category: "Backend & APIs",
+    category: "Backend",
     items: [
-      { name: "Node.js", note: "Runtime & tooling", slug: "nodedotjs" },
-      { name: "Express", note: "REST APIs", slug: "express" },
-      { name: "Python", note: "FastAPI services", slug: "python" },
-      { name: "gRPC", note: "Typed service contracts", icon: Network },
-      { name: "REST", note: "API-first design", icon: ArrowLeftRight },
-      { name: "PostgreSQL", note: "PostGIS geospatial", slug: "postgresql" },
+      { name: "Python", slug: "python" },
+      { name: "Node.js", slug: "nodedotjs" },
+      { name: "Express", slug: "express" },
+      { name: "REST APIs", icon: ArrowLeftRight },
+      { name: "gRPC", logo: "/logos/grpc.svg" },
     ],
   },
   {
-    category: "Testing & Security",
+    category: "Data",
     items: [
-      { name: "Jest", note: "Unit & integration", slug: "jest" },
-      { name: "Cypress", note: "End-to-end", slug: "cypress" },
-      { name: "RBAC", note: "Authorization patterns", icon: ShieldCheck },
-      { name: "OWASP", note: "Top 10 awareness", slug: "owasp" },
-      { name: "Input validation", note: "Defense in depth", icon: CheckCheck },
+      { name: "PostgreSQL", slug: "postgresql" },
+      { name: "MongoDB", slug: "mongodb" },
+      { name: "Redis", slug: "redis" },
     ],
   },
   {
-    category: "Cloud & Tooling",
+    category: "Tools & Practices",
     items: [
-      { name: "Docker", note: "Containers", slug: "docker" },
-      { name: "Redis", note: "Cache & pub/sub", slug: "redis" },
-      { name: "MinIO", note: "S3-compatible storage", slug: "minio" },
-      // { name: "AWS", note: "Lambda, learning" },
-      { name: "Git / GitLab", note: "Reviews & CI", slug: "git" },
-      { name: "Claude Code", note: "AI-assisted dev", slug: "claude" },
+      { name: "Git", slug: "git" },
+      { name: "GitLab", slug: "gitlab" },
+      { name: "Docker", slug: "docker" },
+      { name: "Jest", slug: "jest" },
+      { name: "Cypress", slug: "cypress" },
+      { name: "CI/CD (GitHub Actions)", slug: "githubactions" },
+      { name: "Code review", icon: GitPullRequest },
+      { name: "Claude Code", slug: "claude" },
+      { name: "Cursor", slug: "cursor" },
     ],
   },
 ];
 
 /* ------------------------------------------------------------------ *
- * Projects                                                            *
+ * Projects — public / personal work only                              *
  * ------------------------------------------------------------------ */
 export type Project = {
   slug: string;
@@ -247,12 +332,24 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "mavisoft-website",
-    title: "MaviSoft Website",
-    summary:
-      "Company production site, sole engineer from design handoff to deploy.",
+    slug: "nomnom-food-app",
+    title: "Nom Nom",
+    summary: "Full-stack MERN food-ordering app with live order tracking.",
     description:
-      "The MaviSoft company website, built and deployed solo from design handoff to production. Next.js 15, React 19, TypeScript, Tailwind CSS v4, and Framer Motion. Fully responsive, performant, and accessible.",
+      "A MERN-stack food ordering application with JWT authentication, cart and checkout, live order tracking, Jest unit tests, Cypress end-to-end tests, and a GitHub Actions CI/CD pipeline.",
+    tags: ["React", "Node.js", "Express", "MongoDB", "Jest", "Cypress"],
+    repoUrl: "https://github.com/Nimasaghi-dev/NOMNOM-Food-app",
+    year: "2025",
+    featured: true,
+    accent: ["#e2b04a", "#4fd1c1"],
+    image: "/projects/nomnom-food-app.png",
+  },
+  {
+    slug: "mavisoft-website",
+    title: "Mavisoft Website",
+    summary: "Responsive corporate website built with Next.js and Tailwind CSS.",
+    description:
+      "A corporate website for Mavisoft, built from scratch with Next.js 15, React 19, TypeScript, Tailwind CSS v4 and Framer Motion. Responsive, with scroll animations and a contact form.",
     tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Framer Motion"],
     liveUrl: "https://mavisoft.vercel.app",
     repoUrl: "https://github.com/Nimasaghi-dev/Mavisoft",
@@ -260,18 +357,6 @@ export const projects: Project[] = [
     featured: true,
     accent: ["#4fd1c1", "#5b86e5"],
     image: "/projects/mavisoft-website.png",
-  },
-  {
-    slug: "nomnom-food-app",
-    title: "Nom Nom",
-    summary: "Full-stack MERN food-ordering app with live order tracking.",
-    description:
-      "A MERN-stack food ordering application with JWT authentication, live order tracking, Jest unit tests, Cypress end-to-end tests, and a GitHub Actions CI/CD pipeline, built with a focus on clean architecture and maintainability.",
-    tags: ["React", "Node.js", "Express", "MongoDB", "Jest", "Cypress"],
-    repoUrl: "https://github.com/Nimasaghi-dev/NOMNOM-Food-app",
-    year: "2025",
-    accent: ["#e2b04a", "#4fd1c1"],
-    image: "/projects/nomnom-food-app.png",
   },
   {
     slug: "cocktail-explorer",
@@ -296,70 +381,12 @@ export const projectFilters = ["All", "Next.js", "React", "Node.js", "REST API"]
 export const cta = {
   /** Coordinates of home base (Nieuw-Vennep, NL), shown above the headline. */
   eyebrow: "52.26° N · 4.63° E",
-  title: "I'm available for frontend & full-stack work",
+  title: "Open to frontend & full-stack roles",
   /** Part of the title set in italic with the accent gradient. */
   accent: "full-stack",
-  label: "Hire Me",
+  label: "Contact me",
   href: "#contact",
 } as const;
-
-/* ------------------------------------------------------------------ *
- * Experience / timeline                                               *
- * ------------------------------------------------------------------ */
-export type ExperienceEntry = {
-  /** Splits the timeline into Work vs Education groups. */
-  kind: "work" | "education";
-  role: string;
-  company: string;
-  period: string;
-  summary: string;
-  highlights: string[];
-  stack: string[];
-};
-
-export const experience: ExperienceEntry[] = [
-  {
-    kind: "work",
-    role: "Frontend Engineer",
-    company: "MaviSoft",
-    period: "11/2025 - Present",
-    summary:
-      "Primary frontend engineer on Spectra, a multi-tenant geospatial AI SaaS, in a small cross-functional team.",
-    highlights: [
-      "Own frontend modules end to end across 12 UI panels; built a TypeScript constants system as the single source of truth for layout, eliminating a class of cross-component bugs.",
-      "Integrate multiple Python gRPC microservices (auth, datasets, reports, AI pipelines) with typed contracts and resilient loading, error, and empty UI states.",
-      "Built a streaming report pipeline (React to gRPC to WeasyPrint PDF to MinIO to presigned URL) and fixed a production expiry bug by generating URLs at read-time.",
-      "Implemented application-level RBAC with a usePermissions hook and a <PermissionGate> component across every UI surface.",
-    ],
-    stack: ["React", "TypeScript", "Next.js", "gRPC", "Redis", "PostGIS"],
-  },
-  {
-    kind: "education",
-    role: "Full-Stack Web Development Trainee",
-    company: "HackYourFuture",
-    period: "06/2024 - 06/2025",
-    summary:
-      "Intensive 9-month program building full-stack applications in Agile teams.",
-    highlights: [
-      "Delivered full-stack apps using Git-based workflows, formal code reviews, and pair programming.",
-      "Wrote unit and integration tests with Jest and end-to-end tests with Cypress, treating testability as a design constraint.",
-      "Practiced the collaborative, feedback-driven engineering culture central to professional teams.",
-    ],
-    stack: ["React", "Node.js", "Express", "Jest", "Cypress"],
-  },
-  {
-    kind: "education",
-    role: "BSc, Computer Software Engineering",
-    company: "Azad University of Tehran",
-    period: "2010 - 2014",
-    summary:
-      "Bachelor's degree in Computer Software Engineering.",
-    highlights: [
-      "Foundations in algorithms, data structures, and software engineering principles.",
-    ],
-    stack: [],
-  },
-];
 
 /* ------------------------------------------------------------------ *
  * Socials                                                             *
