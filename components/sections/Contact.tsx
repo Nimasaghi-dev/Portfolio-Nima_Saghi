@@ -42,8 +42,8 @@ export function Contact() {
         <div className="mx-auto max-w-6xl px-gutter">
           <SectionHeading
             eyebrow="Contact"
-            title="Let's build something"
-            intro="Hiring for a frontend or full-stack role, or just want to say hi? Email is fastest. I usually reply within a day."
+            title="Have a role in mind? Let's talk."
+            intro="Frontend or full-stack, I'd like to hear about it. Email is fastest, and I usually reply within a day."
           />
 
           <Reveal className="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2">
